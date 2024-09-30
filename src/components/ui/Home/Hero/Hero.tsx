@@ -8,6 +8,7 @@ const Hero = () => {
   const {
     data: availability,
     isLoading,
+    isFetching,
     error,
   } = useCheckAvailabilityQuery(date);
   const handleInputChange = async (values: string) => {
@@ -27,7 +28,6 @@ const Hero = () => {
     setIsModalOpen(false);
   };
 
-
   return (
     <div
       className="hero min-h-[80vh]"
@@ -42,10 +42,13 @@ const Hero = () => {
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        {isLoading && <div>Loading...</div>}
         <div className="my-10">
+          {(isLoading || isFetching) && (
+            <div className="text-center ">Loading...</div>
+          )}
           <div className="grid grid-cols-2 items-center justify-center">
             {!isLoading &&
+              !isFetching &&
               !error &&
               availability?.data?.length > 0 &&
               availability?.data?.map(
