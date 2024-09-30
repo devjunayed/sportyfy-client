@@ -1,74 +1,116 @@
 import React, { useState } from "react";
-import { Button, Form, Image, Input, Upload, UploadFile, UploadProps } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import {
+  Button,
+  Form,
+  Image,
+  Input,
+  message,
+  Upload,
+  UploadFile,
+  UploadProps,
+} from "antd";
+import { RegistrationFileType } from "../../types/registration.type";
+import { getBase } from "../../utils/getBase";
+import { uploadButton } from "../../components/ui/Shared/UploadButton/uploadButton";
 
-type FieldType = {
-  name?: string;
-  email?: string;
-  password?: string;
-  phone?: string;
-  role?: string;
-  address?: string;
-};
-type FileType = { originFileObj: File; name: string; url?: string };
 
-const getBase64 = (file: FileType): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file.originFileObj);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
-
-const uploadToImgbb = async (file: File) => {
-  const formData = new FormData();
-  formData.append("image", file);
-
-  const response = await fetch("https://api.imgbb.com/1/upload?key=903f4150a329ec1e445f236bfca4c170", {
-    method: "POST",
-    body: formData,
-  });
-
-  const result = await response.json();
-  return result.data.url;
+const onFinishFailed = (errorInfo: any) => {
+  console.log("Failed:", errorInfo);
 };
 
+/*===================================
+       Main Registration function
+=====================================*/
 const Registration: React.FC = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const handlePreview = async (file: UploadFile) => {
     if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as FileType);
+      file.preview = await getBase(file.originFileObj as RegistrationFileType);
     }
 
     setPreviewImage(file.url || (file.preview as string));
     setPreviewOpen(true);
   };
 
-  const handleChange: UploadProps["onChange"] = async ({ fileList: newFileList, file }) => {
-    // Upload the file manually to imgbb and get the URL
-    if (file.status === "uploading") {
-      const imageUrl = await uploadToImgbb(file.originFileObj as File);
-      console.log("Image uploaded to imgbb:", imageUrl);
-      file.url = imageUrl;
-    }
+  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };
 
-  const uploadButton = (
-    <button
-      className=""
-      style={{ border: 0, background: "none" }}
-      type="button"
-    >
-      <PlusOutlined className="text-white" />
-      <div className="text-white" style={{ marginTop: 8 }}>
-        Upload
-      </div>
-    </button>
-  );
+  
+
+  const onFinish = async (values: RegistrationFileType) => {
+    const imgbbKey = import.meta.env.VITE_IMGBB_API_KEY;
+
+    // Check if image is uploaded or not
+    if (fileList.length > 0 && fileList[0].originFileObj) {
+      const imageFile = fileList[0].originFileObj;
+
+      // Create separate formData for image upload
+      const imageData = new FormData();
+      imageData.append("image", imageFile);
+
+      try {
+        const response = await fetch(
+          `https://api.imgbb.com/1/upload?key=${imgbbKey}`,
+          {
+            method: "POST",
+            body: imageData,
+          }
+        );
+
+        const data = await response.json();
+        if (data.success) {
+          // Now that the image is uploaded, create a payload to send to the server
+          const userData = {
+            name: values.name,
+            description: values.description,
+            profileImg: data.data.url, // Using the uploaded image URL
+          };
+
+          console.log("Sending userData to the server:", userData);
+
+          // Send data to your server
+          const category = await createCategory(categoryData);
+          if (category.data.success) {
+            messageApi.open({
+              type: "success",
+              content: "Category successfully created",
+            });
+            setFileList([]);
+          } else {
+            messageApi.open({
+              type: "error",
+              content: category.data.message,
+            });
+          }
+        } else {
+          console.error("Upload failed:", data);
+          messageApi.open({
+            type: "error",
+            content: "Error uploading image!",
+          });
+          return;
+        }
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        messageApi.open({
+          type: "error",
+          content: "Error uploading image!",
+        });
+        return;
+      }
+    } else {
+      messageApi.open({
+        type: "error",
+        content: "Image file not found!",
+      });
+      return;
+    }
+  };
 
   return (
     <div
@@ -77,6 +119,7 @@ const Registration: React.FC = () => {
         backgroundImage: "url(./src/assets/images/registration.jpg)",
       }}
     >
+      {contextHolder}
       <div className="hero-overlay bg-opacity-80"></div>
       <div className="hero-content text-neutral-content text-center">
         <div className="flex shadow-xl bg-gray-800 justify-center w-full items-center bg-transparent">
@@ -85,19 +128,19 @@ const Registration: React.FC = () => {
             name="trigger"
             layout="vertical"
             autoComplete="off"
-            onFinish={(values) => console.log("Success:", values)}
-            onFinishFailed={(errorInfo) => console.log("Failed:", errorInfo)}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
           >
             <h2 className="text-3xl font-bold uppercase mb-10">Register</h2>
 
             {/* Image upload */}
             <div className="flex w-full mb-6 justify-center items-center">
               <Upload
+                action="https://api.imgbb.com/1/upload?key=903f4150a329ec1e445f236bfca4c170"
                 listType="picture-circle"
                 fileList={fileList}
                 onPreview={handlePreview}
                 onChange={handleChange}
-                customRequest={() => {}}
               >
                 {fileList.length >= 1 ? null : uploadButton}
               </Upload>
@@ -130,6 +173,7 @@ const Registration: React.FC = () => {
                 placeholder="Enter your name"
                 className="w-full white-placeholder"
                 inputMode="text"
+                onChange={(e) => console.log(e.target.value)}
               />
             </Form.Item>
 
