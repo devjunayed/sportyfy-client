@@ -4,9 +4,13 @@ import "./index.css";
 import { RouterProvider } from "react-router-dom";
 import router from "./routes/routes";
 import { ConfigProvider } from "antd";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
+    <Provider store={store}>
+
     <ConfigProvider theme={{
       token: {
         colorPrimary: "#dedede",
@@ -15,5 +19,6 @@ createRoot(document.getElementById("root")!).render(
     }}>
       <RouterProvider router={router} />
     </ConfigProvider>
+      </Provider>
   </StrictMode>
 );
