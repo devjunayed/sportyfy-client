@@ -52,9 +52,16 @@ const Navbar = () => {
                   </NavLink>
                 </li>
               ))}
-              <Link to="/login" className="mx-auto">
-                <Button className="text-white mt-4">Login / Register</Button>
-              </Link>
+
+              <Button className="text-white mt-4">
+                <Link to="/login" className="mx-auto">
+                  Login
+                </Link>
+                /
+                <Link to="/register" className="mx-auto">
+                  Register
+                </Link>
+              </Button>
             </ul>
           </div>
           <a className="text-xl lg:block hidden" href="/">
@@ -88,10 +95,17 @@ const Navbar = () => {
                 <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
               </div>
             </div>
-          ) : <NavLink to="/login" className="hidden lg:block">
-            <Button className="text-white">Login / Register</Button>
-            </NavLink>}
-          
+          ) : (
+            <Button className="text-white mt-4">
+                <Link to="/login" className="mx-auto">
+                  Login
+                </Link>
+                /
+                <Link to="/register" className="mx-auto">
+                  Register
+                </Link>
+              </Button>
+          )}
         </div>
       </div>
     </>

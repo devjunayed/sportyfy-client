@@ -72,7 +72,7 @@ const Hero = () => {
           )}
         </div>
       </Modal>
-      <div className="hero-overlay bg-opacity-60"></div>
+      <div className="hero-overlay bg-opacity-70"></div>
       <div className="  text-white">
         <div className=" sm:px-20 md:px-28 lg:px-48">
           <h1 className="mb-5 text-2xl text-center text-white lg:text-5xl font-bold">
@@ -91,8 +91,13 @@ const Hero = () => {
             className="mb-5 "
           />
           <div className="flex gap-4 justify-center text-xl">
-            <Button className="text-white text-md">Reserve Now</Button>
-            <Button onClick={showModal} className="text-white text-md">
+            <Button className="text-white text-md hover:bg-gray-800 ">
+              Book Now
+            </Button>
+            <Button
+              onClick={showModal}
+              className="text-white text-md hover:bg-gray-800"
+            >
               Check Availability
             </Button>
           </div>

@@ -16,3 +16,7 @@
     bottom: -2px;
     left: 0;
 }
+.ant-input::placeholder {
+    color: white !important; 
+    opacity: 1 !important;
+  }
