@@ -14,7 +14,7 @@ const Hero = () => {
           <h1 className="mb-5 text-2xl text-center text-white lg:text-5xl font-bold">
             Your Game. Your Time. Your Court.
           </h1>
-          <p className="mb-5 text-center">
+          <p className="mb-5 text-center mx-4">
             Explore the best sports facilities in your area and book instantly.
             Whether it's soccer, tennis, or basketball, we’ve got you covered.
           </p>

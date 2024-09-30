@@ -1,7 +1,7 @@
 import { CloseOutlined, MenuOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const isLogin = false;
@@ -32,7 +32,7 @@ const Navbar = () => {
         <div className="navbar-start">
           {/* smaller device menu */}
           <div
-            className={`${menu && "z-[30]"} absolute top-2 left-0 lg:hidden`}
+            className={`${menu && "z-[30]"}  absolute top-2 left-0 lg:hidden`}
           >
             <div role="button" className="btn btn-ghost " onClick={handleMenu}>
               {!menu ? <MenuOutlined /> : <CloseOutlined />}
@@ -43,7 +43,7 @@ const Navbar = () => {
                 menu
                   ? "translate-x-0 transition-transform duration-500 ease-in-out"
                   : "-translate-x-[500rem] transition-none"
-              } transform   menu menu-sm dropdown-content rounded z-[1] mt-3 w-52 p-2 shadow`}
+              } transform bg-[#1B1F3B]  menu menu-sm dropdown-content rounded z-[1] mt-3 w-52 p-4 shadow-gray-400 shadow`}
             >
               {links.map((link) => (
                 <li key={link?.path} className="hover:cursor-pointer">
@@ -52,6 +52,9 @@ const Navbar = () => {
                   </NavLink>
                 </li>
               ))}
+              <Link to="/login" className="mx-auto">
+                <Button className="text-white mt-4">Login / Register</Button>
+              </Link>
             </ul>
           </div>
           <a className="text-xl lg:block hidden" href="/">
@@ -85,7 +88,7 @@ const Navbar = () => {
                 <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
               </div>
             </div>
-          ) : <NavLink to="/login">
+          ) : <NavLink to="/login" className="hidden lg:block">
             <Button className="text-white">Login / Register</Button>
             </NavLink>}
           
