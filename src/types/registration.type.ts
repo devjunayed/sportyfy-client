@@ -5,7 +5,6 @@ export type RegistrationFieldType = {
   email?: string;
   password?: string;
   phone?: string;
-  role?: string;
   address?: string;
 };
 export type RegistrationFileType = Parameters<
