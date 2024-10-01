@@ -6,6 +6,7 @@ export type RegistrationFieldType = {
   password?: string;
   phone?: string;
   address?: string;
+  user?: "user" | "admin";
 };
 export type RegistrationFileType = Parameters<
   GetProp<UploadProps, "beforeUpload">
