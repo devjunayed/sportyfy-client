@@ -4,6 +4,8 @@ import { Button, Form, Input, message } from "antd";
 import { RegistrationFieldType } from "../../types/registration.type";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { useRegisterMutation } from "../../redux/api/auth/authApi";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
@@ -14,6 +16,8 @@ const onFinishFailed = (errorInfo: any) => {
 =====================================*/
 const Registration: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
+  const [register, error] = useRegisterMutation();
+
 
   const onFinish = async (values: RegistrationFieldType) => {
     try {
@@ -23,30 +27,35 @@ const Registration: React.FC = () => {
         password: values.password,
         phone: values.phone,
         address: values.address,
-        user: "user"
+        role: "user"
       };
 
       console.log("Sending userData to the server:", userData);
 
       // Send data to your server
-      // const category = await createCategory(categoryData);
+      const user = await register(userData as RegistrationFieldType);
 
-      // if (category.data.success) {
-      //   messageApi.open({
-      //     type: "success",
-      //     content: "Category successfully created",
-      //   });
-      // } else {
-      //   messageApi.open({
-      //     type: "error",
-      //     content: category.data.message,
-      //   });
-      // }
+      
+
+      if (user?.data?.success) {
+        messageApi.open({
+          type: "success",
+          content: "User Registerd successfully",
+        });
+      }
+      if(error && 'data' in error?.error) {
+        const errorMessage = (error.error as FetchBaseQueryError)?.data?.message || 'Something went wrong!';
+
+        messageApi.open({
+          type: "error",
+          content: errorMessage,
+        });
+      }
     } catch (error) {
       console.log(error);
       messageApi.open({
         type: "error",
-        content: "Error uploading image!",
+        content: "Error while creating user!",
       });
       return;
     }
