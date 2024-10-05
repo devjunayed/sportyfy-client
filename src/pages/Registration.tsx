@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Form, Input, message } from "antd";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import { useRegisterMutation } from "../../redux/api/auth/authApi";
+import { useRegisterMutation } from "../redux/api/auth/authApi";
 import { useDispatch } from "react-redux";
 import {
   clearRegisterForm,
@@ -11,14 +11,12 @@ import {
   setName,
   setPassword,
   setPhone,
-} from "../../redux/features/registerSlice";
-import { useAppSelector } from "../../redux/hooks";
-import { RegistrationFieldType } from "../../types/registration.type";
+} from "../redux/features/registerSlice";
+import { useAppSelector } from "../redux/hooks";
+import { RegistrationFieldType } from "../types/registration.type";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { ErrorResponse } from "../../types/shared.type";
+import { ErrorResponse } from "../types/shared.type";
 import { useForm } from "antd/es/form/Form";
-
-
 
 const Registration: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
@@ -125,7 +123,7 @@ const Registration: React.FC = () => {
           layout="vertical"
           autoComplete="off"
           onFinish={onFinish}
-          form={form} 
+          form={form}
         >
           {/* Name Field */}
           <Form.Item
@@ -146,9 +144,9 @@ const Registration: React.FC = () => {
               placeholder="Enter your name"
               className="w-full white-placeholder"
               inputMode="text"
-              value={name} 
+              value={name}
               onChange={(e) => {
-                dispatch(setName(e.target.value)); 
+                dispatch(setName(e.target.value));
               }}
             />
           </Form.Item>
@@ -171,9 +169,9 @@ const Registration: React.FC = () => {
             <Input
               placeholder="Enter your email"
               className="w-full"
-              value={email} 
+              value={email}
               onChange={(e) => {
-                dispatch(setEmail(e.target.value)); 
+                dispatch(setEmail(e.target.value));
               }}
             />
           </Form.Item>
@@ -196,9 +194,9 @@ const Registration: React.FC = () => {
             <Input.Password
               placeholder="Enter your password"
               className="w-full"
-              value={password} 
+              value={password}
               onChange={(e) => {
-                dispatch(setPassword(e.target.value)); 
+                dispatch(setPassword(e.target.value));
               }}
             />
           </Form.Item>
@@ -220,9 +218,9 @@ const Registration: React.FC = () => {
             <Input
               placeholder="Enter your phone number"
               className="w-full"
-              value={phone} 
+              value={phone}
               onChange={(e) => {
-                dispatch(setPhone(e.target.value)); 
+                dispatch(setPhone(e.target.value));
               }}
             />
           </Form.Item>
@@ -239,9 +237,9 @@ const Registration: React.FC = () => {
             <Input
               placeholder="Enter your address"
               className="w-full white-placeholder"
-              value={address} 
+              value={address}
               onChange={(e) => {
-                dispatch(setAddress(e.target.value)); 
+                dispatch(setAddress(e.target.value));
               }}
             />
           </Form.Item>

@@ -2,23 +2,11 @@ import { CloseOutlined, MenuOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { viewersPath } from "../../../../routes/viewers.routes";
 
 const Navbar = () => {
   const isLogin = false;
-  const links = [
-    {
-      path: "/",
-      text: "Home",
-    },
-    {
-      path: "/products",
-      text: "Products",
-    },
-    {
-      path: "/dashboard",
-      text: "Dashboard",
-    },
-  ];
+
 
   const [menu, setMenu] = useState(false);
 
@@ -43,17 +31,17 @@ const Navbar = () => {
                 menu
                   ? "translate-x-0 transition-transform duration-500 ease-in-out"
                   : "-translate-x-[500rem] transition-none"
-              } transform bg-[#1B1F3B]  menu menu-sm dropdown-content rounded z-[1] mt-3 w-52 p-4 shadow-gray-400 shadow`}
+              } transform bg-[#1B1F3B]  menu menu-sm dropdown-content rounded z-[1] mt-3 w-52 p-4  shadow-gray-400 shadow`}
             >
-              {links.map((link) => (
+              {viewersPath.map((link) => (
                 <li key={link?.path} className="hover:cursor-pointer">
                   <NavLink className={"cursor-pointer"} to={link?.path}>
-                    {link?.text}
+                    {link?.name}
                   </NavLink>
                 </li>
               ))}
 
-              <Button className="text-white mt-4">
+              <Button className="text-white mt-4 flex items-center justify-center">
                 <Link to="/login" className="mx-auto">
                   Login
                 </Link>
@@ -75,13 +63,13 @@ const Navbar = () => {
           {/* Larger device menu */}
           <div className=" hidden w-full lg:flex">
             <ul className="flex flex-wrap  gap-4 bg-none menu-horizontal px-1">
-              {links.map((link) => (
+              {viewersPath.map((link) => (
                 <li key={link?.path} className=" hover:cursor-pointer">
                   <NavLink
                     className="hover:cursor-pointer bg-none "
                     to={link?.path}
                   >
-                    {link?.text}
+                    {link?.name}
                   </NavLink>
                 </li>
               ))}
@@ -96,7 +84,7 @@ const Navbar = () => {
               </div>
             </div>
           ) : (
-            <Button className="text-white mt-4">
+            <Button className="text-white ">
                 <Link to="/login" className="mx-auto">
                   Login
                 </Link>

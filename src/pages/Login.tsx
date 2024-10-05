@@ -4,13 +4,13 @@ import { Button, Form, Input, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useDispatch } from "react-redux";
-import { setEmail, setPassword } from "../../redux/features/loginSlice";
-import { useAppSelector } from "../../redux/hooks";
-import { useLoginMutation } from "../../redux/api/auth/authApi";
-import { ErrorResponse } from "../../types/shared.type";
+import { setEmail, setPassword } from "../redux/features/loginSlice";
+import { useAppSelector } from "../redux/hooks";
+import { useLoginMutation } from "../redux/api/auth/authApi";
+import { ErrorResponse } from "../types/shared.type";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { setUser } from "../../redux/features/authSlice";
-import { verifyToken } from "../../utils/verifyToken";
+import { setUser } from "../redux/features/authSlice";
+import { verifyToken } from "../utils/verifyToken";
 
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);

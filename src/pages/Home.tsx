@@ -1,4 +1,4 @@
-import Hero from "../../components/ui/Home/Hero/Hero"
+import Hero from "../components/ui/Home/Hero/Hero"
 
 const Home = () => {
   return (
