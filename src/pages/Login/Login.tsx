@@ -3,7 +3,9 @@ import React from "react";
 import { Button, Form, Input, message } from "antd";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import { LoginFieldType } from "../../types/login.type";
+import { useDispatch } from "react-redux";
+import { setEmail, setPassword } from "../../redux/features/registerSlice";
+import { useAppSelector } from "../../redux/hooks";
 
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
@@ -14,18 +16,14 @@ const onFinishFailed = (errorInfo: any) => {
 =====================================*/
 const Registration: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
+  const dispatch = useDispatch();
+  const {email, password} = useAppSelector((state) => state.login);
 
-  const onFinish = async (values: LoginFieldType) => {
+  const onFinish = async () => {
     try {
-      const userData = {
-        email: values.email,
-        password: values.password,
-      };
-
-      console.log("Sending userData to the server:", userData);
-
+      
       // Send data to your server
-      // const category = await createCategory(categoryData);
+      // const loginResult = await createCategory(categoryData);
       // if (category.data.success) {
       //   messageApi.open({
       //     type: "success",
@@ -103,9 +101,12 @@ const Registration: React.FC = () => {
             ]}
           >
             <Input
-              style={{ color: "white" }}
               placeholder="Enter your email"
               className="w-full"
+              onChange={(e)=> {
+                e.preventDefault();
+                dispatch(setEmail(e.target.value))
+              }}
             />
           </Form.Item>
 
@@ -125,9 +126,12 @@ const Registration: React.FC = () => {
             ]}
           >
             <Input.Password
-              style={{ color: "white" }}
               placeholder="Enter your password"
               className="w-full"
+              onChange={(e) => {
+                e.preventDefault();
+                dispatch(setPassword(e.target.value))
+              }}
             />
           </Form.Item>
 

@@ -1,54 +1,71 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { Button, Form, Input, message } from "antd";
-import { RegistrationFieldType } from "../../types/registration.type";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useRegisterMutation } from "../../redux/api/auth/authApi";
+import { useDispatch } from "react-redux";
+import {
+  setAddress,
+  setEmail,
+  setName,
+  setPassword,
+  setPhone,
+} from "../../redux/features/registerSlice";
+import { useAppSelector } from "../../redux/hooks";
+import { RegistrationFieldType } from "../../types/registration.type";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
 };
 
+export interface ErrorResponse{
+  message?: string
+}
+
 /*===================================
        Main Registration function
 =====================================*/
 const Registration: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
-  const [register, error] = useRegisterMutation();
+  const dispatch = useDispatch();
+  const { name, email, phone, address, password, role } = useAppSelector(
+    (state) => state.register
+  );
+  const [register] = useRegisterMutation();
 
-
-  const onFinish = async (values: RegistrationFieldType) => {
+  const onFinish = async () => {
     try {
-      const userData = {
-        name: values.name,
-        email: values.email,
-        password: values.password,
-        phone: values.phone,
-        address: values.address,
-        role: "user"
-      };
+      const user = await register({
+        name,
+        email,
+        password,
+        phone,
+        address,
+        role,
+      } as RegistrationFieldType);
 
-      console.log("Sending userData to the server:", userData);
 
-      // Send data to your server
-      const user = await register(userData as RegistrationFieldType);
+      if (user.error) {
+        const error = user.error as FetchBaseQueryError;
 
-      
+        if ("data" in error) {
+          messageApi.open({
+            type: "error",
+            content: (error?.data as ErrorResponse)?.message
+          })
+        } else {
+          console.log("No data property found in the error object");
+        }
+      } else {
+        console.log("No error found");
+      }
 
       if (user?.data?.success) {
         messageApi.open({
           type: "success",
           content: "User Registerd successfully",
-        });
-      }
-      if(error && 'data' in error?.error) {
-        const errorMessage = (error.error as FetchBaseQueryError)?.data?.message || 'Something went wrong!';
-
-        messageApi.open({
-          type: "error",
-          content: errorMessage,
         });
       }
     } catch (error) {
@@ -85,8 +102,13 @@ const Registration: React.FC = () => {
             </div>
             <div className="mx-10 text-center">
               <p className="pt-10">
-              <Button className="justify-center items-center mx-auto my-6 text-white flex"><FcGoogle /> Sign In With Google</Button>
-              Already have an account <Link to="/login" className="underline">Login</Link>
+                <Button className="justify-center items-center mx-auto my-6 text-white flex">
+                  <FcGoogle /> Sign In With Google
+                </Button>
+                Already have an account{" "}
+                <Link to="/login" className="underline">
+                  Login
+                </Link>
               </p>
             </div>
           </div>
@@ -115,11 +137,14 @@ const Registration: React.FC = () => {
             ]}
           >
             <Input
-              style={{ color: "white" }}
               placeholder="Enter your name"
               className="w-full white-placeholder"
               inputMode="text"
-              onChange={(e) => console.log(e.target.value)}
+              value={name}
+              onChange={(e) => {
+                e.preventDefault();
+                dispatch(setName(e.target.value));
+              }}
             />
           </Form.Item>
 
@@ -139,9 +164,13 @@ const Registration: React.FC = () => {
             ]}
           >
             <Input
-              style={{ color: "white" }}
               placeholder="Enter your email"
               className="w-full"
+              value={email}
+              onChange={(e) => {
+                e.preventDefault();
+                dispatch(setEmail(e.target.value));
+              }}
             />
           </Form.Item>
 
@@ -163,6 +192,11 @@ const Registration: React.FC = () => {
             <Input.Password
               placeholder="Enter your password"
               className="w-full"
+              value={password}
+              onChange={(e) => {
+                e.preventDefault();
+                dispatch(setPassword(e.target.value));
+              }}
             />
           </Form.Item>
 
@@ -181,9 +215,13 @@ const Registration: React.FC = () => {
             ]}
           >
             <Input
-              style={{ color: "white" }}
               placeholder="Enter your phone number"
               className="w-full"
+              value={phone}
+              onChange={(e) => {
+                e.preventDefault();
+                dispatch(setPhone(e.target.value));
+              }}
             />
           </Form.Item>
 
@@ -197,15 +235,23 @@ const Registration: React.FC = () => {
             rules={[{ required: true, message: "Please input your address!" }]}
           >
             <Input
-              style={{ color: "white" }}
               placeholder="Enter your address"
               className="w-full white-placeholder"
+              value={address}
+              onChange={(e) => {
+                e.preventDefault();
+                dispatch(setAddress(e.target.value));
+              }}
             />
           </Form.Item>
 
           {/* Submit Button */}
           <Form.Item className="flex justify-center">
-            <Button type="default" htmlType="submit" className=" bg-black text-white">
+            <Button
+              type="default"
+              htmlType="submit"
+              className=" bg-black text-white"
+            >
               Register
             </Button>
           </Form.Item>

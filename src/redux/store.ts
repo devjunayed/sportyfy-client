@@ -1,10 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { baseApi } from "./api/baseApi";
+import registerSlice from "./features/registerSlice";
+import loginSlice from "./features/loginSlice";
 
 
 export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
+    register: registerSlice,
+    login: loginSlice
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(baseApi.middleware),
