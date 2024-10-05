@@ -60,7 +60,7 @@
         *   **Booking Management:** View all bookings.
         *   **Add Admin:** In this section, an admin can create a new admin account. The form includes fields for the following details: name, email, password, phone number, role (automatically set to "admin"), and address. (Just like sign up process)
         
-### 3\. **Login/Registration Page:**
+### ✅✅✅3\. **Login/Registration Page:**
 
 *   **Purpose:** Allows users to access their accounts or create a new account.
 *   **Components:**

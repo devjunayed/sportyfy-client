@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { Button, Form, Input, message } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useDispatch } from "react-redux";
-import { setEmail, setPassword } from "../../redux/features/registerSlice";
+import { setEmail, setPassword } from "../../redux/features/loginSlice";
 import { useAppSelector } from "../../redux/hooks";
 import { useLoginMutation } from "../../redux/api/auth/authApi";
 import { ErrorResponse } from "../../types/shared.type";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { setUser } from "../../redux/features/authSlice";
+import { verifyToken } from "../../utils/verifyToken";
 
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
@@ -22,12 +24,26 @@ const Registration: React.FC = () => {
   const dispatch = useDispatch();
   const { email, password } = useAppSelector((state) => state.login);
   const [login] = useLoginMutation();
+  const navigate = useNavigate();
 
   const onFinish = async () => {
     try {
       // Send data to your server
       const loginResult = await login({ email, password });
+
+      console.log(loginResult);
+
       if (loginResult?.data?.success) {
+        const user = verifyToken(loginResult.data.token);
+        dispatch(
+          setUser({
+            user: user,
+            token: loginResult.data.token,
+          })
+        );
+
+        navigate(`/${user.role}/dashboard`);
+
         messageApi.open({
           type: "success",
           content: "Logged in successfully",
@@ -46,7 +62,7 @@ const Registration: React.FC = () => {
       console.log(error);
       messageApi.open({
         type: "error",
-        content: "Error uploading image!",
+        content: "Something went wrong!",
       });
       return;
     }
