@@ -6,6 +6,9 @@ import { FcGoogle } from "react-icons/fc";
 import { useDispatch } from "react-redux";
 import { setEmail, setPassword } from "../../redux/features/registerSlice";
 import { useAppSelector } from "../../redux/hooks";
+import { useLoginMutation } from "../../redux/api/auth/authApi";
+import { ErrorResponse } from "../../types/shared.type";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
@@ -17,24 +20,28 @@ const onFinishFailed = (errorInfo: any) => {
 const Registration: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const dispatch = useDispatch();
-  const {email, password} = useAppSelector((state) => state.login);
+  const { email, password } = useAppSelector((state) => state.login);
+  const [login] = useLoginMutation();
 
   const onFinish = async () => {
     try {
-      
       // Send data to your server
-      // const loginResult = await createCategory(categoryData);
-      // if (category.data.success) {
-      //   messageApi.open({
-      //     type: "success",
-      //     content: "Category successfully created",
-      //   });
-      // } else {
-      //   messageApi.open({
-      //     type: "error",
-      //     content: category.data.message,
-      //   });
-      // }
+      const loginResult = await login({ email, password });
+      if (loginResult?.data?.success) {
+        messageApi.open({
+          type: "success",
+          content: "Logged in successfully",
+        });
+      } else {
+        const error = loginResult.error as FetchBaseQueryError;
+
+        if ("data" in error) {
+          messageApi.open({
+            type: "error",
+            content: (error?.data as ErrorResponse).message,
+          });
+        }
+      }
     } catch (error) {
       console.log(error);
       messageApi.open({
@@ -63,14 +70,19 @@ const Registration: React.FC = () => {
               </h2>
               <p className="text-justify text-lg">
                 Welcome to Sportyfy! <br />
-                Please sign in with your details or sign in with
-                google and start enjoying all the benefits we offer.
+                Please sign in with your details or sign in with google and
+                start enjoying all the benefits we offer.
               </p>
             </div>
             <div className="mx-10 text-center">
               <p className="pt-10">
-              <Button className="justify-center items-center mx-auto my-6 text-white flex"><FcGoogle /> Sign In With Google</Button>
-              Don't have an account <Link to="/register" className="underline">Register</Link>
+                <Button className="justify-center items-center mx-auto my-6 text-white flex">
+                  <FcGoogle /> Sign In With Google
+                </Button>
+                Don't have an account{" "}
+                <Link to="/register" className="underline">
+                  Register
+                </Link>
               </p>
             </div>
           </div>
@@ -83,8 +95,6 @@ const Registration: React.FC = () => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
-       
-
           {/* Email Field */}
           <Form.Item
             className="w-full"
@@ -103,9 +113,9 @@ const Registration: React.FC = () => {
             <Input
               placeholder="Enter your email"
               className="w-full"
-              onChange={(e)=> {
+              onChange={(e) => {
                 e.preventDefault();
-                dispatch(setEmail(e.target.value))
+                dispatch(setEmail(e.target.value));
               }}
             />
           </Form.Item>
@@ -130,16 +140,18 @@ const Registration: React.FC = () => {
               className="w-full"
               onChange={(e) => {
                 e.preventDefault();
-                dispatch(setPassword(e.target.value))
+                dispatch(setPassword(e.target.value));
               }}
             />
           </Form.Item>
 
-      
-
           {/* Submit Button */}
           <Form.Item className="flex justify-center">
-            <Button type="default" htmlType="submit" className="bg-black text-white">
+            <Button
+              type="default"
+              htmlType="submit"
+              className="bg-black text-white"
+            >
               Login
             </Button>
           </Form.Item>

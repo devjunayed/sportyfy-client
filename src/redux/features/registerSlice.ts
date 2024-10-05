@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { RegistrationFieldType } from "../../types/registration.type";
 
-const initialState = {
+const initialState : RegistrationFieldType = {
     name: "",
     email: "",
     password: "",
@@ -28,10 +29,17 @@ const registerSlice = createSlice({
        setAddress: (state, action) => {
         state.address = action.payload;
        },
+       clearRegisterForm : (state) => {
+        state.name = ""
+        state.email = ""
+        state.address = ""
+        state.phone = ""
+        state.password = ""
+       }
     }
 })
 
 
-export const {setName, setEmail, setAddress, setPhone, setPassword} = registerSlice.actions;
+export const {setName, setEmail, setAddress, setPhone, setPassword, clearRegisterForm} = registerSlice.actions;
 
 export default registerSlice.reducer;

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { Button, Form, Input, message } from "antd";
 import { Link } from "react-router-dom";
@@ -6,6 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useRegisterMutation } from "../../redux/api/auth/authApi";
 import { useDispatch } from "react-redux";
 import {
+  clearRegisterForm,
   setAddress,
   setEmail,
   setName,
@@ -15,18 +15,11 @@ import {
 import { useAppSelector } from "../../redux/hooks";
 import { RegistrationFieldType } from "../../types/registration.type";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { ErrorResponse } from "../../types/shared.type";
+import { useForm } from "antd/es/form/Form";
 
-const onFinishFailed = (errorInfo: any) => {
-  console.log("Failed:", errorInfo);
-};
 
-export interface ErrorResponse{
-  message?: string
-}
 
-/*===================================
-       Main Registration function
-=====================================*/
 const Registration: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const dispatch = useDispatch();
@@ -34,7 +27,9 @@ const Registration: React.FC = () => {
     (state) => state.register
   );
   const [register] = useRegisterMutation();
+  const [form] = useForm();
 
+  // // Sync form with Redux state on mount
   const onFinish = async () => {
     try {
       const user = await register({
@@ -46,27 +41,39 @@ const Registration: React.FC = () => {
         role,
       } as RegistrationFieldType);
 
-
+      // Handle error response
       if (user.error) {
         const error = user.error as FetchBaseQueryError;
-
         if ("data" in error) {
           messageApi.open({
             type: "error",
-            content: (error?.data as ErrorResponse)?.message
-          })
+            content: (error?.data as ErrorResponse)?.message,
+          });
         } else {
           console.log("No data property found in the error object");
         }
-      } else {
-        console.log("No error found");
       }
 
+      // Handle success response
       if (user?.data?.success) {
         messageApi.open({
           type: "success",
-          content: "User Registerd successfully",
+          content: "User registered successfully",
         });
+
+        // Clear Redux state
+        dispatch(clearRegisterForm());
+
+        // Manually reset form fields
+        form.setFieldsValue({
+          name: "",
+          email: "",
+          phone: "",
+          address: "",
+          password: "",
+        });
+
+        console.log("Form and Redux state cleared.");
       }
     } catch (error) {
       console.log(error);
@@ -74,14 +81,13 @@ const Registration: React.FC = () => {
         type: "error",
         content: "Error while creating user!",
       });
-      return;
     }
   };
 
   return (
-    <div className=" min-h-screen flex justify-center items-center  ">
+    <div className="min-h-screen flex justify-center items-center">
       {contextHolder}
-      <div className="flex shadow-xl flex-col md:flex-row shadow-gray-400 rounded-2xl h-full my-10 md:h-[80vh] w-[90vw] md:w-[80vw] lg:w-[60vw]  gap-8 justify-center items-center">
+      <div className="flex shadow-xl flex-col md:flex-row shadow-gray-400 rounded-2xl h-full my-10 md:h-[80vh] w-[90vw] md:w-[80vw] lg:w-[60vw] gap-8 justify-center items-center">
         <div
           className="hero min-h-[80vh] w-full md:w-1/2 rounded-2xl"
           style={{
@@ -89,7 +95,7 @@ const Registration: React.FC = () => {
           }}
         >
           <div className="hero-overlay bg-opacity-70 rounded-2xl"></div>
-          <div className="text-neutral-content ">
+          <div className="text-neutral-content">
             <div className="max-w-md mx-10">
               <h2 className="text-2xl font-bold uppercase mb-6">
                 Create Your Account
@@ -97,7 +103,7 @@ const Registration: React.FC = () => {
               <p className="text-justify text-lg">
                 Welcome to Sportyfy! <br />
                 Please fill out the form to create a new account or sign in with
-                google and start enjoying all the benefits we offer.
+                Google and start enjoying all the benefits we offer.
               </p>
             </div>
             <div className="mx-10 text-center">
@@ -105,7 +111,7 @@ const Registration: React.FC = () => {
                 <Button className="justify-center items-center mx-auto my-6 text-white flex">
                   <FcGoogle /> Sign In With Google
                 </Button>
-                Already have an account{" "}
+                Already have an account?{" "}
                 <Link to="/login" className="underline">
                   Login
                 </Link>
@@ -114,12 +120,12 @@ const Registration: React.FC = () => {
           </div>
         </div>
         <Form
-          className="w-full   md:w-1/2  p-10 md:pl-0"
+          className="w-full md:w-1/2 p-10 md:pl-0"
           name="trigger"
           layout="vertical"
           autoComplete="off"
           onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
+          form={form} 
         >
           {/* Name Field */}
           <Form.Item
@@ -140,10 +146,9 @@ const Registration: React.FC = () => {
               placeholder="Enter your name"
               className="w-full white-placeholder"
               inputMode="text"
-              value={name}
+              value={name} 
               onChange={(e) => {
-                e.preventDefault();
-                dispatch(setName(e.target.value));
+                dispatch(setName(e.target.value)); 
               }}
             />
           </Form.Item>
@@ -166,10 +171,9 @@ const Registration: React.FC = () => {
             <Input
               placeholder="Enter your email"
               className="w-full"
-              value={email}
+              value={email} 
               onChange={(e) => {
-                e.preventDefault();
-                dispatch(setEmail(e.target.value));
+                dispatch(setEmail(e.target.value)); 
               }}
             />
           </Form.Item>
@@ -192,10 +196,9 @@ const Registration: React.FC = () => {
             <Input.Password
               placeholder="Enter your password"
               className="w-full"
-              value={password}
+              value={password} 
               onChange={(e) => {
-                e.preventDefault();
-                dispatch(setPassword(e.target.value));
+                dispatch(setPassword(e.target.value)); 
               }}
             />
           </Form.Item>
@@ -217,10 +220,9 @@ const Registration: React.FC = () => {
             <Input
               placeholder="Enter your phone number"
               className="w-full"
-              value={phone}
+              value={phone} 
               onChange={(e) => {
-                e.preventDefault();
-                dispatch(setPhone(e.target.value));
+                dispatch(setPhone(e.target.value)); 
               }}
             />
           </Form.Item>
@@ -237,10 +239,9 @@ const Registration: React.FC = () => {
             <Input
               placeholder="Enter your address"
               className="w-full white-placeholder"
-              value={address}
+              value={address} 
               onChange={(e) => {
-                e.preventDefault();
-                dispatch(setAddress(e.target.value));
+                dispatch(setAddress(e.target.value)); 
               }}
             />
           </Form.Item>
@@ -250,7 +251,7 @@ const Registration: React.FC = () => {
             <Button
               type="default"
               htmlType="submit"
-              className=" bg-black text-white"
+              className="bg-black text-white"
             >
               Register
             </Button>
