@@ -10,15 +10,16 @@ import { store } from "./redux/store";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
-
-    <ConfigProvider theme={{
-      token: {
-        colorPrimary: "#dedede",
-        colorBgContainer: "#fffff"
-      }
-    }}>
-      <RouterProvider router={router} />
-    </ConfigProvider>
-      </Provider>
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: "#dedede",
+            colorBgContainer: "#fffff",
+          },
+        }}
+      >
+        <RouterProvider router={router} />
+      </ConfigProvider>
+    </Provider>
   </StrictMode>
 );

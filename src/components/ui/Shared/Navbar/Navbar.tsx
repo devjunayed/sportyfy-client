@@ -3,10 +3,10 @@ import { Button } from "antd";
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { viewersPath } from "../../../../routes/viewers.routes";
+import Logo from "../Logo/Logo";
 
 const Navbar = () => {
   const isLogin = false;
-
 
   const [menu, setMenu] = useState(false);
 
@@ -52,14 +52,15 @@ const Navbar = () => {
               </Button>
             </ul>
           </div>
-          <a className="text-xl lg:block hidden" href="/">
-            🤸‍♀️ Sportyfy
-          </a>
+          {/* Logo here */}
+          <div className="lg:block hidden">
+            <Logo />
+          </div>
         </div>
         <div className="navbar-center">
-          <a className="text-xl lg:hidden" href="/">
-            🤸‍♀️ Sportyfy
-          </a>
+          <div className="text-xl lg:hidden">
+            <Logo />
+          </div>
           {/* Larger device menu */}
           <div className=" hidden w-full lg:flex">
             <ul className="flex flex-wrap  gap-4 bg-none menu-horizontal px-1">
@@ -84,15 +85,15 @@ const Navbar = () => {
               </div>
             </div>
           ) : (
-            <Button className="text-white ">
-                <Link to="/login" className="mx-auto">
-                  Login
-                </Link>
-                /
-                <Link to="/register" className="mx-auto">
-                  Register
-                </Link>
-              </Button>
+            <Button className="text-white lg:flex hidden">
+              <Link to="/login" className="mx-auto">
+                Login
+              </Link>
+              /
+              <Link to="/register" className="mx-auto">
+                Register
+              </Link>
+            </Button>
           )}
         </div>
       </div>

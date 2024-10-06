@@ -16,8 +16,8 @@
 
 *   **Purpose:** Acts as the gateway to the platform, offering a general overview and guiding users to specific actions like booking a facility or logging in.
 *   **Components:**
-    *   **Header:** Includes logo, navigation menu, and login/registration buttons.
-    *   **Hero Section:** A visually appealing banner with a brief introduction and a "Book Now" call-to-action button.
+    *  ✅✅✅ **Header:** Includes logo, navigation menu, and login/registration buttons.
+    *   ✅✅✅ **Hero Section:** A visually appealing banner with a brief introduction and a "Book Now" call-to-action button.
     *   **Featured Facilities:** Showcase a selection of popular facilities with images, names, and a brief description.
     *   **How It Works:** A step-by-step guide explaining the booking process. The "How It Works" section on the landing page is designed to provide users with a clear and straightforward guide to the booking process on the platform. This section breaks down the process into simple, actionable steps to ensure users understand how to make the most of the platform's features.
     
