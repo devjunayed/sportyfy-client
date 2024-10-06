@@ -1,9 +1,9 @@
 import { CloseOutlined, MenuOutlined } from "@ant-design/icons";
-import { Button } from "antd";
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import {  NavLink } from "react-router-dom";
 import { viewersPath } from "../../../../routes/viewers.routes";
 import Logo from "../Logo/Logo";
+import NavbarButton from "./NavbarButton";
 
 const Navbar = () => {
   const isLogin = false;
@@ -41,15 +41,7 @@ const Navbar = () => {
                 </li>
               ))}
 
-              <Button className="text-white mt-4 flex items-center justify-center">
-                <Link to="/login" className="mx-auto">
-                  Login
-                </Link>
-                /
-                <Link to="/register" className="mx-auto">
-                  Register
-                </Link>
-              </Button>
+              <NavbarButton className="mt-4"/>
             </ul>
           </div>
           {/* Logo here */}
@@ -63,7 +55,7 @@ const Navbar = () => {
           </div>
           {/* Larger device menu */}
           <div className=" hidden w-full lg:flex">
-            <ul className="flex flex-wrap  gap-4 bg-none menu-horizontal px-1">
+            <ul className="flex flex-wrap items-center gap-4 bg-none menu-horizontal px-1">
               {viewersPath.map((link) => (
                 <li key={link?.path} className=" hover:cursor-pointer">
                   <NavLink
@@ -85,15 +77,10 @@ const Navbar = () => {
               </div>
             </div>
           ) : (
-            <Button className="text-white lg:flex hidden">
-              <Link to="/login" className="mx-auto">
-                Login
-              </Link>
-              /
-              <Link to="/register" className="mx-auto">
-                Register
-              </Link>
-            </Button>
+            <div className="lg:flex hidden">
+              <NavbarButton />
+            </div>
+            
           )}
         </div>
       </div>

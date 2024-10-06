@@ -10,8 +10,9 @@ const Footer = () => {
   return (
     <>
       <footer className="footer bg-black text-white p-10">
-        <aside>
+        <aside className="flex  justify-center text-center items-center flex-col">
           <Logo />
+          <h3 className="text-md font-mono">Game is Yours</h3>
         </aside>
         <nav>
           <h6 className="footer-title">Links</h6>
