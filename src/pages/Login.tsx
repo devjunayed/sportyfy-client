@@ -31,7 +31,6 @@ const Registration: React.FC = () => {
       // Send data to your server
       const loginResult = await login({ email, password });
 
-      console.log(loginResult);
 
       if (loginResult?.data?.success) {
         const user = verifyToken(loginResult.data.token);
