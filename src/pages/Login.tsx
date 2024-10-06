@@ -35,19 +35,21 @@ const Registration: React.FC = () => {
 
       if (loginResult?.data?.success) {
         const user = verifyToken(loginResult.data.token);
-        dispatch(
-          setUser({
-            user: user,
-            token: loginResult.data.token,
+        messageApi
+          .open({
+            type: "success",
+            content: "Logged in successfully",
           })
-        );
+          .then(() => {
+            dispatch(
+              setUser({
+                user: user,
+                token: loginResult.data.token,
+              })
+            );
 
-        navigate(`/${user.role}/dashboard`);
-
-        messageApi.open({
-          type: "success",
-          content: "Logged in successfully",
-        });
+            navigate(`/${user.role}/dashboard`);
+          });
       } else {
         const error = loginResult.error as FetchBaseQueryError;
 

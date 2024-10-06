@@ -29,7 +29,7 @@
 
     *   **Customer Testimonials:** A slider showcasing feedback from users who have successfully booked and used the facilities. You can implement this using static JSON data or develop an API to fetch and display dynamic data.
     *   **Add One Unique Section:** Showcase your creativity by adding a unique component related to the project.
-    *   **Footer:** Contains links to the About Us, Contact Us, and social media pages.
+    *   **✅✅✅ Footer:** Contains links to the About Us, Contact Us, and social media pages.
 
 ### 2\. **Dashboard:**
 
