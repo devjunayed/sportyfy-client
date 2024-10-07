@@ -3,6 +3,7 @@ import { baseApi } from "./api/baseApi";
 import registerSlice from "./features/registerSlice";
 import loginSlice from "./features/loginSlice";
 import authSlice from "./features/authSlice";
+import dashboardSlice from "./features/dashboardSlice";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage"
 const persistConfig = {
@@ -17,6 +18,7 @@ export const store = configureStore({
     [baseApi.reducerPath]: baseApi.reducer,
     register: registerSlice,
     login: loginSlice,
+    dashboard: dashboardSlice,
     user: persistedAuthReducer
   },
   middleware: (getDefaultMiddleware) =>
