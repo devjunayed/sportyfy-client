@@ -100,7 +100,7 @@ const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
           <Modal
             title="Edit Category"
             open={isModalVisible}
-            onOk={() => form.submit()} // Trigger form submit
+            onOk={() => form.submit()} 
             confirmLoading={isLoading}
             onCancel={handleCancel}
             okText="Save"
@@ -114,7 +114,7 @@ const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
               </Button>,
               <Button
                 key="submit"
-                type="primary"
+                className="bg-black text-white hover:bg-gray-900"
                 loading={isLoading}
                 onClick={() => form.submit()} // Use form.submit() to trigger onFinish
               >

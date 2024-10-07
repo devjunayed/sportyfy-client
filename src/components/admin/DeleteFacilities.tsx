@@ -59,7 +59,10 @@ const DeleteFacilities = ({ data, refetch }: DeleteFacilitiesProps) => {
       description="The action can not be undone"
       open={open}
       onConfirm={handleOk}
-      okButtonProps={{ loading: confirmLoading }}
+      okButtonProps={{
+        loading: confirmLoading, // Button loading state
+        style: { backgroundColor: 'black', borderColor: 'black', color: '#fff' }, // Custom button styles
+      }}
       onCancel={handleCancel}
     >
       {contextHolder}

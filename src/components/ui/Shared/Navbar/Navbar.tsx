@@ -6,13 +6,14 @@ import Logo from "../Logo/Logo";
 import NavbarButton from "./NavbarButton";
 import { useAppSelector } from "../../../../redux/hooks";
 import { currentUser } from "../../../../redux/features/authSlice";
+import { TUser } from "../../../../types/shared.type";
 
 const Navbar = () => {
   const isLogin = false;
 
   const [menu, setMenu] = useState(false);
   const user = useAppSelector(currentUser);
-  console.log(user);
+  const userData = user as TUser | null;
 
   const handleMenu = () => {
     setMenu(!menu);
@@ -44,11 +45,11 @@ const Navbar = () => {
                   </NavLink>
                 </li>
               ))}
-              {user && (
-                <li key={user.role as string} className="hover:cursor-pointer">
+              {userData && (
+                <li key={userData!.role as string} className="hover:cursor-pointer">
                   <NavLink
                     className={"cursor-pointer"}
-                    to={`${user.role as string}/dashboard`}
+                    to={`${userData!.role as string}/dashboard`}
                   >
                     Dashboard
                   </NavLink>
@@ -81,11 +82,11 @@ const Navbar = () => {
                   </NavLink>
                 </li>
               ))}
-              {user && (
-                <li key={user.role as string} className="hover:cursor-pointer">
+              {userData && (
+                <li key={userData!.role as string} className="hover:cursor-pointer">
                   <NavLink
                     className={"cursor-pointer"}
-                    to={`${user.role as string}/dashboard`}
+                    to={`${userData!.role as string}/dashboard`}
                   >
                     Dashboard
                   </NavLink>
