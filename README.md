@@ -48,7 +48,7 @@
 *   **Admin Dashboard:**
     *   **Purpose:** Provides administrators with tools to manage facilities, bookings, and users.
     *   **Components:**
-        *   **Welcome Message:** Personalized greeting. **To retrieve user information, develop an API to fetch user data from the database.** 
+        * ✅✅✅ **Welcome Message:** Personalized greeting. **To retrieve user information, develop an API to fetch user data from the database.** 
             <br/> <br/>
             **Here the example design:** 
             <br/> <br/>

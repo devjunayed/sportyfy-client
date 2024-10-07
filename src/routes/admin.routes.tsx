@@ -5,6 +5,7 @@ import { MdDashboard } from "react-icons/md";
 import { PiBuildingOfficeDuotone } from "react-icons/pi";
 import { IoCalendarClearOutline } from "react-icons/io5";
 import ManageFacility from "../pages/admin/ManageFacility";
+import AddAdmin from "../pages/admin/AddAdmin";
 
 
 export const adminPaths = [
@@ -42,6 +43,6 @@ export const adminPaths = [
         name: "Admin",
         icon: <UserOutlined />,
         path: 'admin',
-        element: <AdminDashboard />
+        element: <AddAdmin />
     },
 ]

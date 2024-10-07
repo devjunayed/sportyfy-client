@@ -1,32 +1,28 @@
 import React from "react";
 import { Button, Form, Input, message } from "antd";
-import { Link } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
-import { useRegisterMutation } from "../redux/api/auth/authApi";
-import { useDispatch } from "react-redux";
-import {
-  clearRegisterForm,
-  setAddress,
-  setEmail,
-  setName,
-  setPassword,
-  setPhone,
-} from "../redux/features/registerSlice";
-import { useAppSelector } from "../redux/hooks";
-import { RegistrationFieldType } from "../types/registration.type";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { ErrorResponse } from "../types/shared.type";
-import { useForm } from "antd/es/form/Form";
 
-const Registration: React.FC = () => {
+
+import { useDispatch } from "react-redux";
+
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+
+import { useForm } from "antd/es/form/Form";
+import { useAppSelector } from "../../redux/hooks";
+import { RegistrationFieldType } from "../../types/registration.type";
+import { ErrorResponse } from "../../types/shared.type";
+import { clearRegisterForm, setAddress, setEmail, setName, setPassword, setPhone } from "../../redux/features/registerSlice";
+import { useRegisterMutation } from "../../redux/api/auth/authApi";
+
+const AddAdmin: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const dispatch = useDispatch();
-  const { name, email, phone, address, password, role } = useAppSelector(
+  const { name, email, phone, address, password } = useAppSelector(
     (state) => state.register
   );
   const [register] = useRegisterMutation();
   const [form] = useForm();
 
+  // // Sync form with Redux state on mount
   const onFinish = async () => {
     try {
       const user = await register({
@@ -35,7 +31,7 @@ const Registration: React.FC = () => {
         password,
         phone,
         address,
-        role,
+        role: "admin",
       } as RegistrationFieldType);
 
       // Handle error response
@@ -84,38 +80,8 @@ const Registration: React.FC = () => {
   return (
     <div className="min-h-screen flex justify-center items-center">
       {contextHolder}
-      <div className="flex shadow-xl flex-col md:flex-row shadow-gray-400 rounded-2xl h-full my-10 md:h-[80vh] w-[90vw] md:w-[80vw] lg:w-[60vw] gap-8 justify-center items-center">
-        <div
-          className="hero min-h-[80vh] w-full md:w-1/2 rounded-2xl"
-          style={{
-            backgroundImage: "url(./src/assets/images/registration.jpg)",
-          }}
-        >
-          <div className="hero-overlay bg-opacity-70 rounded-2xl"></div>
-          <div className="text-neutral-content">
-            <div className="max-w-md mx-10">
-              <h2 className="text-2xl font-bold uppercase mb-6">
-                Create Your Account
-              </h2>
-              <p className="text-justify text-lg">
-                Welcome to Sportyfy! <br />
-                Please fill out the form to create a new account or sign in with
-                Google and start enjoying all the benefits we offer.
-              </p>
-            </div>
-            <div className="mx-10 text-center">
-              <p className="pt-10">
-                <Button className="justify-center items-center mx-auto my-6 text-white flex">
-                  <FcGoogle /> Sign In With Google
-                </Button>
-                Already have an account?{" "}
-                <Link to="/login" className="underline">
-                  Login
-                </Link>
-              </p>
-            </div>
-          </div>
-        </div>
+   
+      
         <Form
           className="w-full md:w-1/2 p-10 md:pl-0"
           name="trigger"
@@ -255,8 +221,7 @@ const Registration: React.FC = () => {
           </Form.Item>
         </Form>
       </div>
-    </div>
   );
 };
 
-export default Registration;
+export default AddAdmin;
