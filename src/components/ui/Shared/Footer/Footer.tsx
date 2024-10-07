@@ -9,7 +9,7 @@ const Footer = () => {
   const onSearch = () => {};
   return (
     <>
-      <footer className="footer bg-black text-white p-10">
+      <footer className="footer bg-[#1B1F3B] text-white p-10">
         <aside className="flex  justify-center text-center items-center flex-col">
           <Logo />
           <h3 className="text-md font-mono">Game is Yours</h3>
@@ -59,7 +59,7 @@ const Footer = () => {
           />
         </nav>
       </footer>
-      <footer className="footer border-t footer-center bg-black text-white p-4">
+      <footer className="footer border-t footer-center bg-[#1B1F3B] text-white p-4">
         <aside>
           <p>
             Copyright © {new Date().getFullYear()} - All right reserved by
