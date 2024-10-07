@@ -2,7 +2,10 @@ import { TRoute, TUserPath } from "../types/shared.type";
 
 export const routeGenerator = (items: TUserPath[]) => {
   const routes = items.reduce((acc: TRoute[], item) => {
+
+
     if (item.path && item.element) {
+      console.log(item)
       acc.push({
         path: item.path,
         element: item.element,
@@ -12,11 +15,17 @@ export const routeGenerator = (items: TUserPath[]) => {
     if (item.children) {
       item.children.forEach((child) => {
         acc.push({
-          path: child.path!,
+          path: `${item.path}/${child.path!}`,
           element: child.element,
         });
+
       });
+
+     
+
     }
+
+    console.log(acc)
     return acc;
   }, []);
 

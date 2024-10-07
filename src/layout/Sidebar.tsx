@@ -29,7 +29,6 @@ const Sidebar = () => {
     setCollapsed(!collapsed);
   };
 
-  // Get active route
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
 
   // checking user role
@@ -52,7 +51,6 @@ const Sidebar = () => {
       sidebarItems = [];
   }
 
-  // Map sidebar items to Ant Design's MenuItem format
   const menu: ItemType[] = sidebarItems.map((menu, index) => {
     return {
       key: `sub${index}`,
@@ -110,7 +108,7 @@ const Sidebar = () => {
           backgroundColor: "#1B1F3B",
         }}
         theme="dark"
-        items={menu} // Correct items array is passed here
+        items={menu} 
       />
     </Sider>
   );
