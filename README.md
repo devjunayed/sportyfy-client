@@ -69,7 +69,7 @@
     *   **Social Login:** Option to log in or register using social media accounts (optional).
     *   **Error Handling:** Clear error messages for invalid credentials or registration errors.
 
-### 4\. **About Us Page:**
+### ✅✅✅4\. **About Us Page:**
 
 *   **Purpose:** Provides information about the organization behind the platform.
 *   **Components:**
