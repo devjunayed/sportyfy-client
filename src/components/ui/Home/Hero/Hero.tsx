@@ -1,6 +1,7 @@
 import { Button, Input, Modal } from "antd";
 import { useCheckAvailabilityQuery } from "../../../../redux/api/checkavailabilty/checkavailabiltyApi";
 import { useState } from "react";
+import heroImg from '../../../../assets/images/hero-img.jpg'
 
 const Hero = () => {
   const [date, setDate] = useState("");
@@ -32,7 +33,7 @@ const Hero = () => {
     <div
       className="hero min-h-[80vh]"
       style={{
-        backgroundImage: "url(../../../../../src/assets/images/hero-img.jpg)",
+        backgroundImage: `url(${heroImg})`,
       }}
     >
       <Modal
