@@ -1,13 +1,69 @@
-import { useGetFacilitiesQuery } from "../../redux/api/dashboard/facilityApi"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Space, Table } from "antd";
+import { useGetFacilitiesQuery } from "../../redux/api/dashboard/facilityApi";
+import Column from "antd/es/table/Column";
+import EditFacilities from "../../components/admin/EditFacilities";
+import DeleteFacilities from "../../components/admin/DeleteFacilities";
+
+export interface FacilitiesDataType {
+    _id: string;
+    name: string;
+    description: string;
+    location: string;
+    pricePerHour: number;
+  }
 
 const ManageFacility = () => {
-    const {data: facilities} = useGetFacilitiesQuery("");
-    console.log(facilities);
+  const { data=[], refetch } = useGetFacilitiesQuery("");
   return (
     <div>
-        {facilities?.length === 0 || !facilities && <div className="flex min-h-screen items-center justify-center text-red-700 text-xl">No Facilities found</div>}
-    </div>
-  )
-}
+      {data?.length === 0 ||
+        (!data && (
+          <div className="flex min-h-screen items-center justify-center text-red-700 text-xl">
+            No Facilities found
+          </div>
+        ))}
 
-export default ManageFacility
+      <Table dataSource={data.data} className=" mt-4 overflow-x-auto">
+        <Column
+          title="No."
+          key="serial"
+          render={(_, __, index) => <>{index + 1}</>}
+        />
+        
+        <Column title="Facility Name" dataIndex="name" key="name" />
+
+        <Column
+          title="Facility Description"
+          dataIndex="description"
+          key="facility"
+        />
+        <Column
+          title="Location"
+          dataIndex="location"
+          key="location"
+        />
+        <Column
+          title="PPH"
+          dataIndex="pricePerHour"
+          key="price perHour"
+        />
+
+         <Column
+          title="Action"
+          key="action"
+          render={(_: any, record: FacilitiesDataType) => {
+            return (
+              <Space size="middle">
+                <EditFacilities data={record} refetch={refetch} />
+                <DeleteFacilities refetch={refetch} data={record} />
+              </Space>
+            );
+          }}
+        /> 
+      </Table>
+    </div>
+  );
+};
+
+export default ManageFacility;

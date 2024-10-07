@@ -16,3 +16,11 @@
     bottom: -5px;
     left: 0;
 }
+
+.ant-table-thead .ant-table-cell {
+    color: white !important;
+}
+
+.ant-table-cell.ant-table-cell-row-hover{
+    background: none !important;
+}
