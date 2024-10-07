@@ -1,47 +1,27 @@
 import { CloseCircleFilled } from "@ant-design/icons";
 import { currentUser } from "../../redux/features/authSlice";
 import { useAppSelector } from "../../redux/hooks";
-import { useEffect, useState } from "react";
 import { useGetUserQuery } from "../../redux/api/auth/authApi";
-import { useNavigate } from "react-router-dom";
-import { message } from "antd";
-import { ErrorResponse, TUser } from "../../types/shared.type";
-
-
+import { TUser } from "../../types/shared.type";
+import { useDispatch } from "react-redux";
+import { closeGreetings } from "../../redux/features/dashboardSlice";
 
 const UserDashboard = () => {
   const user = useAppSelector(currentUser);
-  const [messageApi, contextHolder] = message.useMessage();
-  const navigate = useNavigate();
-  const [greeting, setGreeting] = useState(true);
-  const { data: userData, error } = useGetUserQuery(
+  const greetings = useAppSelector((state) => state.dashboard.greetings);
+  const dispatch = useDispatch();
+  const { data: userData } = useGetUserQuery(
     user ? `${(user as TUser).email}` : ""
   );
 
- 
-
-  useEffect(() => {
-    if (error) {
-
-      const errorMessage = (error as ErrorResponse)?.data?.message || "An unknown error occurred";
-      messageApi.open({
-        type: "error",
-        content: errorMessage,
-      }).then(()=> {
-        navigate("/login")
-      });
-    }
-  }, [error, messageApi, navigate]);
-
   const handleGreeting = () => {
-    setGreeting(!greeting);
+    dispatch(closeGreetings());
   };
   return (
     <div>
-      {contextHolder}
       <div
         className={`${
-          !greeting && "hidden"
+          !greetings && "hidden"
         } bg-[#1B1F3B] flex justify-between p-4 text-center text-white mt-4`}
       >
         <div>Welcome {userData?.data?.name}, what you are upto.</div>

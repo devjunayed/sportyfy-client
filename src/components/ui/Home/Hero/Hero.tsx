@@ -32,7 +32,7 @@ const Hero = () => {
     <div
       className="hero min-h-[80vh]"
       style={{
-        backgroundImage: "url(../src/assets/images/hero-img.jpg)",
+        backgroundImage: "url(/src/assets/images/hero-img.jpg)",
       }}
     >
       <Modal

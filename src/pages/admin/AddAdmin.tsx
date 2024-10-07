@@ -18,7 +18,7 @@ const AddAdmin: React.FC = () => {
   const dispatch = useDispatch();
   const { name, email, phone, address, password } = useAppSelector(
     (state) => state.register
-  );
+  ) as RegistrationFieldType;
   const [register] = useRegisterMutation();
   const [form] = useForm();
 

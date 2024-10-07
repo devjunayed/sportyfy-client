@@ -48,8 +48,9 @@ const Navbar = () => {
               {userData && (
                 <li key={userData!.role as string} className="hover:cursor-pointer">
                   <NavLink
+                  replace={true}
                     className={"cursor-pointer"}
-                    to={`${userData!.role as string}/dashboard`}
+                    to={`/${userData!.role as string}/dashboard`}
                   >
                     Dashboard
                   </NavLink>
@@ -75,7 +76,6 @@ const Navbar = () => {
                 <li key={link?.path} className=" hover:cursor-pointer">
                   <NavLink
                     className="hover:cursor-pointer bg-none "
-                    replace={true}
                     to={link?.path}
                   >
                     {link?.name}
@@ -86,7 +86,8 @@ const Navbar = () => {
                 <li key={userData!.role as string} className="hover:cursor-pointer">
                   <NavLink
                     className={"cursor-pointer"}
-                    to={`${userData!.role as string}/dashboard`}
+                    replace={true}
+                    to={`/${userData!.role as string}/dashboard`}
                   >
                     Dashboard
                   </NavLink>
