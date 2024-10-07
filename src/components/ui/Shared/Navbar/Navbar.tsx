@@ -60,6 +60,7 @@ const Navbar = () => {
                 <li key={link?.path} className=" hover:cursor-pointer">
                   <NavLink
                     className="hover:cursor-pointer bg-none "
+                    replace={true}
                     to={link?.path}
                   >
                     {link?.name}

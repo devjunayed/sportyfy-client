@@ -11,17 +11,17 @@ export const viewersPath = [
   },
   {
     name: "Facilities",
-    path: "facilities",
+    path: "/facilities",
     element: <Facilities />,
   },
   {
     name: "About",
-    path: "about-us",
+    path: "/about-us",
     element: <AboutUs />,
   },
   {
     name: "Contact",
-    path: "contact-us",
+    path: "/contact-us",
     element: <ContactUs />,
   },
 ];
