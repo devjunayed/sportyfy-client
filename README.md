@@ -78,7 +78,7 @@
     *   **History & Milestones:** Timeline or narrative of the organization's journey and achievements.
     *   **Contact Information:** Office address, phone number, and email.
 
-### 5\. **Contact Us Page:**
+### ✅✅✅5\. **Contact Us Page:**
 
 *   **Purpose:** Allows users to get in touch with support or provide feedback.
 *   **Components:**
