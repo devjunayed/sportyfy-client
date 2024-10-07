@@ -1,48 +1,24 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { CloseCircleFilled } from "@ant-design/icons";
 import { currentUser } from "../../redux/features/authSlice";
 import { useAppSelector } from "../../redux/hooks";
-import { useEffect } from "react";
 import { useGetUserQuery } from "../../redux/api/auth/authApi";
-import { useNavigate } from "react-router-dom";
-import { message } from "antd";
-import { ErrorResponse, TUser } from "../../types/shared.type";
+import { TUser } from "../../types/shared.type";
 import { useDispatch } from "react-redux";
 import { closeGreetings } from "../../redux/features/dashboardSlice";
 
-
-
 const AdminDashboard = () => {
   const user = useAppSelector(currentUser);
-  const [messageApi, contextHolder] = message.useMessage();
-  const navigate = useNavigate();
-  const greetings = useAppSelector((state) => state.dashboard.greetings)
+  const greetings = useAppSelector((state) => state.dashboard.greetings);
   const dispatch = useDispatch();
-  const { data: userData, error } = useGetUserQuery(
+  const { data: userData } = useGetUserQuery(
     user ? `${(user as TUser).email}` : ""
   );
 
- 
-
-  useEffect(() => {
-    if (error) {
-
-      const errorMessage = (error as ErrorResponse)?.data?.message || "An unknown error occurred";
-      messageApi.open({
-        type: "error",
-        content: errorMessage,
-      }).then(()=> {
-        navigate("/login")
-      });
-    }
-  }, [error]);
-
   const handleGreeting = () => {
-    dispatch(closeGreetings())
+    dispatch(closeGreetings());
   };
   return (
     <div>
-      {contextHolder}
       <div
         className={`${
           !greetings && "hidden"

@@ -18,15 +18,22 @@ const ProtectedRoute = ({ children, role }: TProtectedRoute) => {
     user = verifyToken(token);
   }
 
+
   const dispatch = useDispatch();
 
-  if (role !== undefined && role !== user?.role as string) {
-    dispatch(logOut());
+  const currentTime = Math.floor(Date.now() / 1000);
 
+  if (!token) {
     return <Navigate to="/login" replace={true} />;
   }
 
-  if (!token) {
+  if (
+    role !== undefined &&
+    role !== (user?.role as string) &&
+    (user?.exp as number) < currentTime
+  ) {
+    dispatch(logOut());
+
     return <Navigate to="/login" replace={true} />;
   }
 

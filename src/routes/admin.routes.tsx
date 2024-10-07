@@ -4,6 +4,7 @@ import CreateFacility from "../pages/admin/CreateFacility";
 import { MdDashboard } from "react-icons/md";
 import { PiBuildingOfficeDuotone } from "react-icons/pi";
 import { IoCalendarClearOutline } from "react-icons/io5";
+import ManageFacility from "../pages/admin/ManageFacility";
 
 
 export const adminPaths = [
@@ -22,6 +23,11 @@ export const adminPaths = [
                 name: "Create Facility",
                 path: "create-facility",
                 element: <CreateFacility />,
+            },
+            {
+                name: "Manage Facility",
+                path: "manage-facility",
+                element: <ManageFacility />,
             }
 
         ]
