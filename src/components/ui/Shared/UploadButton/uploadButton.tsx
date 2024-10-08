@@ -1,6 +1,6 @@
 import { PlusOutlined } from '@ant-design/icons'
 
-const UplaodButton = () => {
+const UploadButton = () => {
   return (
     <button className="" style={{ border: 0, background: "none" }} type="button">
     <PlusOutlined className="text-black" />
@@ -11,4 +11,4 @@ const UplaodButton = () => {
   )
 }
 
-export default UplaodButton
+export default UploadButton

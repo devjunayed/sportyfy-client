@@ -3,9 +3,9 @@ import { EditOutlined } from "@ant-design/icons";
 import { FacilitiesDataType } from "../../pages/admin/ManageFacility";
 import { Button, Form, GetProp, Image, Input, message, Modal, Upload, UploadFile, UploadProps } from "antd";
 import { useState } from "react";
-import UploadButton from '../ui/Shared/UploadButton/UploadButton'
 import { useUpdateFacilityMutation } from "../../redux/api/dashboard/facilityApi";
 import { getBase } from "../../utils/getBase";
+import UploadButton from "../ui/Shared/UploadButton/UploadButton";
 
 interface EditFacilitiesProps {
   data: FacilitiesDataType;
