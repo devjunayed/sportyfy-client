@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useGetSingleFacilityQuery } from "../../../redux/api/dashboard/facilityApi";
+import { useGetSingleFacilityQuery } from "../redux/api/dashboard/facilityApi";
 import { Button, Divider } from "antd";
 import { ArrowLeftOutlined, CalendarOutlined } from "@ant-design/icons";
 
@@ -8,7 +8,6 @@ const FacilityDetails = () => {
   const navigate = useNavigate();
   const { data: facility } = useGetSingleFacilityQuery(id as string);
 
-  console.log(facility);
 
   return (
     <div className="mx-10">
@@ -41,7 +40,7 @@ const FacilityDetails = () => {
             <Divider />
             <div className="flex-col flex items-center mt-4 justify-between lg:mx-20 gap-10 ">
               <Button className="bg-[#1B1F3B] text-white">
-                <Link to={"/booking"} type="primary" className="">
+                <Link to={`/booking/${id}` } type="primary" className="">
                   Book Now <CalendarOutlined />
                 </Link>
               </Button>

@@ -60,7 +60,7 @@
         *   **Booking Management:** View all bookings.
         *  ✅✅✅ **Add Admin:** In this section, an admin can create a new admin account. The form includes fields for the following details: name, email, password, phone number, role (automatically set to "admin"), and address. (Just like sign up process)
         
-### ✅✅✅3\. **Login/Registration Page:**
+### ✅✅✅ 3\. **Login/Registration Page:**
 
 *   **Purpose:** Allows users to access their accounts or create a new account.
 *   **Components:**
@@ -69,7 +69,7 @@
     *   **Social Login:** Option to log in or register using social media accounts (optional).
     *   **Error Handling:** Clear error messages for invalid credentials or registration errors.
 
-### ✅✅✅4\. **About Us Page:**
+### ✅✅✅ 4\. **About Us Page:**
 
 *   **Purpose:** Provides information about the organization behind the platform.
 *   **Components:**
@@ -78,7 +78,7 @@
     *   **History & Milestones:** Timeline or narrative of the organization's journey and achievements.
     *   **Contact Information:** Office address, phone number, and email.
 
-### ✅✅✅5\. **Contact Us Page:**
+### ✅✅✅ 5\. **Contact Us Page:**
 
 *   **Purpose:** Allows users to get in touch with support or provide feedback.
 *   **Components:**
@@ -86,14 +86,14 @@
     *   **Map Integration:** An embedded map showing the office location (optional).
     *   **Contact Details:** Phone number, email, and physical address.
 
-### 6\. **Facility Listing Page:**
+### ✅✅✅ 6\. **Facility Listing Page:**
 
 *   **Purpose:** Displays a list of all available(based on isDeleted = false) sports facilities .
 *   **Components:**
     *   **Search & Filters:** Options to search by facility name or location, and filters for pricing. (Frontend implementation)
     *   **Facility Cards:** Each card includes an image, name, price per hour, and a "View Details" button that navigates to the facility details page.
 
-### 7\. **Facility Details Page:**
+### ✅✅✅ 7\. **Facility Details Page:**
 
 *   **Purpose:** Provides detailed information about a specific sports facility.
 *   **Components:**
