@@ -36,3 +36,12 @@ export type TSidebarItem = {
       children?: TSidebarItem[];
     }
  
+    export interface TBooking {
+      startTime: string;
+      endTime: string;
+      user: string;
+      facility: string;
+      date: string;
+      payableAmount: number;
+  }
+  

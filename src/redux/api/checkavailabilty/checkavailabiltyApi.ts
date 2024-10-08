@@ -3,8 +3,8 @@ import { baseApi } from "../baseApi";
 const checkAvailabilityApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     checkAvailability: builder.query({
-      query: (date: string) => ({
-        url: `/check-availability?date=${date}`,
+      query: ({date, facilityId}: {date: string, facilityId: string}) => ({
+        url: `/check-availability?date=${date}&facility=${facilityId}`,
         method: "GET",
         
       }),

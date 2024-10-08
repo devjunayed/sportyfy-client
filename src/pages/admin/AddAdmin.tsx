@@ -22,7 +22,6 @@ const AddAdmin: React.FC = () => {
   const [register] = useRegisterMutation();
   const [form] = useForm();
 
-  // // Sync form with Redux state on mount
   const onFinish = async () => {
     try {
       const user = await register({

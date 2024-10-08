@@ -3,13 +3,16 @@ import { useAppSelector } from "../redux/hooks";
 import { currentToken, logOut } from "../redux/features/authSlice";
 import { verifyToken } from "../utils/verifyToken";
 import { useDispatch } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 type TProtectedRoute = {
   children: ReactNode;
   role: string | undefined;
 };
 const ProtectedRoute = ({ children, role }: TProtectedRoute) => {
+  const location = useLocation();
+  console.log(location);
+
   const token = useAppSelector(currentToken);
 
   let user;
@@ -24,7 +27,7 @@ const ProtectedRoute = ({ children, role }: TProtectedRoute) => {
   const currentTime = Math.floor(Date.now() / 1000);
 
   if (!token) {
-    return <Navigate to="/login" replace={true} />;
+    return <Navigate to={`/login?redirect=${location.pathname}`} replace={true} />;
   }
 
   if (
@@ -34,8 +37,10 @@ const ProtectedRoute = ({ children, role }: TProtectedRoute) => {
   ) {
     dispatch(logOut());
 
-    return <Navigate to="/login" replace={true} />;
+    return <Navigate to={`/login?redirect=${location.pathname}`} replace={true} />;
   }
+
+ 
 
   return children;
 };

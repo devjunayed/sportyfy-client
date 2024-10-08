@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { Button, Form, Input, message } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useDispatch } from "react-redux";
 import { setEmail, setPassword } from "../redux/features/loginSlice";
@@ -17,9 +21,12 @@ const onFinishFailed = (errorInfo: any) => {
 };
 
 /*===================================
-       Main Registration function
+       Main Login function
 =====================================*/
-const Registration: React.FC = () => {
+const Login: React.FC = () => {
+  const location = useLocation();
+  console.log(location.search.split("=")[1]);
+
   const [messageApi, contextHolder] = message.useMessage();
   const dispatch = useDispatch();
   const { email, password } = useAppSelector((state) => state.login);
@@ -30,7 +37,6 @@ const Registration: React.FC = () => {
     try {
       // Send data to your server
       const loginResult = await login({ email, password });
-
 
       if (loginResult?.data?.success) {
         const user = verifyToken(loginResult.data.token);
@@ -47,7 +53,11 @@ const Registration: React.FC = () => {
               })
             );
 
-            navigate(`/${user.role}/dashboard`);
+            if (location.search) {
+              navigate(`${location.search.split("=")[1]}`);
+            } else {
+              navigate(`/${user.role}/dashboard`);
+            }
           });
       } else {
         const error = loginResult.error as FetchBaseQueryError;
@@ -178,4 +188,4 @@ const Registration: React.FC = () => {
   );
 };
 
-export default Registration;
+export default Login;
