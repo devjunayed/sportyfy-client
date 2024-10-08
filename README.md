@@ -12,13 +12,13 @@
 
 ## Main Requirements:
 
-### 1\. **Landing Page:**
+### 1\. ✅✅✅ **Landing Page:**
 
 *   **Purpose:** Acts as the gateway to the platform, offering a general overview and guiding users to specific actions like booking a facility or logging in.
 *   **Components:**
     *  ✅✅✅ **Header:** Includes logo, navigation menu, and login/registration buttons.
     *   ✅✅✅ **Hero Section:** A visually appealing banner with a brief introduction and a "Book Now" call-to-action button.
-    *   **Featured Facilities:** Showcase a selection of popular facilities with images, names, and a brief description.
+    *   ✅✅✅ **Featured Facilities:** Showcase a selection of popular facilities with images, names, and a brief description.
     *   ✅✅✅ **How It Works:** A step-by-step guide explaining the booking process. The "How It Works" section on the landing page is designed to provide users with a clear and straightforward guide to the booking process on the platform. This section breaks down the process into simple, actionable steps to ensure users understand how to make the most of the platform's features.
     
         **Here the example design:** <br/> <br/>
@@ -33,7 +33,7 @@
 
 ### 2\. **Dashboard:**
 
-*   **User Dashboard:**
+*   ✅✅✅ **User Dashboard:**
     *   **Purpose:** Allows users to manage their bookings, and access personalized content.
     *   **Components:**
         *   **Welcome Message:** Personalized greeting. **To retrieve user information, develop an API to fetch user data from the database.** 
@@ -56,7 +56,7 @@
             <br/>
             *This design is just a concept. Please use it as inspiration and apply your own creative ideas.* <br/> <br/> 
 
-        *   **Facility Management:** Administrators can perform CRUD operations on sports facilities, including adding new facilities, editing existing details, and removing facilities. In backend, the facility model should be updated to include an "image" field. For image uploads, you can use services like Imgbb, Cloudinary, or static image links.
+        *   ✅✅✅ **Facility Management:** Administrators can perform CRUD operations on sports facilities, including adding new facilities, editing existing details, and removing facilities. In backend, the facility model should be updated to include an "image" field. For image uploads, you can use services like Imgbb, Cloudinary, or static image links.
         *   **Booking Management:** View all bookings.
         *  ✅✅✅ **Add Admin:** In this section, an admin can create a new admin account. The form includes fields for the following details: name, email, password, phone number, role (automatically set to "admin"), and address. (Just like sign up process)
         

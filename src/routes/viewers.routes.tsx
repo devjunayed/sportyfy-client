@@ -1,3 +1,4 @@
+import FacilityDetails from "../components/ui/Facilities/FacilityDetails";
 import AboutUs from "../pages/AboutUs";
 import ContactUs from "../pages/ContactUs";
 import Facilities from "../pages/Facilities";
@@ -13,6 +14,10 @@ export const viewersPath = [
     name: "Facilities",
     path: "/facilities",
     element: <Facilities />,
+  },
+  {
+    path: "/facility/:id" ,
+    element: <FacilityDetails />,
   },
   {
     name: "About",

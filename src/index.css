@@ -28,3 +28,7 @@
 .ant-table-cell.ant-table-cell-row-hover{
     background: none !important;
 }
+
+.ant-btn{
+    background-color: #1B1F3B !important;
+}
