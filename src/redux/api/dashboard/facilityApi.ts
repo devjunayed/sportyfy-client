@@ -30,6 +30,12 @@ const facilityApi = baseApi.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    getSingleFacility: builder.query({
+      query: (id: string)=> ({
+        url: `facility/${id}`,
+        method: "GET"
+      })
+    })
   }),
 });
 
@@ -37,5 +43,6 @@ export const {
   useCreateFacilityMutation,
   useGetFacilitiesQuery,
   useUpdateFacilityMutation,
-  useDeleteFacilityMutation
+  useDeleteFacilityMutation,
+  useGetSingleFacilityQuery
 } = facilityApi;

@@ -18,6 +18,7 @@ export const viewersPath = [
   {
     path: "/facility/:id" ,
     element: <FacilityDetails />,
+    loader: ({params}: {params: string}) => params
   },
   {
     name: "About",
