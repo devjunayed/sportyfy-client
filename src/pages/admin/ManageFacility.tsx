@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Space, Table } from "antd";
+import { Image, Space, Table } from "antd";
 import { useGetFacilitiesQuery } from "../../redux/api/dashboard/facilityApi";
 import Column from "antd/es/table/Column";
 import EditFacilities from "../../components/admin/EditFacilities";
@@ -7,6 +7,7 @@ import DeleteFacilities from "../../components/admin/DeleteFacilities";
 
 export interface FacilitiesDataType {
     _id: string;
+    image: string;
     name: string;
     description: string;
     location: string;
@@ -30,7 +31,12 @@ const ManageFacility = () => {
           key="serial"
           render={(_, __, index) => <>{index + 1}</>}
         />
-        
+        <Column
+        title="Image"
+        dataIndex="image"
+        key="image"
+        render={(image) => <Image src={image} alt="faicility" width={50} />}
+      />
         <Column title="Facility Name" dataIndex="name" key="name" />
 
         <Column

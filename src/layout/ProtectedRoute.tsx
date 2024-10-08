@@ -29,7 +29,7 @@ const ProtectedRoute = ({ children, role }: TProtectedRoute) => {
 
   if (
     role !== undefined &&
-    role !== (user?.role as string) &&
+    role !== (user?.role as string) ||
     (user?.exp as number) < currentTime
   ) {
     dispatch(logOut());

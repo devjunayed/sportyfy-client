@@ -17,6 +17,10 @@
     left: 0;
 }
 
+.ant-table-thead > tr > th{
+    background-color: #1B1F3B !important;
+}
+
 .ant-table-thead .ant-table-cell {
     color: white !important;
 }
