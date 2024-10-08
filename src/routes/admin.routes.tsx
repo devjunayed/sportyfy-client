@@ -6,6 +6,7 @@ import { PiBuildingOfficeDuotone } from "react-icons/pi";
 import { IoCalendarClearOutline } from "react-icons/io5";
 import ManageFacility from "../pages/admin/ManageFacility";
 import AddAdmin from "../pages/admin/AddAdmin";
+import Bookings from "../pages/admin/Bookings";
 
 
 export const adminPaths = [
@@ -37,7 +38,7 @@ export const adminPaths = [
         name: "Bookings",
         icon: <IoCalendarClearOutline />,
         path: 'bookings',
-        element: <AdminDashboard />
+        element: <Bookings />
     },
     {
         name: "Admin",

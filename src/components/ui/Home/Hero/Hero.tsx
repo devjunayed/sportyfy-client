@@ -11,7 +11,7 @@ const Hero = () => {
     isLoading,
     isFetching,
     error,
-  } = useCheckAvailabilityQuery(date);
+  } = useCheckAvailabilityQuery({date , facilityId: ""});
   const handleInputChange = async (values: string) => {
     setDate(values);
     console.log(values);
