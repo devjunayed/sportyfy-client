@@ -14,7 +14,7 @@ import { useState } from "react";
 import { getBase } from "../../utils/getBase";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
-import UploadButton  from "../../components/ui/Shared/UploadButton/uploadButton";
+import UploadButton  from "../../components/ui/Shared/UploadButton/UploadButton";
 import { setDescription, setLocation, setName, setPricePerHour } from "../../redux/features/facilitiySlice";
 
 

@@ -19,7 +19,7 @@
     *  ✅✅✅ **Header:** Includes logo, navigation menu, and login/registration buttons.
     *   ✅✅✅ **Hero Section:** A visually appealing banner with a brief introduction and a "Book Now" call-to-action button.
     *   **Featured Facilities:** Showcase a selection of popular facilities with images, names, and a brief description.
-    *   **How It Works:** A step-by-step guide explaining the booking process. The "How It Works" section on the landing page is designed to provide users with a clear and straightforward guide to the booking process on the platform. This section breaks down the process into simple, actionable steps to ensure users understand how to make the most of the platform's features.
+    *   ✅✅✅ **How It Works:** A step-by-step guide explaining the booking process. The "How It Works" section on the landing page is designed to provide users with a clear and straightforward guide to the booking process on the platform. This section breaks down the process into simple, actionable steps to ensure users understand how to make the most of the platform's features.
     
         **Here the example design:** <br/> <br/>
         <img src="./assets/how-it-works-page.png" alt="How it works?" width="500" />
@@ -27,8 +27,8 @@
 
         *This design is just a concept. Please use it as inspiration and apply your own creative ideas.*
 
-    *   **Customer Testimonials:** A slider showcasing feedback from users who have successfully booked and used the facilities. You can implement this using static JSON data or develop an API to fetch and display dynamic data.
-    *   **Add One Unique Section:** Showcase your creativity by adding a unique component related to the project.
+    *   ✅✅✅ **Customer Testimonials:** A slider showcasing feedback from users who have successfully booked and used the facilities. You can implement this using static JSON data or develop an API to fetch and display dynamic data.
+    *   ✅✅✅ **Add One Unique Section:** Showcase your creativity by adding a unique component related to the project.
     *   **✅✅✅ Footer:** Contains links to the About Us, Contact Us, and social media pages.
 
 ### 2\. **Dashboard:**

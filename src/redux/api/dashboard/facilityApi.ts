@@ -8,12 +8,14 @@ const facilityApi = baseApi.injectEndpoints({
         method: "POST",
         body: facilityData,
       }),
+      invalidatesTags: ["facility"]
     }),
     getFacilities: builder.query({
       query: () => ({
         url: "facility",
         method: "GET",
       }),
+      providesTags: ['facility']
     }),
     updateFacility: builder.mutation({
       query: ({ id, facilityData }) => ({
