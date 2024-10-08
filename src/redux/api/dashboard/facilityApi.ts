@@ -11,8 +11,8 @@ const facilityApi = baseApi.injectEndpoints({
       invalidatesTags: ["facility"]
     }),
     getFacilities: builder.query({
-      query: () => ({
-        url: "facility",
+      query: (queryUrl) => ({
+        url: `facility?${queryUrl}`,
         method: "GET",
       }),
       providesTags: ['facility']

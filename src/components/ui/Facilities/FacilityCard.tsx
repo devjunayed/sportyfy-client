@@ -2,11 +2,11 @@ import { Card, Image, Button, Typography, Space } from "antd";
 import { FacilitiesDataType } from "../../../pages/admin/ManageFacility";
 import { Link } from "react-router-dom";
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 const FacilityCard = (productData: FacilitiesDataType) => {
 
-  const { _id, name, image, description, pricePerHour } = productData;
+  const { _id, name, image, description, pricePerHour, location } = productData;
 
 
 
@@ -20,6 +20,7 @@ const FacilityCard = (productData: FacilitiesDataType) => {
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
         minHeight: 400, 
         display: "flex",
+        width: "250px",
         flexDirection: "column",
         justifyContent: "space-between",
       }}
@@ -34,6 +35,7 @@ const FacilityCard = (productData: FacilitiesDataType) => {
         >
           {description}
         </Paragraph>
+        <Text>Location: {location}</Text>
         <Paragraph strong style={{ fontSize: "18px", color: "#1B1F3B" }}>
           {pricePerHour} <span style={{ fontWeight: "bold" }}>&#2547;</span> / hour
         </Paragraph>
