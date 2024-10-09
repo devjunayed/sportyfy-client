@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Select, Spin, Divider, message } from "antd";
+import { Button, DatePicker, Form, Select, Divider, message } from "antd";
 import { useParams } from "react-router-dom";
 import { useGetSingleFacilityQuery } from "../redux/api/dashboard/facilityApi";
 import { useState } from "react";
@@ -10,6 +10,8 @@ import { currentUser } from "../redux/features/authSlice";
 import { ErrorResponse, TBooking, TUser } from "../types/shared.type";
 import { useCreateBookingMutation } from "../redux/api/booking/bookingApi";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import HandleDataLoading from "../components/ui/Shared/HandleDataLoading/HandleDataLoading";
+import dayjs from "dayjs";
 
 interface TSlot {
   startTime: string;
@@ -99,12 +101,35 @@ const Booking = () => {
   return (
     <div style={{ padding: "20px" }} className="mx-10 my-10">
       {contextHolder}
-      {isLoading ? (
-        <Spin size="large" />
-      ) : (
+
+      <HandleDataLoading isLoading={isLoading} data={facility?.data}>
         <div>
           {/* Facility Overview */}
           <div
+            className="hero bg-[#1B1F3B]  text-white rounded-xl mb-10"
+            style={{
+              backgroundImage: `url(${facility?.data?.image})`,
+            }}
+          >
+            <div className="hero-overlay bg-opacity-90 rounded-lg"></div>
+            <div className="w-full p-4">
+              <div className="" style={{ marginBottom: "40px" }}>
+                <h2 className="text-white text-center font-bold">
+                  {facility?.data?.name}
+                </h2>
+                <Divider />
+                <p className="mb-4">{facility?.data?.description}</p>
+                <p>
+                  <strong>Price Per Hour:</strong>{" "}
+                  {facility?.data?.pricePerHour} &#2547;
+                </p>
+                <p>
+                  <strong>Location:</strong> {facility?.data?.location}
+                </p>
+              </div>
+            </div>
+          </div>
+          {/* <div
             className="bg-[#1B1F3B] p-4 text-white rounded-xl"
             style={{ marginBottom: "40px" }}
           >
@@ -120,7 +145,7 @@ const Booking = () => {
             <p>
               <strong>Location:</strong> {facility?.data?.location}
             </p>
-          </div>
+          </div> */}
 
           {/* Availability Checker */}
           <div
@@ -133,6 +158,7 @@ const Booking = () => {
             >
               <Form.Item label="Select Booking Date" className="w-1/2" required>
                 <DatePicker
+                  minDate={dayjs().startOf("day")}
                   style={{ width: "100%" }}
                   onChange={(date) =>
                     setSelectedDate(date ? date.format("YYYY-MM-DD") : "")
@@ -184,6 +210,7 @@ const Booking = () => {
               <Form.Item label="Select Booking Date" className="" required>
                 <DatePicker
                   style={{ width: "100%" }}
+                  minDate={dayjs().startOf("day")}
                   onChange={(date) => {
                     setSubmittingDate(date ? date.format("YYYY-MM-DD") : "");
                     refetchSlots();
@@ -217,7 +244,7 @@ const Booking = () => {
             </Form>
           </div>
         </div>
-      )}
+      </HandleDataLoading>
     </div>
   );
 };

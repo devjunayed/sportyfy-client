@@ -2,11 +2,12 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetSingleFacilityQuery } from "../redux/api/dashboard/facilityApi";
 import { Button, Divider } from "antd";
 import { ArrowLeftOutlined, CalendarOutlined } from "@ant-design/icons";
+import HandleDataLoading from "../components/ui/Shared/HandleDataLoading/HandleDataLoading";
 
 const FacilityDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data: facility } = useGetSingleFacilityQuery(id as string);
+  const { data: facility, isLoading } = useGetSingleFacilityQuery(id as string);
 
 
   return (
@@ -20,6 +21,8 @@ const FacilityDetails = () => {
       </Button>
 
       {/*content  */}
+      <HandleDataLoading isLoading={isLoading} data={facility?.data}>
+
       <div className="w-full my-6">
         <div className="flex justify-between items-center gap-10 flex-col lg:flex-row">
           <div className="lg:w-1/2 w-full mx-auto ">
@@ -48,6 +51,7 @@ const FacilityDetails = () => {
           </div>
         </div>
       </div>
+      </HandleDataLoading>
     </div>
   );
 };

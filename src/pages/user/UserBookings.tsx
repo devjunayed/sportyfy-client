@@ -3,17 +3,14 @@ import { useGetBookingQuery } from "../../redux/api/booking/bookingApi";
 import { Button, Table } from "antd";
 import { Link } from "react-router-dom";
 import CancelBooking from "../../components/user/CancelBooking";
+import HandleDataLoading from "../../components/ui/Shared/HandleDataLoading/HandleDataLoading";
 
 const UserBookings = () => {
-  const { data: bookings, refetch } = useGetBookingQuery("");
+  const { data: bookings, isLoading, refetch } = useGetBookingQuery("");
   return (
     <div>
-      {bookings?.data?.length === 0 ||
-        (!bookings && (
-          <div className="flex min-h-screen items-center justify-center text-red-700 text-xl">
-            No Bookings found
-          </div>
-        ))}
+    
+    <HandleDataLoading isLoading={isLoading} data={bookings?.data} loadingOnly={true}>
 
       <Table dataSource={bookings?.data} className=" mt-4 overflow-x-auto">
         <Column
@@ -97,6 +94,8 @@ const UserBookings = () => {
           )}
         />
       </Table>
+    </HandleDataLoading>
+
     </div>
   );
 };

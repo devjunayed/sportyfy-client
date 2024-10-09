@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Form, Input, message } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useRegisterMutation } from "../redux/api/auth/authApi";
 import { useDispatch } from "react-redux";
@@ -17,11 +17,11 @@ import { RegistrationFieldType } from "../types/registration.type";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { ErrorResponse } from "../types/shared.type";
 import { useForm } from "antd/es/form/Form";
-import bgImg from '../assets/images/registration.jpg'
-
+import bgImg from "../assets/images/registration.jpg";
 
 const Registration: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { name, email, phone, address, password, role } = useAppSelector(
     (state) => state.register
@@ -55,24 +55,26 @@ const Registration: React.FC = () => {
 
       // Handle success response
       if (user?.data?.success) {
-        messageApi.open({
-          type: "success",
-          content: "User registered successfully",
-        });
+        messageApi
+          .open({
+            type: "success",
+            content: "User registered successfully",
+          })
+          .then(() => {
+            // Clear Redux state
+            dispatch(clearRegisterForm());
 
-        // Clear Redux state
-        dispatch(clearRegisterForm());
-
-        // Manually reset form fields
-        form.setFieldsValue({
-          name: "",
-          email: "",
-          phone: "",
-          address: "",
-          password: "",
-        });
-
-        console.log("Form and Redux state cleared.");
+            // Manually reset form fields
+            form.setFieldsValue({
+              name: "",
+              email: "",
+              phone: "",
+              address: "",
+              password: "",
+            });
+            navigate("/login");
+            console.log("Form and Redux state cleared.");
+          });
       }
     } catch (error) {
       console.log(error);
