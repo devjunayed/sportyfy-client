@@ -1,11 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { Button, Form, Input, message } from "antd";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useDispatch } from "react-redux";
 import { setEmail, setPassword } from "../redux/features/loginSlice";
@@ -15,7 +11,7 @@ import { ErrorResponse } from "../types/shared.type";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { setUser } from "../redux/features/authSlice";
 import { verifyToken } from "../utils/verifyToken";
-import bgImg from '../assets/images/registration.jpg'
+import bgImg from "../assets/images/registration.jpg";
 
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
@@ -54,7 +50,11 @@ const Login: React.FC = () => {
               })
             );
 
-            if (location.search) {
+            const userOrAdmin = ["user", "admin"].some((data) =>
+              location.search.includes(data)
+            );
+
+            if (location.search && !userOrAdmin) {
               navigate(`${location.search.split("=")[1]}`);
             } else {
               navigate(`/${user.role}/dashboard`);
