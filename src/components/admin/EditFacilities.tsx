@@ -1,11 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { EditOutlined } from "@ant-design/icons";
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { FacilitiesDataType } from "../../pages/admin/ManageFacility";
-import { Button, Form, GetProp, Image, Input, message, Modal, Upload, UploadFile, UploadProps } from "antd";
+import {
+  Button,
+  Form,
+  GetProp,
+  Image,
+  Input,
+  message,
+  Modal,
+  Upload,
+  UploadFile,
+  UploadProps,
+} from "antd";
 import { useState } from "react";
 import { useUpdateFacilityMutation } from "../../redux/api/dashboard/facilityApi";
 import { getBase } from "../../utils/getBase";
-import UploadButton from "../../components/ui/Shared/UploadButton/UploadButton";
 
 interface EditFacilitiesProps {
   data: FacilitiesDataType;
@@ -13,7 +23,6 @@ interface EditFacilitiesProps {
 }
 
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
-
 
 const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -54,7 +63,12 @@ const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
   // Open modal
   const showModal = () => {
     // setting old value to the form
-    form.setFieldsValue({ name: data.name, description: data.description , pricePerHour: data.pricePerHour, location: data.location });
+    form.setFieldsValue({
+      name: data.name,
+      description: data.description,
+      pricePerHour: data.pricePerHour,
+      location: data.location,
+    });
 
     // setting old image to the upload
     setFileList([
@@ -80,9 +94,9 @@ const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
       const facilityData = {
         name: values.name,
         description: values.description,
-        image: data.image, 
+        image: data.image,
         pricePerHour: values.pricePerHour,
-        location: values.location
+        location: values.location,
       };
 
       const imgbbKey = import.meta.env.VITE_IMGBB_API_KEY;
@@ -119,8 +133,6 @@ const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
       const id = data._id;
       const response = await updateFacility({ id, facilityData });
 
-     
-
       if (response?.data?.success) {
         messageApi.open({
           type: "success",
@@ -152,14 +164,14 @@ const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
         {contextHolder}
         <Form
           form={form}
-          onFinish={handleOk} // Form submit handler
+          onFinish={handleOk}
           name="control-hooks"
           style={{ maxWidth: 600 }}
         >
           <Modal
             title="Edit Facility"
             open={isModalVisible}
-            onOk={() => form.submit()} 
+            onOk={() => form.submit()}
             confirmLoading={isLoading}
             onCancel={handleCancel}
             okText="Save"
@@ -175,13 +187,13 @@ const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
                 key="submit"
                 className="bg-black text-white hover:bg-gray-900"
                 loading={isLoading}
-                onClick={() => form.submit()} 
+                onClick={() => form.submit()}
               >
                 Save
               </Button>,
             ]}
           >
-                <div className="mx-auto w-full mb-6 flex justify-center">
+            <div className="mx-auto w-full mb-6 flex justify-center">
               <Upload
                 action={""}
                 listType="picture-circle"
@@ -189,15 +201,24 @@ const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
                 onPreview={handlePreview}
                 onChange={handleChange}
               >
-                {fileList.length >= 1 ? null : <UploadButton />}
+                {fileList.length >= 1 ? null : (
+                  <button
+                    style={{ border: 0, background: "none" }}
+                    type="button"
+                  >
+                    <PlusOutlined className="text-black" />
+                    <div className="text-black" style={{ marginTop: 8 }}>
+                      Upload
+                    </div>
+                  </button>
+                )}
               </Upload>
               {previewImage && (
                 <Image
                   wrapperStyle={{ display: "none" }}
                   preview={{
                     visible: previewOpen,
-                    onVisibleChange: (visible) =>
-                      setPreviewOpen(visible),
+                    onVisibleChange: (visible) => setPreviewOpen(visible),
                   }}
                   src={previewImage}
                 />

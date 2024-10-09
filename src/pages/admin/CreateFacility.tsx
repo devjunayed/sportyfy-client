@@ -15,7 +15,7 @@ import { getBase } from "../../utils/getBase";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import { setDescription, setLocation, setName, setPricePerHour } from "../../redux/features/facilitiySlice";
-import UploadButton from "../../components/ui/Shared/UploadButton/UploadButton";
+import { PlusOutlined } from "@ant-design/icons";
 
 
 
@@ -79,7 +79,6 @@ const CreateFacility = () => {
 
         const data = await response.json();
         if (data.success) {
-          // Now that the image is uploaded, create a payload to send to the server
           const facilityData = {
             name,
             description,
@@ -156,9 +155,14 @@ const CreateFacility = () => {
             fileList={fileList}
             onPreview={handlePreview}
             onChange={handleChange}
-            beforeUpload={() => false} // Prevent default upload
+            beforeUpload={() => false} 
           >
-            {fileList.length >= 1 ? null : <UploadButton />}
+            {fileList.length >= 1 ? null : <button style={{ border: 0, background: "none" }} type="button">
+      <PlusOutlined className="text-black" />
+      <div className="text-black" style={{ marginTop: 8 }}>
+        Upload
+      </div>
+    </button>}
           </Upload>
           {previewImage && (
             <Image
