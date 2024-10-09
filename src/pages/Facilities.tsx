@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useGetFacilitiesQuery } from "../redux/api/dashboard/facilityApi";
 import { FacilitiesDataType } from "./admin/ManageFacility";
 import FacilityCard from "../components/ui/Facilities/FacilityCard";
+import HandleDataLoading from "../components/ui/Shared/HandleDataLoading/HandleDataLoading";
 
 const Facilities = () => {
   const [queryUrl, setQueryUrl] = useState<string>("");
@@ -16,16 +17,14 @@ const Facilities = () => {
     data: facilityData,
     refetch: refetchFacilities,
     isLoading,
-    isFetching,
   } = useGetFacilitiesQuery(queryUrl);
 
-  const facility = facilityData?.data || [];
   const totalCount = facilityData?.length || 0;
 
   const updateQueryUrl = () => {
     const queryParams = new URLSearchParams();
-    queryParams.append("minPrice", priceRange[0].toString())
-    queryParams.append("maxPrice", priceRange[1].toString())
+    queryParams.append("minPrice", priceRange[0].toString());
+    queryParams.append("maxPrice", priceRange[1].toString());
     queryParams.append("page", (currentPage - 1).toString());
     queryParams.append("limit", limit.toString());
 
@@ -93,11 +92,7 @@ const Facilities = () => {
           </div>
         </div>
         <div className="mx-auto">
-          {(isLoading || isFetching) && (
-            <div className="text-center  text-green my-10">Loading...</div>
-          )}
-
-          {(!isLoading || !isFetching) && (
+          <HandleDataLoading isLoading={isLoading} data={facilityData?.data}>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-4 bg-white pl-4 pt-4">
               {facilityData?.data?.map((facility: FacilitiesDataType) => (
                 <div className="mx-auto" key={facility._id}>
@@ -105,12 +100,8 @@ const Facilities = () => {
                 </div>
               ))}
             </div>
-          )}
-          {!isLoading && facility.length === 0 && (
-            <div className="text-center text-green text-3xl font-bold bg-white py-24">
-              No Data found
-            </div>
-          )}
+          </HandleDataLoading>
+
           <Flex
             justify="center"
             align="middle"
