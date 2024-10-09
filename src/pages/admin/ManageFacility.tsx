@@ -4,6 +4,7 @@ import { useGetFacilitiesQuery } from "../../redux/api/dashboard/facilityApi";
 import Column from "antd/es/table/Column";
 import EditFacilities from "../../components/admin/EditFacilities";
 import DeleteFacilities from "../../components/admin/DeleteFacilities";
+import HandleDataLoading from "../../components/ui/Shared/HandleDataLoading/HandleDataLoading";
 
 export interface FacilitiesDataType {
     _id: string;
@@ -15,15 +16,10 @@ export interface FacilitiesDataType {
   }
 
 const ManageFacility = () => {
-  const { data=[], refetch } = useGetFacilitiesQuery("");
+  const { data=[], refetch, isLoading } = useGetFacilitiesQuery("");
   return (
     <div>
-      {data?.length === 0 ||
-        (!data && (
-          <div className="flex min-h-screen items-center justify-center text-red-700 text-xl">
-            No Facilities found
-          </div>
-        ))}
+      <HandleDataLoading loadingOnly data={data.data} isLoading={isLoading}>
 
       <Table dataSource={data.data} className=" mt-4 overflow-x-auto">
         <Column
@@ -68,6 +64,7 @@ const ManageFacility = () => {
           }}
         /> 
       </Table>
+      </HandleDataLoading>
     </div>
   );
 };

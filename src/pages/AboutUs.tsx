@@ -84,9 +84,21 @@ const AboutUs = () => {
                 for everyone.
               </Paragraph>
               <Space>
-                <Button shape="circle" icon={<LinkedinOutlined />} />
-                <Button shape="circle" icon={<TwitterOutlined />} />
-                <Button shape="circle" icon={<GithubOutlined />} />
+                <Button
+                  className="text-white"
+                  shape="circle"
+                  icon={<LinkedinOutlined />}
+                />
+                <Button
+                  className="text-white"
+                  shape="circle"
+                  icon={<TwitterOutlined />}
+                />
+                <Button
+                  className="text-white"
+                  shape="circle"
+                  icon={<GithubOutlined />}
+                />
               </Space>
             </Card>
           </Col>
@@ -110,9 +122,20 @@ const AboutUs = () => {
                 and delivers a user-friendly experience for everyone.
               </Paragraph>
               <Space>
-                <Button shape="circle" icon={<LinkedinOutlined />} />
-                <Button shape="circle" icon={<TwitterOutlined />} />
-                <Button shape="circle" icon={<GithubOutlined />} />
+                <Button
+                  shape="circle"
+                  icon={<LinkedinOutlined className="text-white" />}
+                />
+                <Button
+                  className="text-white"
+                  shape="circle"
+                  icon={<TwitterOutlined />}
+                />
+                <Button
+                  className="text-white"
+                  shape="circle"
+                  icon={<GithubOutlined />}
+                />
               </Space>
             </Card>
           </Col>
