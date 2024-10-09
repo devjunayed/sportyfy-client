@@ -31,7 +31,7 @@
     *   ✅✅✅ **Add One Unique Section:** Showcase your creativity by adding a unique component related to the project.
     *   **✅✅✅ Footer:** Contains links to the About Us, Contact Us, and social media pages.
 
-### 2\. **Dashboard:**
+### 2\.✅✅✅ **Dashboard:**
 
 *   ✅✅✅ **User Dashboard:**
     *   **Purpose:** Allows users to manage their bookings, and access personalized content.

@@ -4,8 +4,8 @@ import { RootState } from "../store";
 export const baseApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    // baseUrl: "https://sports-facility-booking-platform-delta.vercel.app/api",
-    baseUrl: "http://localhost:5000/api",
+    baseUrl: "https://api.sportyfy.devjunayed.xyz/api",
+    // baseUrl: "http://localhost:5000/api",
 
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {

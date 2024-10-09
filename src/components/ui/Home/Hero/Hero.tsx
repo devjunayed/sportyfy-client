@@ -1,7 +1,8 @@
 import { Button, Input, Modal } from "antd";
 import { useCheckAvailabilityQuery } from "../../../../redux/api/checkavailabilty/checkavailabiltyApi";
 import { useState } from "react";
-import heroImg from '../../../../assets/images/hero-img.jpg'
+import heroImg from "../../../../assets/images/hero-img.jpg";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   const [date, setDate] = useState("");
@@ -11,7 +12,7 @@ const Hero = () => {
     isLoading,
     isFetching,
     error,
-  } = useCheckAvailabilityQuery({date , facilityId: ""});
+  } = useCheckAvailabilityQuery({ date, facilityId: "" });
   const handleInputChange = async (values: string) => {
     setDate(values);
     console.log(values);
@@ -93,14 +94,20 @@ const Hero = () => {
           />
           <div className="flex gap-4 justify-center text-xl">
             <Button className="text-white text-md hover:bg-gray-800 ">
-              Book Now
+              <Link to="/facilities">Book Now</Link>
             </Button>
-            <Button
-              onClick={showModal}
-              className="text-white text-md hover:bg-gray-800"
-            >
-              Check Availability
-            </Button>
+            
+            <div className="hidden">
+              <Button className="text-white text-md hover:bg-gray-800 ">
+                Book Now
+              </Button>
+              <Button
+                onClick={showModal}
+                className="text-white text-md hover:bg-gray-800"
+              >
+                Check Availability
+              </Button>
+            </div>
           </div>
         </div>
       </div>

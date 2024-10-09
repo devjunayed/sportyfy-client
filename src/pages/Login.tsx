@@ -15,6 +15,7 @@ import { ErrorResponse } from "../types/shared.type";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { setUser } from "../redux/features/authSlice";
 import { verifyToken } from "../utils/verifyToken";
+import bgImg from '../assets/images/registration.jpg'
 
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
@@ -86,7 +87,7 @@ const Login: React.FC = () => {
         <div
           className="hero min-h-[80vh] w-full md:w-1/2 rounded-2xl"
           style={{
-            backgroundImage: "url(./src/assets/images/registration.jpg)",
+            backgroundImage: `url(${bgImg})`,
           }}
         >
           <div className="hero-overlay bg-opacity-70 rounded-2xl"></div>

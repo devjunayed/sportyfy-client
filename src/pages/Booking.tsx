@@ -1,12 +1,4 @@
-import {
-  Button,
-  DatePicker,
-  Form,
-  Select,
-  Spin,
-  Divider,
-  message,
-} from "antd";
+import { Button, DatePicker, Form, Select, Spin, Divider, message } from "antd";
 import { useParams } from "react-router-dom";
 import { useGetSingleFacilityQuery } from "../redux/api/dashboard/facilityApi";
 import { useState } from "react";
@@ -72,30 +64,41 @@ const Booking = () => {
       date: submittingDate,
       user: userData.data._id,
       facility: id,
-      payableAmount: Number(facility.data.pricePerHour) * 2
+      payableAmount: Number(facility.data.pricePerHour) * 2,
     };
     const result = await createBooking(bookingData as TBooking);
     console.log(result);
 
-    if(result?.data?.success){
-        messageApi.open({
-            type: "success",
-            content: result.data.message
+    if (result?.data?.success) {
+      messageApi
+        .open({
+          type: "success",
+          content: result.data.message,
         })
-        refetchSlots();
-    }else{
-        const error = result.error as FetchBaseQueryError;
-        messageApi.open({
-            type: "error",
-            content: (error.data as ErrorResponse)?.message
-        })
+        .then(() => {
+          messageApi
+            .open({
+              type: "loading",
+              content: "Redirecting to the payment page",
+            })
+            .then(() => {
+              window.location.href = result.data.data.paymentSession;
+            });
+        });
+      refetchSlots();
+    } else {
+      const error = result.error as FetchBaseQueryError;
+      messageApi.open({
+        type: "error",
+        content: (error.data as ErrorResponse)?.message,
+      });
     }
     console.log(result);
   };
 
   return (
     <div style={{ padding: "20px" }} className="mx-10 my-10">
-        {contextHolder}
+      {contextHolder}
       {isLoading ? (
         <Spin size="large" />
       ) : (

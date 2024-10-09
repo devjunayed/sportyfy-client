@@ -39,7 +39,7 @@ const Navbar = () => {
               } transform bg-[#1B1F3B]  menu menu-sm dropdown-content rounded z-[1] mt-3 w-52 p-4  shadow-gray-400 shadow`}
             >
               {viewersPath.map((link) => (
-                link.name &&
+                !link.name &&
                 <li key={link?.path} className="hover:cursor-pointer">
                   <NavLink className={"cursor-pointer"} to={link?.path}>
                     {link?.name}

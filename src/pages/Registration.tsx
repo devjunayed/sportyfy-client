@@ -17,6 +17,8 @@ import { RegistrationFieldType } from "../types/registration.type";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { ErrorResponse } from "../types/shared.type";
 import { useForm } from "antd/es/form/Form";
+import bgImg from '../assets/images/registration.jpg'
+
 
 const Registration: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
@@ -88,7 +90,7 @@ const Registration: React.FC = () => {
         <div
           className="hero min-h-[80vh] w-full md:w-1/2 rounded-2xl"
           style={{
-            backgroundImage: "url(./src/assets/images/registration.jpg)",
+            backgroundImage: `url(${bgImg})`,
           }}
         >
           <div className="hero-overlay bg-opacity-70 rounded-2xl"></div>
