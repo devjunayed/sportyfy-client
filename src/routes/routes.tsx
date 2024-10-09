@@ -8,6 +8,7 @@ import { viewersPath } from "./viewers.routes";
 import DashboardLayout from "../layout/DashboardLayout";
 import ProtectedRoute from "../layout/ProtectedRoute";
 import { userPaths } from "./user.routes";
+import NotFound from "../components/ui/Shared/NotFound/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
     path: "/register",
     element: <Registration />,
   },
+  {
+    path: "*",
+    element: <NotFound />
+  }
 ]);
 
 export default router;

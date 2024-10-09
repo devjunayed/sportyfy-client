@@ -5,7 +5,7 @@ import { Button, Form, GetProp, Image, Input, message, Modal, Upload, UploadFile
 import { useState } from "react";
 import { useUpdateFacilityMutation } from "../../redux/api/dashboard/facilityApi";
 import { getBase } from "../../utils/getBase";
-import UploadButton from "../ui/Shared/UploadButton/UploadButton";
+import UploadButton from "../../components/ui/Shared/UploadButton/UploadButton";
 
 interface EditFacilitiesProps {
   data: FacilitiesDataType;
