@@ -77,7 +77,7 @@ const Facilities = () => {
         />
       </div>
       <div className="mb-4 lg:flex gap-4">
-        <div className="mt-6">
+        <div className="mt-6 w-3/12">
           <div className="text-lg mb-2">Price Range:</div>
           <Slider
             range
@@ -91,9 +91,9 @@ const Facilities = () => {
             <span>{priceRange[1]} &#2547;</span>
           </div>
         </div>
-        <div className="mx-auto">
+        <div className="mx-auto w-9/12">
           <HandleDataLoading isLoading={isLoading} data={facilityData?.data} message="No Facility Found!">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-4 bg-white pl-4 pt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mb-4 bg-white pl-4 pt-4">
               {facilityData?.data?.map((facility: FacilitiesDataType) => (
                 <div className="mx-auto" key={facility._id}>
                   <FacilityCard {...facility} />

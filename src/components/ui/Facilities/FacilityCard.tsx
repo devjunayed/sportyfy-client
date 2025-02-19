@@ -1,53 +1,28 @@
-import { Card, Image, Button, Typography, Space } from "antd";
+import { Button } from "antd";
 import { FacilitiesDataType } from "../../../pages/admin/ManageFacility";
 import { Link } from "react-router-dom";
 
-const { Title, Paragraph, Text } = Typography;
-
-const FacilityCard = (productData: FacilitiesDataType) => {
-
-  const { _id, name, image, description, pricePerHour, location } = productData;
-
-
-
+const FacilityCard = ({ _id, name, image, pricePerHour, location }: FacilitiesDataType) => {
   return (
-    <Card
-      hoverable
-      cover={<Image height={200} src={image} alt={name} />}
-      style={{
-        borderRadius: 10,
-        overflow: "hidden",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-        minHeight: 400, 
-        display: "flex",
-        width: "250px",
-        flexDirection: "column",
-        justifyContent: "space-between",
-      }}
-    >
-      <div style={{ textAlign: "center", padding: "10px" }}>
-        <Title level={4} style={{ color: "#1B1F3B" }}>
-          {name}
-        </Title>
-        <Paragraph
-          ellipsis={{ rows: 3 }} 
-          style={{ color: "#595959", minHeight: 60 }} 
-        >
-          {description}
-        </Paragraph>
-        <Text>Location: {location}</Text>
-        <Paragraph strong style={{ fontSize: "18px", color: "#1B1F3B" }}>
-          {pricePerHour} <span style={{ fontWeight: "bold" }}>&#2547;</span> / hour
-        </Paragraph>
+    <div className="rounded-xl overflow-hidden shadow-lg bg-white flex flex-col transition-transform duration-200 hover:scale-105 w-full sm:w-72">
+      <img src={image} alt={name} className="h-48 w-full object-cover" />
+      
+      <div className="p-4 flex flex-col flex-grow">
+        <h2 className="text-lg font-semibold text-gray-900 truncate">{name}</h2>
+        <p className="text-sm text-gray-600 mt-1 truncate"> 
+          <span className="font-medium">Location:</span> {location}
+        </p>
+        <p className="text-sm text-gray-700 mt-1 font-medium">
+          {pricePerHour} <span className="font-bold">&#2547;</span> / hour
+        </p>
       </div>
-      <div style={{ textAlign: "center", marginTop: "auto", paddingBottom: "10px" }}>
-        <Space size="middle">
-          <Button type="primary">
-            <Link to={`/facility/${_id}`}>View Details</Link>
-          </Button>
-        </Space>
+      
+      <div className="p-4 flex justify-center">
+        <Button type="primary" className="w-full">
+          <Link to={`/facility/${_id}`}>View Details</Link>
+        </Button>
       </div>
-    </Card>
+    </div>
   );
 };
 
