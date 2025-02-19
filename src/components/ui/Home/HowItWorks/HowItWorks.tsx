@@ -1,7 +1,12 @@
 import { Steps, Button } from "antd";
-import { CalendarOutlined, CreditCardOutlined, SmileOutlined } from "@ant-design/icons";
+import {
+  CalendarOutlined,
+  CreditCardOutlined,
+  SmileOutlined,
+} from "@ant-design/icons";
 import Paragraph from "antd/es/typography/Paragraph";
 import Title from "antd/es/typography/Title";
+import { Link } from "react-router-dom";
 
 const { Step } = Steps;
 
@@ -70,18 +75,8 @@ const HowItWorks = () => {
         />
       </Steps>
 
-      <Button
-        type="primary"
-        style={{
-          marginTop: "40px",
-          backgroundColor: "#1B1F3B",
-          borderColor: "#1B1F3B",
-          padding: "10px 40px",
-          borderRadius: "5px",
-          fontSize: "16px",
-        }}
-      >
-        Book Now
+      <Button className="text-white mt-10 text-md hover:bg-gray-800 ">
+        <Link to="/facilities">Book Now</Link>
       </Button>
     </div>
   );

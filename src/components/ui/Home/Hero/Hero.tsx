@@ -1,34 +1,34 @@
-import { Button, Input, Modal } from "antd";
-import { useCheckAvailabilityQuery } from "../../../../redux/api/checkavailabilty/checkavailabiltyApi";
-import { useState } from "react";
+import { Button } from "antd";
+// import { useCheckAvailabilityQuery } from "../../../../redux/api/checkavailabilty/checkavailabiltyApi";
+// import { useState } from "react";
 import heroImg from "../../../../assets/images/hero-img.jpg";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
-  const [date, setDate] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const {
-    data: availability,
-    isLoading,
-    isFetching,
-    error,
-  } = useCheckAvailabilityQuery({ date, facilityId: "" });
-  const handleInputChange = async (values: string) => {
-    setDate(values);
-    console.log(values);
-  };
+  // const [date, setDate] = useState("");
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // const {
+  //   data: availability,
+  //   isLoading,
+  //   isFetching,
+  //   error,
+  // } = useCheckAvailabilityQuery({ date, facilityId: "" });
+  // const handleInputChange = async (values: string) => {
+  //   setDate(values);
+  //   console.log(values);
+  // };
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+  // const showModal = () => {
+  //   setIsModalOpen(true);
+  // };
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
+  // const handleOk = () => {
+  //   setIsModalOpen(false);
+  // };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+  // const handleCancel = () => {
+  //   setIsModalOpen(false);
+  // };
 
   return (
     <div
@@ -37,7 +37,7 @@ const Hero = () => {
         backgroundImage: `url(${heroImg})`,
       }}
     >
-      <Modal
+      {/* <Modal
         okButtonProps={{ style: { backgroundColor: "black" } }}
         title={`Slots for ${date}`}
         open={isModalOpen}
@@ -73,7 +73,7 @@ const Hero = () => {
             </div>
           )}
         </div>
-      </Modal>
+      </Modal> */}
       <div className="hero-overlay bg-opacity-70"></div>
       <div className="  text-white">
         <div className=" sm:px-20 md:px-28 lg:px-48">
@@ -86,18 +86,18 @@ const Hero = () => {
           </p>
         </div>
         <div className="text-xl px-10 sm:px-32 md:px-56 lg:px-96">
-          <Input
+          {/* <Input
             name="date"
             onChange={(e) => handleInputChange(e.target.value)}
             type="date"
             className="mb-5 "
-          />
+          /> */}
           <div className="flex gap-4 justify-center text-xl">
             <Button className="text-white text-md hover:bg-gray-800 ">
               <Link to="/facilities">Book Now</Link>
             </Button>
             
-            <div className="hidden">
+            {/* <div className="hidden">
               <Button className="text-white text-md hover:bg-gray-800 ">
                 Book Now
               </Button>
@@ -107,7 +107,7 @@ const Hero = () => {
               >
                 Check Availability
               </Button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
