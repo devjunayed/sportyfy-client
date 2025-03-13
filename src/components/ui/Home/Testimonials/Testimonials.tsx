@@ -5,6 +5,7 @@ const { Title, Text } = Typography;
 const Testimonials = () => {
   return (
     <div
+    className="max-w-7xl mx-auto"
       style={{ padding: "50px", backgroundColor: "white", textAlign: "center" }}
     >
       <Title level={2} style={{ color: "#1B1F3B" }}>

@@ -3,12 +3,14 @@ import Title from "antd/es/typography/Title";
 import { useGetFacilitiesQuery } from "../../../../redux/api/dashboard/facilityApi";
 import { FacilitiesDataType } from "../../../../pages/admin/ManageFacility";
 import HandleDataLoading from "../../Shared/HandleDataLoading/HandleDataLoading";
+import { Link } from "react-router-dom";
 
 const FeaturedFacilities = () => {
   const { data: facilities, isLoading } = useGetFacilitiesQuery("");
 
   return (
     <div
+    className="max-w-7xl mx-auto "
       style={{ padding: "50px", backgroundColor: "white", textAlign: "center" }}
     >
       <HandleDataLoading
@@ -24,6 +26,9 @@ const FeaturedFacilities = () => {
             {facilities?.data
               ?.slice(0, 4)
               .map((facility: FacilitiesDataType) => (
+                <Link to={`/facility/${facility._id}`}>
+                
+                
                 <Card
                 key={facility._id}
                   cover={
@@ -40,6 +45,7 @@ const FeaturedFacilities = () => {
                     description={facility.description}
                   />
                 </Card>
+                </Link>
               ))}
           </div>
         </div>

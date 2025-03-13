@@ -13,6 +13,7 @@ const { Step } = Steps;
 const HowItWorks = () => {
   return (
     <div
+      className="max-w-7xl mx-auto"
       style={{
         padding: "60px",
         backgroundColor: "#ffffff",

@@ -1,6 +1,6 @@
 import { CloseOutlined, MenuOutlined } from "@ant-design/icons";
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import { viewersPath } from "../../../../routes/viewers.routes";
 import Logo from "../Logo/Logo";
 import NavbarButton from "./NavbarButton";
@@ -10,18 +10,37 @@ import { TUser } from "../../../../types/shared.type";
 
 const Navbar = () => {
   const isLogin = false;
-
+  const pathname = useLocation().pathname;
+  const [isScrolled, setIsScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
   const user = useAppSelector(currentUser);
   const userData = user as TUser | null;
+
+
 
   const handleMenu = () => {
     setMenu(!menu);
   };
 
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    }
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [])
+
   return (
-    <>
-      <div className="navbar shadow bg-[#1B1F3B] text-white px-10">
+    <div>
+      <div className={`fixed top-0  left-0 text-white w-full  z-50 transition-all duration-300 ${
+        isScrolled && pathname === "/"
+          && "bg-[#1B1F3B] shadow-md text-black backdrop-blur-lg" 
+         
+      }  ${pathname !== "/" && "bg-[#1B1F3B] "}`}>
+        <div className="navbar  max-w-7xl mx-auto  text-white px-2 md:px-6">
+
         <div className="navbar-start">
           {/* smaller device menu */}
           <div
@@ -111,8 +130,9 @@ const Navbar = () => {
             </div>
           )}
         </div>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -23,7 +23,7 @@ const { Title, Paragraph, Text } = Typography;
 
 const AboutUs = () => {
   return (
-    <div className="mx-10">
+    <div className="max-w-7xl mx-auto mt-20">
       <HeaderSportyfy text={"about us"} />
       <div style={{ padding: "50px", backgroundColor: "#f9f9f9" }}>
         {/* Mission Statement */}

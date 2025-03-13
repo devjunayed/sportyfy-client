@@ -22,7 +22,7 @@ const ContactUs = () => {
   const onFinish = () => {
   };
   return (
-    <div className="mx-10">
+    <div className="mt-20 max-w-7xl mx-auto">
       <HeaderSportyfy text="Contact us" />
       <div
         style={{ padding: "50px", backgroundColor: "white", color: "#1B1F3B" }}

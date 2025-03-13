@@ -5,6 +5,7 @@ import Title from "antd/es/typography/Title";
 const OffersPromotions = () => {
   return (
     <div
+    className="max-w-7xl mx-auto"
       style={{
         padding: "50px",
         backgroundColor: "#f9f9f9",
