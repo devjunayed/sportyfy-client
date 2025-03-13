@@ -32,3 +32,11 @@
 .ant-btn{
     background-color: #1B1F3B !important;
 }
+
+
+
+  .ant-slider .ant-slider-handle::after,.ant-slider .ant-slider-handle::before {
+    border-radius: 20px !important;
+    background-color: #1B1F3B !important;
+  }
+ 

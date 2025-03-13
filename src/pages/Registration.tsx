@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Form, Input, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
+// import { FcGoogle } from "react-icons/fc";
 import { useRegisterMutation } from "../redux/api/auth/authApi";
 import { useDispatch } from "react-redux";
 import {
@@ -109,9 +109,9 @@ const Registration: React.FC = () => {
             </div>
             <div className="mx-10 text-center">
               <p className="pt-10">
-                <Button className="justify-center items-center mx-auto my-6 text-white flex">
+                {/* <Button className="justify-center items-center mx-auto my-6 text-white flex">
                   <FcGoogle /> Sign In With Google
-                </Button>
+                </Button> */}
                 Already have an account?{" "}
                 <Link to="/login" className="underline">
                   Login

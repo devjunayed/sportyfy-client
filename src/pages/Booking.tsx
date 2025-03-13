@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Select, Divider, message } from "antd";
+import { Button, DatePicker, Form, Divider, message, Spin } from "antd";
 import { useParams } from "react-router-dom";
 import { useGetSingleFacilityQuery } from "../redux/api/dashboard/facilityApi";
 import { useState } from "react";
@@ -27,75 +27,67 @@ const Booking = () => {
   const { data: facility, isLoading } = useGetSingleFacilityQuery(id as string);
 
   const [messageApi, contextHolder] = message.useMessage();
-  const [selectedDate, setSelectedDate] = useState<string | "">("");
   const [checkingDate, setCheckingDate] = useState<string | "">("");
-  const [submittingDate, setSubmittingDate] = useState<string | "">("");
   const [selectedSlot, setSelectedSlot] = useState({
     startTime: "",
     endTime: "",
   });
 
   //   availability for the checking
-  const { data: availability, refetch: refetchAvailability } =
+  const { data: availability, isFetching : isAvailabilityFetching , isLoading: isAvailabilityLoading, refetch: refetchAvailability } =
     useCheckAvailabilityQuery({
       facilityId: id as string,
       date: checkingDate,
     });
-  //   availability for the submitting
-  const { data: slots, refetch: refetchSlots } = useCheckAvailabilityQuery({
-    facilityId: id as string,
-    date: submittingDate,
-  });
-
+ 
   const [createBooking] = useCreateBookingMutation();
 
-  // Mock function to simulate availability check
-  const checkAvailability = () => {
-    setCheckingDate(() => selectedDate);
-    refetchAvailability();
-  };
-
-  const handleSlotChange = (value: string) => {
-    const [startTime, endTime] = value.split("-");
-    setSelectedSlot({ startTime, endTime });
-  };
+  
 
   const handleSubmit = async () => {
-    const bookingData = {
-      ...selectedSlot,
-      date: submittingDate,
-      user: userData.data._id,
-      facility: id,
-      payableAmount: Number(facility.data.pricePerHour) * 2,
-    };
-    const result = await createBooking(bookingData as TBooking);
-    console.log(result);
 
-    if (result?.data?.success) {
+    if(selectedSlot.startTime === "" || selectedSlot.endTime  === ""){
       messageApi
-        .open({
-          type: "success",
-          content: result.data.message,
-        })
-        .then(() => {
-          messageApi
-            .open({
-              type: "loading",
-              content: "Redirecting to the payment page",
-            })
-            .then(() => {
-              window.location.href = result.data.data.paymentSession;
-            });
-        });
-      refetchSlots();
-    } else {
-      const error = result.error as FetchBaseQueryError;
-      messageApi.open({
+      .open({
         type: "error",
-        content: (error.data as ErrorResponse)?.message,
-      });
+        content: "Select a slot",
+      })
+    }else{
+
+
+      const bookingData = {
+        ...selectedSlot,
+        date: checkingDate,
+        user: userData.data._id,
+        facility: id,
+        payableAmount: Number(facility.data.pricePerHour) * 2,
+      };
+      const result = await createBooking(bookingData as TBooking);
+  
+      if (result?.data?.success) {
+        
+            messageApi
+              .open({
+                type: "loading",
+                content: "Redirecting to the payment page",
+              })
+              .then(() => {
+                window.location.href = result.data.data.paymentSession;
+              });
+          
+          refetchAvailability();
+         
+      } else {
+        const error = result.error as FetchBaseQueryError;
+        messageApi.open({
+          type: "error",
+          content: (error.data as ErrorResponse)?.message,
+        });
+      }
+      console.log(result);
     }
-    console.log(result);
+
+
   };
 
   return (
@@ -129,23 +121,6 @@ const Booking = () => {
               </div>
             </div>
           </div>
-          {/* <div
-            className="bg-[#1B1F3B] p-4 text-white rounded-xl"
-            style={{ marginBottom: "40px" }}
-          >
-            <h2 className="text-white text-center font-bold">
-              {facility?.data?.name}
-            </h2>
-            <Divider />
-            <p className="mb-4">{facility?.data?.description}</p>
-            <p>
-              <strong>Price Per Hour:</strong> {facility?.data?.pricePerHour}{" "}
-              &#2547;
-            </p>
-            <p>
-              <strong>Location:</strong> {facility?.data?.location}
-            </p>
-          </div> */}
 
           {/* Availability Checker */}
           <div
@@ -160,88 +135,52 @@ const Booking = () => {
                 <DatePicker
                   minDate={dayjs().startOf("day")}
                   style={{ width: "100%" }}
-                  onChange={(date) =>
-                    setSelectedDate(date ? date.format("YYYY-MM-DD") : "")
-                  }
+                  onChange={(date) => {
+                    setCheckingDate(date ? date.format("YYYY-MM-DD") : "");
+                  }}
                 />
               </Form.Item>
-
-              <Button
-                className="text-white"
-                onClick={checkAvailability}
-                disabled={!selectedDate}
-                loading={isLoading}
-                style={{ backgroundColor: "#1B1F3B", color: "white" }}
-              >
-                Check Availability
-              </Button>
             </Form>
 
             {/* Available Slots Display */}
-            {checkingDate !== "" && availability?.data?.length > 0 && (
-              <div className="available-slots" style={{ marginTop: "20px" }}>
-                <h3 className="font-bold text-xl text-center mb-4">
-                  Available Time Slots
-                </h3>
-                <ul className="flex gap-4 justify-center">
-                  {availability?.data?.map((slot: TSlot, index: number) => (
-                    <li
-                      className="bg-[#1B1F3B] my-1 rounded-md p-4 text-white"
-                      key={index}
-                    >
-                      <ClockCircleOutlined /> {slot.startTime} - {slot.endTime}
-                    </li>
-                  ))}
-                </ul>
+            {checkingDate !== "" && !isAvailabilityFetching && availability?.data?.length > 0 && (
+              <div className="available-slots mt-5">
+                <h3 className="font-bold text-xl text-center mb-4">Select Time Slots</h3>
+                {(isAvailabilityLoading || isAvailabilityFetching) ? (
+                  <div className="flex justify-center">
+                    <Spin size="large" />
+                  </div>
+                ) : (
+                  <ul className="flex gap-4 flex-wrap justify-center">
+                    {availability?.data?.map((slot: TSlot, index: number) => (
+                      <li
+                        key={index}
+                        onClick={() => setSelectedSlot(slot)}
+                        className={`cursor-pointer transition-colors duration-200 my-1 rounded-md py-2 px-4 text-white
+                          ${selectedSlot === slot ? 'bg-[#1B1F3B]' : 'bg-slate-700 hover:bg-slate-600'}`}
+                      >
+                        <p className={`flex items-center gap-2 py-2 ${selectedSlot === slot ? 'border-b' : ''}`}>
+                          <ClockCircleOutlined />
+                          {slot.startTime} - {slot.endTime}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             )}
           </div>
 
-          <Divider />
-          {/* Booking Form */}
-          <div
-            className="booking-form lg:mx-56"
-            style={{ marginBottom: "40px" }}
-          >
-            <h1 className="text-center mb-6 text-3xl font-semibold">
-              Book Facility
-            </h1>
-            <Form layout="vertical" onFinish={handleSubmit}>
-              <Form.Item label="Select Booking Date" className="" required>
-                <DatePicker
-                  style={{ width: "100%" }}
-                  minDate={dayjs().startOf("day")}
-                  onChange={(date) => {
-                    setSubmittingDate(date ? date.format("YYYY-MM-DD") : "");
-                    refetchSlots();
-                  }}
-                />
-              </Form.Item>
-              <Form.Item
-                label="Slots"
-                name="slots"
-                rules={[{ required: true, message: "Please select a slot!" }]}
-              >
-                <Select placeholder="Select a slot" onChange={handleSlotChange}>
-                  {slots?.data?.map((slot: TSlot) => (
-                    <Select.Option
-                      value={`${slot.startTime}-${slot.endTime}`}
-                      key={slot.startTime}
-                    >
-                      {slot.startTime} - {slot.endTime}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
 
-              <Button
-                type="primary"
-                htmlType="submit"
-                style={{ backgroundColor: "#1B1F3B" }}
-              >
-                Complete Booking
-              </Button>
-            </Form>
+          <div className="flex justify-center">
+            <Button
+              onClick={handleSubmit}
+              type="primary"
+              htmlType="submit"
+              style={{ backgroundColor: "#1B1F3B", padding: "20px" }}
+            >
+              Complete Booking
+            </Button>
           </div>
         </div>
       </HandleDataLoading>

@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Form, Input, message } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
 import { useDispatch } from "react-redux";
 import { setEmail, setPassword } from "../redux/features/loginSlice";
 import { useAppSelector } from "../redux/hooks";
@@ -12,6 +11,9 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { setUser } from "../redux/features/authSlice";
 import { verifyToken } from "../utils/verifyToken";
 import bgImg from "../assets/images/registration.jpg";
+import { LoginOutlined } from "@ant-design/icons";
+import { RiAdminFill } from "react-icons/ri";
+import { BiUser } from "react-icons/bi";
 
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
@@ -22,13 +24,16 @@ const onFinishFailed = (errorInfo: any) => {
 =====================================*/
 const Login: React.FC = () => {
   const location = useLocation();
-  console.log(location.search.split("=")[1]);
-
   const [messageApi, contextHolder] = message.useMessage();
   const dispatch = useDispatch();
   const { email, password } = useAppSelector((state) => state.login);
   const [login] = useLoginMutation();
   const navigate = useNavigate();
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    form.setFieldsValue({ email, password });
+  }, [email, password, form]);
 
   const onFinish = async () => {
     try {
@@ -104,9 +109,9 @@ const Login: React.FC = () => {
             </div>
             <div className="mx-10 text-center">
               <p className="pt-10">
-                <Button className="justify-center items-center mx-auto my-6 text-white flex">
+                {/* <Button className="justify-center items-center mx-auto my-6 text-white flex">
                   <FcGoogle /> Sign In With Google
-                </Button>
+                </Button> */}
                 Don't have an account{" "}
                 <Link to="/register" className="underline">
                   Register
@@ -120,15 +125,49 @@ const Login: React.FC = () => {
           name="trigger"
           layout="vertical"
           autoComplete="off"
+          initialValues={{ email, password }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
+          <div className="flex items-center justify-center gap-4 my-6">
+            <Button
+              onClick={() => {
+                const adminEmail = "admin@gmail.com";
+                const adminPassword = "admin123";
+                dispatch(setEmail(adminEmail));
+                dispatch(setPassword(adminPassword));
+                form.setFieldsValue({
+                  email: adminEmail,
+                  password: adminPassword,
+                });
+              }}
+              className="bg-black text-white"
+            >
+              Admin Login <RiAdminFill />
+            </Button>
+            <Button
+              onClick={() => {
+                const userEmail = "user@gmail.com";
+                const userPassword = "user123";
+
+                dispatch(setEmail(userEmail));
+                dispatch(setPassword(userPassword));
+
+                form.setFieldsValue({
+                  email: userEmail,
+                  password: userPassword,
+                });
+              }}
+              className="bg-black text-white"
+            >
+              User Login <BiUser />
+            </Button>
+          </div>
           {/* Email Field */}
           <Form.Item
             className="w-full"
             hasFeedback
             label={<span className="">Email</span>}
-            name="email"
             validateTrigger="onBlur"
             rules={[
               {
@@ -139,6 +178,8 @@ const Login: React.FC = () => {
             ]}
           >
             <Input
+              value={email}
+              name="email"
               placeholder="Enter your email"
               className="w-full"
               onChange={(e) => {
@@ -153,7 +194,6 @@ const Login: React.FC = () => {
             className="w-full"
             hasFeedback
             label={<span className="">Password</span>}
-            name="password"
             validateTrigger="onBlur"
             rules={[
               {
@@ -164,6 +204,8 @@ const Login: React.FC = () => {
             ]}
           >
             <Input.Password
+              name="password"
+              value={password}
               placeholder="Enter your password"
               className="w-full"
               onChange={(e) => {
@@ -180,7 +222,7 @@ const Login: React.FC = () => {
               htmlType="submit"
               className="bg-black text-white"
             >
-              Login
+              Login <LoginOutlined />
             </Button>
           </Form.Item>
         </Form>
