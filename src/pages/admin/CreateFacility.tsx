@@ -140,7 +140,7 @@ const CreateFacility = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen ">
+    <div className="flex mt-20 justify-center items-center ">
       {contextHolder}
       <Form
       

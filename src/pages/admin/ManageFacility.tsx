@@ -18,10 +18,10 @@ export interface FacilitiesDataType {
 const ManageFacility = () => {
   const { data=[], refetch, isLoading } = useGetFacilitiesQuery("");
   return (
-    <div>
+    <div className="mt-20 overflow-y-scroll h-[85vh]">
       <HandleDataLoading loadingOnly data={data.data} isLoading={isLoading}>
 
-      <Table dataSource={data.data} className=" mt-20 overflow-x-auto">
+      <Table  dataSource={data.data} className="  overflow-x-auto">
         <Column
           title="No."
           key="serial"

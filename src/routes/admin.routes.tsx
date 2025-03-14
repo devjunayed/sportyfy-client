@@ -41,9 +41,9 @@ export const adminPaths = [
         element: <Bookings />
     },
     {
-        name: "Admin",
+        name: "Add Admin",
         icon: <UserOutlined />,
-        path: 'admin',
+        path: 'add-admin',
         element: <AddAdmin />
     },
 ]

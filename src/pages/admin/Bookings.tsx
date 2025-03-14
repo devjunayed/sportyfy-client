@@ -6,9 +6,9 @@ import HandleDataLoading from "../../components/ui/Shared/HandleDataLoading/Hand
 const Bookings = () => {
   const { data: bookings, isLoading } = useGetAllBookingQuery("");
   return (
-    <div>
+    <div className="mt-20">
       <HandleDataLoading loadingOnly isLoading={isLoading} data={bookings?.data}>
-        <Table dataSource={bookings?.data} className=" mt-4 overflow-x-auto">
+        <Table dataSource={bookings?.data} className="h-[85vh] overflow-y-scroll  mt-4 overflow-x-auto">
           <Column
             title="No."
             key="serial"
@@ -19,11 +19,11 @@ const Bookings = () => {
             render={(_, record) => <>{record.facility.name}</>}
             key="name"
           />
-          <Column
+          {/* <Column
             title="Location"
             render={(_, record) => <>{record.facility.location}</>}
             key="name"
-          />
+          /> */}
 
           <Column
             title="User Name"

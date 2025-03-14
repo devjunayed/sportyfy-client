@@ -77,9 +77,9 @@ const AddAdmin: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center">
+    <div className="mt-20 flex flex-col overflow-y-hidden justify-center items-center">
       {contextHolder}
-   
+      <h1 className="text-2xl font-bold bg-[#1B1F3B] w-full text-white text-center p-2 rounded-md">Add Admin</h1>
       
         <Form
           className="w-full md:w-1/2 p-10 md:pl-0"
