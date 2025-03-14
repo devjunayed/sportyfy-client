@@ -21,7 +21,7 @@ const ManageFacility = () => {
     <div>
       <HandleDataLoading loadingOnly data={data.data} isLoading={isLoading}>
 
-      <Table dataSource={data.data} className=" mt-4 overflow-x-auto">
+      <Table dataSource={data.data} className=" mt-20 overflow-x-auto">
         <Column
           title="No."
           key="serial"

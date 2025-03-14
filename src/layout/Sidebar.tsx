@@ -83,6 +83,7 @@ const Sidebar = () => {
 
   return (
     <Sider
+    className="pt-20 overflow-hidden left-0"
       style={{ minHeight: "100vh", background: "#1B1F3B" }}
       width={200}
       collapsed={collapsed}

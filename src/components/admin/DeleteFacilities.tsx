@@ -67,7 +67,7 @@ const DeleteFacilities = ({ data, refetch }: DeleteFacilitiesProps) => {
     >
       {contextHolder}
       <a onClick={showPopconfirm}>
-        <DeleteOutlined /> Delete
+        <DeleteOutlined />
       </a>
     </Popconfirm>
   );

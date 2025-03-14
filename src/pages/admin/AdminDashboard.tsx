@@ -18,7 +18,7 @@ const AdminDashboard = () => {
     dispatch(closeGreetings());
   };
   return (
-    <div>
+    <div className="mt-20">
       <div
         className={`${
           !greetings && "hidden"

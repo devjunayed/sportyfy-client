@@ -158,7 +158,7 @@ const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
   return (
     <>
       <a onClick={showModal}>
-        <EditOutlined /> Edit
+        <EditOutlined size={24} /> 
       </a>
       <div className="w-full mx-auto">
         {contextHolder}

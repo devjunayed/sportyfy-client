@@ -24,7 +24,7 @@ const DashboardLayout: React.FC = () => {
             }}
           >
             <Sidebar /> 
-            <Content style={{ padding: "0 24px", minHeight: 280 }}>
+            <Content className="px-6 mx-auto" style={{  minHeight: 280 }}>
               <Outlet /> 
             </Content>
           </Layout>
