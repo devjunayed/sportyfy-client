@@ -1,14 +1,14 @@
 import { Button } from "antd";
 // import { useCheckAvailabilityQuery } from "../../../../redux/api/checkavailabilty/checkavailabiltyApi";
 // import { useState } from "react";
-import heroImg from "../../../../assets/images/hero-img.jpg";
+import heroImg from "../../../../assets/images/bg.gif";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
  
   return (
     <div
-      className="hero max-w-7xl mx-auto -mt-20 min-h-[98vh]"
+      className="hero mx-auto -mt-20 min-h-[98vh]"
       style={{
         backgroundImage: `url(${heroImg})`,
       }}

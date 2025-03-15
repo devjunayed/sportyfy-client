@@ -9,7 +9,7 @@ const Footer = () => {
   const onSearch = () => {};
   return (
     <div className="w-full bg-[#1B1F3B]">
-      <footer className="footer max-w-7xl mx-auto  text-white p-10">
+      <footer className="footer max-w-7xl mx-auto  text-white py-10">
         <aside className="flex  justify-center text-center items-center flex-col">
           <Logo />
         </aside>

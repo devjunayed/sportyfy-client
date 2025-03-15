@@ -34,6 +34,7 @@ const HowItWorks = () => {
           margin: "0 auto",
         }}
         size="default"
+        progressDot
       >
         <Step
           title={

@@ -9,10 +9,7 @@ const FeaturedFacilities = () => {
   const { data: facilities, isLoading } = useGetFacilitiesQuery("");
 
   return (
-    <div
-    className="max-w-7xl mx-auto "
-      style={{ padding: "50px", backgroundColor: "white", textAlign: "center" }}
-    >
+    <div className="max-w-7xl mx-auto py-10 ">
       <HandleDataLoading
         noDataOnError={true}
         isLoading={isLoading}
@@ -27,24 +24,22 @@ const FeaturedFacilities = () => {
               ?.slice(0, 4)
               .map((facility: FacilitiesDataType) => (
                 <Link to={`/facility/${facility._id}`}>
-                
-                
-                <Card
-                key={facility._id}
-                  cover={
-                    <img
-                      className="size-64"
-                      alt="facility-1"
-                      src={facility.image}
+                  <Card
+                    key={facility._id}
+                    cover={
+                      <img
+                        className="size-64"
+                        alt="facility-1"
+                        src={facility.image}
+                      />
+                    }
+                    hoverable
+                  >
+                    <Card.Meta
+                      title={facility.name}
+                      description={facility.description}
                     />
-                  }
-                  hoverable
-                >
-                  <Card.Meta
-                    title={facility.name}
-                    description={facility.description}
-                  />
-                </Card>
+                  </Card>
                 </Link>
               ))}
           </div>

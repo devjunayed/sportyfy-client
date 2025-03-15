@@ -40,7 +40,7 @@ const Navbar = () => {
           "bg-[#1B1F3B] shadow-md text-black backdrop-blur-lg"
         }  ${pathname !== "/" && "bg-[#1B1F3B] "}`}
       >
-        <div className="navbar  max-w-7xl mx-auto  text-white px-2 md:px-6">
+        <div className="navbar  max-w-7xl mx-auto  text-white ">
           <div className="navbar-start">
             {/* smaller device menu */}
             <div
