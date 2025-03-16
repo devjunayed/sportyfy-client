@@ -3,8 +3,8 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { message, Popconfirm } from "antd";
 
 import { useState } from "react";
-import { FacilitiesDataType } from "../../pages/admin/ManageFacility";
-import { useDeleteFacilityMutation } from "../../redux/api/dashboard/facilityApi";
+import { FacilitiesDataType } from "../../../pages/admin/ManageFacility";
+import { useDeleteFacilityMutation } from "../../../redux/api/dashboard/facilityApi";
 
 interface DeleteFacilitiesProps {
   data: FacilitiesDataType;
@@ -61,7 +61,11 @@ const DeleteFacilities = ({ data, refetch }: DeleteFacilitiesProps) => {
       onConfirm={handleOk}
       okButtonProps={{
         loading: confirmLoading, // Button loading state
-        style: { backgroundColor: 'black', borderColor: 'black', color: '#fff' }, // Custom button styles
+        style: {
+          backgroundColor: "black",
+          borderColor: "black",
+          color: "#fff",
+        }, // Custom button styles
       }}
       onCancel={handleCancel}
     >

@@ -35,10 +35,12 @@ const FeaturedFacilities = () => {
                     }
                     hoverable
                   >
-                    <Card.Meta
-                      title={facility.name}
-                      description={facility.description}
-                    />
+                    <Card.Meta title={facility.name} />
+                    <div className="flex justify-center">
+                      <button className=" w-1/2 mt-4 border bg-gray-800 text-white py-1 rounded-md text-center">
+                        Book Now
+                      </button>
+                    </div>
                   </Card>
                 </Link>
               ))}

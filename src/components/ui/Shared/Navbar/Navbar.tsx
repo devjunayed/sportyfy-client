@@ -18,6 +18,8 @@ const Navbar = () => {
     user ? `${(user as TUser).email}` : ""
   );
 
+
+  console.log(userData);
   const handleMenu = () => {
     setMenu(!menu);
   };
@@ -40,7 +42,7 @@ const Navbar = () => {
           "bg-[#1B1F3B] shadow-md text-black backdrop-blur-lg"
         }  ${pathname !== "/" && "bg-[#1B1F3B] "}`}
       >
-        <div className="navbar  max-w-7xl mx-auto  text-white ">
+        <div className="navbar m-0 p-0  max-w-7xl mx-auto  text-white ">
           <div className="navbar-start">
             {/* smaller device menu */}
             <div
@@ -71,15 +73,15 @@ const Navbar = () => {
                       </li>
                     )
                 )}
-                {userData && (
+                {userData  && (
                   <li
-                    key={userData!.role as string}
+                    key={userData?.data?.role as string}
                     className="hover:cursor-pointer"
                   >
                     <NavLink
                       replace={true}
                       className={"cursor-pointer"}
-                      to={`/${userData!.role as string}/dashboard`}
+                      to={`/${userData?.data?.role as string}/dashboard`}
                     >
                       Dashboard
                     </NavLink>
@@ -114,15 +116,15 @@ const Navbar = () => {
                       </li>
                     )
                 )}
-                {userData && (
+                {user && (
                   <li
-                    key={userData!.role as string}
+                    key={user.role as string}
                     className="hover:cursor-pointer"
                   >
                     <NavLink
                       className={"cursor-pointer"}
                       replace={true}
-                      to={`/${userData!.role as string}/dashboard`}
+                      to={`/${userData?.data?.role as string}/dashboard`}
                     >
                       Dashboard
                     </NavLink>
@@ -132,36 +134,42 @@ const Navbar = () => {
             </div>
           </div>
           <div className="navbar-end">
-            <div className="dropdown dropdown-end">
-              <div tabIndex={0} role="button" className="">
-                <div className="avatar border rounded-full avatar-placeholder">
-                  <div className="bg-neutral text-neutral-content w-10 rounded-full flex items-center justify-center">
-                    <span className="flex items-center justify-center h-full">
-                      SY
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <ul
-                tabIndex={0}
-                className="dropdown-content menu mt-4 bg-[#1B1F3B] rounded-box z-1 w-72 px-4 shadow-sm"
-              >
-                <li className="mt-2">
-                  <div>
-                    <div className="flex flex-col  ">
-                      <span className="text-lg">{userData?.data?.name}</span>
-                      <span>{userData?.data?.email}</span>
+            {user ? (
+              <div className="dropdown dropdown-end">
+                <div tabIndex={0} role="button" className="">
+                  <div className="avatar border rounded-full avatar-placeholder">
+                    <div className="bg-neutral text-neutral-content w-10 rounded-full flex items-center justify-center">
+                      <span className="flex items-center justify-center h-full">
+                        SY
+                      </span>
                     </div>
                   </div>
-                </li>
-                <li className="mb-2">
-                  <Link to="/admin">Dashboard</Link>
-                </li>
-                <li>
-                  <NavbarButton />
-                </li>
-              </ul>
-            </div>
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content menu mt-4 bg-[#1B1F3B] rounded-box z-1 w-72 px-4 shadow-sm"
+                >
+                  <li className="mt-2">
+                    <div>
+                      <div className="flex flex-col  ">
+                        <span className="text-lg">{userData?.data?.name}</span>
+                        <span>{userData?.data?.email}</span>
+                      </div>
+                    </div>
+                  </li>
+                  <li className="mb-2">
+                    <Link to="/admin">Dashboard</Link>
+                  </li>
+                  <li>
+                    <NavbarButton />
+                  </li>
+                </ul>
+              </div>
+            ) : (
+              <div className="lg:flex hidden">
+                <NavbarButton />
+              </div>
+            )}
 
             {/* {isLogin ? (
               <div className="avatar">

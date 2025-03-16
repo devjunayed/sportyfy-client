@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { FacilitiesDataType } from "../../pages/admin/ManageFacility";
 import {
   Button,
   Form,
@@ -14,8 +13,10 @@ import {
   UploadProps,
 } from "antd";
 import { useState } from "react";
-import { useUpdateFacilityMutation } from "../../redux/api/dashboard/facilityApi";
-import { getBase } from "../../utils/getBase";
+import { getBase } from "../../../utils/getBase";
+import { useUpdateFacilityMutation } from "../../../redux/api/dashboard/facilityApi";
+import { FacilitiesDataType } from "../../../pages/admin/ManageFacility";
+
 
 interface EditFacilitiesProps {
   data: FacilitiesDataType;
