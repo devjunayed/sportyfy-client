@@ -6,6 +6,7 @@ import DeleteFacilities from "../../components/admin/ManageFcility/DeleteFacilit
 import HandleDataLoading from "../../components/ui/Shared/HandleDataLoading/HandleDataLoading";
 import ViewFacilitiesData from "../../components/admin/ManageFcility/ViewFacilitiesData";
 import EditFacilities from "../../components/admin/ManageFcility/EditFacilities";
+import { formattedPrice } from "../../utils/formattedPrice";
 
 export interface FacilitiesDataType {
   _id: string;
@@ -41,7 +42,17 @@ const ManageFacility = () => {
           key="facility"
         /> */}
           <Column title="Location" dataIndex="location" key="location" />
-          <Column title="PPH" dataIndex="pricePerHour" key="price perHour" />
+          <Column
+            title="PPH"
+            render={(_: any, record: FacilitiesDataType) => {
+              return (
+                <Space size="middle">
+                 {formattedPrice(record.pricePerHour)}
+                </Space>
+              );
+            }}
+            key="price perHour"
+          />
 
           <Column
             title="Action"
