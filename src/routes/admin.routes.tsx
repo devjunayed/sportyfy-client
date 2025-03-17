@@ -1,6 +1,5 @@
 import {     UserOutlined } from "@ant-design/icons";
 import AdminDashboard from "../pages/admin/AdminDashboard";
-import CreateFacility from "../pages/admin/CreateFacility";
 import { MdDashboard } from "react-icons/md";
 import { PiBuildingOfficeDuotone } from "react-icons/pi";
 import { IoCalendarClearOutline } from "react-icons/io5";
@@ -19,20 +18,9 @@ export const adminPaths = [
     {
         name: "Facility",
         icon: <PiBuildingOfficeDuotone />,
-        path: 'facility',
-        children: [
-            {
-                name: "Create Facility",
-                path: "create-facility",
-                element: <CreateFacility />,
-            },
-            {
-                name: "Manage Facility",
-                path: "manage-facility",
-                element: <ManageFacility />,
-            }
-
-        ]
+        path: 'manage-facility',
+        element: <ManageFacility />
+      
     },
     {
         name: "Bookings",

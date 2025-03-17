@@ -140,12 +140,12 @@ const CreateFacility = () => {
   };
 
   return (
-    <div className="flex mt-20 justify-center items-center ">
+    <div className="flex justify-center items-center ">
       {contextHolder}
       <Form
       
         layout="vertical"
-        className="w-full mx-10 md:mx-28 lg:mx-40 xl:mx-64"
+        className="w-full"
         onFinish={onFinish}
       >
         <div className="mx-auto w-full mb-6   flex justify-center">
