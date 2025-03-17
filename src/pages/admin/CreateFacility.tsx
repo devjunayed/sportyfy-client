@@ -1,180 +1,70 @@
-import {
-  Form,
-  Input,
-  Button,
-  message,
-  Upload,
-  GetProp,
-  UploadProps,
-  UploadFile,
-  Image,
-} from "antd";
+import { Form, Input, Button, message } from "antd";
 import { useCreateFacilityMutation } from "../../redux/api/dashboard/facilityApi";
 import { useState } from "react";
-import { getBase } from "../../utils/getBase";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
-import { setDescription, setLocation, setName, setPricePerHour } from "../../redux/features/facilitiySlice";
-import { PlusOutlined } from "@ant-design/icons";
-
-
-
-type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
+import {
+  setDescription,
+  setImages,
+  setLocation,
+  setName,
+  setPricePerHour,
+} from "../../redux/features/facilitiySlice";
+import FileUpload from "../../components/ui/Shared/FileUpload/FileUpload";
 
 const CreateFacility = () => {
   const [createFacility] = useCreateFacilityMutation();
   const [messageApi, contextHolder] = message.useMessage();
   const dispatch = useDispatch();
-  const { name, description, location, pricePerHour } = useAppSelector(
+  const { name, description, location, pricePerHour, images } = useAppSelector(
     (state) => state.facility
   );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [resetKey, setResetKey] = useState(`${Date.now().toString()}`);
 
   const [form] = Form.useForm();
 
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-
-  // handle preview uploaded image
-  const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase(file.originFileObj as FileType);
-    }
-
-    setPreviewImage(file.url || (file.preview as string));
-    setPreviewOpen(true);
-  };
-
-  // handle change of uploading image
-  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
-    const updatedFileList = newFileList.map((file) => {
-      if (file.status === "uploading" || file.status === "error") {
-        return { ...file, status: "done" };
-      }
-      return file;
-    });
-
-    setFileList(updatedFileList as UploadFile[]);
-  };
-
   const onFinish = async () => {
-    const imgbbKey = import.meta.env.VITE_IMGBB_API_KEY;
-
-    // Check if image is uploaded or not
-    if (fileList.length > 0 && fileList[0].originFileObj) {
-      const imageFile = fileList[0].originFileObj;
-
-      // Create separate formData for image upload
-      const imageData = new FormData();
-      imageData.append("image", imageFile);
-
-      try {
-        const response = await fetch(
-          `https://api.imgbb.com/1/upload?key=${imgbbKey}`,
-          {
-            method: "POST",
-            body: imageData,
-          }
-        );
-
-        const data = await response.json();
-        if (data.success) {
-          const facilityData = {
-            name,
-            description,
-            image: data.data.url, 
-            location,
-            pricePerHour
-          };
-
-          console.log("Sending facilityData to the server:", facilityData);
-
-          // Send data to your server
-          const facility = await createFacility(facilityData);
-
-          console.log(facility)
-          if (facility?.data?.success) {
-            messageApi.open({
-              type: "success",
-              content: "Facility successfully created",
-            });
-            setFileList([]);
-            onReset();
-          } else {
-            messageApi.open({
-              type: "error",
-              content: facility.data.message,
-            });
-          }
-        } else {
-          console.error("Upload failed:", data);
-          messageApi.open({
-            type: "error",
-            content: "Error uploading image!",
-          });
-          return;
-        }
-      } catch (error) {
-        console.log(error);
-        console.error("Error uploading image:", error);
-        messageApi.open({
-          type: "error",
-          content: "Error uploading image!",
-        });
-        return;
-      }
-    } else {
-      messageApi.open({
-        type: "error",
-        content: "Image file not found!",
-      });
-      return;
+    const response = await createFacility({
+      name,
+      description,
+      location,
+      pricePerHour,
+      images,
+    });
+    if (response.data.success) {
+      messageApi.success(response.data.message);
+      onReset();
+      dispatch(setImages([]));
+      setResetKey(`${Date.now().toString()}`)
+    }else{
+      messageApi.error(response.data.message);
     }
   };
 
   // Reset form function
   const onReset = () => {
     form.resetFields();
-    setFileList([]);
-    setPreviewImage("");
+  };
+
+  const handleFileUpload = (imageUrls: string[]) => {
+    dispatch(setImages(imageUrls));
   };
 
   return (
     <div className="flex justify-center items-center ">
       {contextHolder}
-      <Form
-      
-        layout="vertical"
-        className="w-full"
-        onFinish={onFinish}
-      >
+      <Form layout="vertical" className="w-full" onFinish={onFinish}>
         <div className="mx-auto w-full mb-6   flex justify-center">
-          <Upload
-            action={""}
-            listType="picture-circle"
-            fileList={fileList}
-            onPreview={handlePreview}
-            onChange={handleChange}
-            beforeUpload={() => false} 
-          >
-            {fileList.length >= 1 ? null : <button style={{ border: 0, background: "none" }} type="button">
-      <PlusOutlined className="text-black" />
-      <div className="text-black" style={{ marginTop: 8 }}>
-        Upload
-      </div>
-    </button>}
-          </Upload>
-          {previewImage && (
-            <Image
-              wrapperStyle={{ display: "none" }}
-              preview={{
-                visible: previewOpen,
-                onVisibleChange: (visible) => setPreviewOpen(visible),
-                afterOpenChange: (visible) => !visible && setPreviewImage(""),
-              }}
-              src={previewImage}
-            />
-          )}
+          <FileUpload
+            initialFileUrls={images}
+            maxUpload={10}
+            resetKey={resetKey}
+            imgbbUrl={`https://api.imgbb.com/1/upload?key=${
+              import.meta.env.VITE_IMGBB_API_KEY
+            }`}
+            handleFileUpload={handleFileUpload}
+          />
         </div>
         <Form.Item
           label="Name"

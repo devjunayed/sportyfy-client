@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  images: [] as string[],
   name: "",
   description: "",
   pricePerHour: 0,
@@ -11,6 +12,11 @@ const facilitySlice = createSlice({
   initialState,
   name: "facility",
   reducers: {
+    setImages: (state, action) => {
+      if (!state.images.includes(action.payload[0])) {
+        state.images.push(action.payload[0] as string);
+      }
+    },
     setName: (state, action) => {
       state.name = action.payload;
     },
@@ -26,6 +32,11 @@ const facilitySlice = createSlice({
   },
 });
 
-export const { setName, setDescription, setPricePerHour, setLocation } =
-  facilitySlice.actions;
+export const {
+  setImages,
+  setName,
+  setDescription,
+  setPricePerHour,
+  setLocation,
+} = facilitySlice.actions;
 export default facilitySlice.reducer;

@@ -8,6 +8,7 @@ const facilityApi = baseApi.injectEndpoints({
         method: "POST",
         body: facilityData,
       }),
+      
       invalidatesTags: ["facility"]
     }),
     getFacilities: builder.query({

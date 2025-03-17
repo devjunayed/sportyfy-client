@@ -36,7 +36,7 @@ const ManageFacility = () => {
         </Button>
         <Modal
           centered
-          width={1048}
+          width={820}
           title="Add Facility"
           footer={false}
           open={isOpen}
@@ -65,11 +65,7 @@ const ManageFacility = () => {
             />
             <Column title="Facility Name" dataIndex="name" key="name" />
 
-            {/* <Column
-          title="Facility Description"
-          dataIndex="description"
-          key="facility"
-        /> */}
+          
             <Column width={400} title="Location" dataIndex="location" key="location" />
             <Column
               title="PPH"
