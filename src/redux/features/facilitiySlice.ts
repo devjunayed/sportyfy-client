@@ -14,8 +14,8 @@ const facilitySlice = createSlice({
   name: "facility",
   reducers: {
     setImages: (state, action) => {
-      if (!state.images.includes(action.payload[0])) {
-        state.images.push(action.payload[0] as string);
+      if (!state.images.includes(action.payload) ){
+        state.images = [...state.images, action.payload];
       }
     },
     setName: (state, action) => {

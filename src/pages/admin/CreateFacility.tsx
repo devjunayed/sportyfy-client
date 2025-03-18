@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import {
   setDescription,
-  setImages,
   setLocation,
   setName,
   setPricePerHour,
@@ -18,19 +17,21 @@ const CreateFacility = () => {
 
   const [createFacility] = useCreateFacilityMutation();
   const [messageApi, contextHolder] = message.useMessage();
+  const [images, setImages] = useState<string[]>([]);
   const dispatch = useDispatch();
-  const { name, description, shortDescription, location, pricePerHour, images } = useAppSelector(
+  const { name, description, shortDescription, location, pricePerHour } = useAppSelector(
     (state) => state.facility
   );
   const [resetKey, setResetKey] = useState(`${Date.now().toString()}`);
   
-  const [newContent, setNewContent] = useState(description);
   const [form] = Form.useForm();
+
 
   const onFinish = async () => {
     const response = await createFacility({
       name,
       description,
+      shortDescription,
       location,
       pricePerHour,
       images,
@@ -38,7 +39,7 @@ const CreateFacility = () => {
     if (response.data.success) {
       messageApi.success(response.data.message);
       onReset();
-      dispatch(setImages([]));
+      setImages([])
       setResetKey(`${Date.now().toString()}`);
     } else {
       messageApi.error(response.data.message);
@@ -50,8 +51,8 @@ const CreateFacility = () => {
     form.resetFields();
   };
 
-  const handleFileUpload = (imageUrls: string[]) => {
-    dispatch(setImages(imageUrls));
+  const handleFileUpload =  (imageUrls: string[]) => {
+    setImages([...imageUrls]);
   };
 
 

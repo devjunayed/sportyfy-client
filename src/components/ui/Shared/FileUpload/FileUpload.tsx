@@ -66,6 +66,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   };
 
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
+
     const newList = newFileList
       .map((list) => {
         if (list.response) {
@@ -96,7 +97,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
       const data = await response.json();
 
-      console.log(data);
+      
 
       if (response.ok && data.success) {
         const uploadedFile = {
@@ -111,6 +112,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
         setFileList((prevList: any) => [...prevList, uploadedFile]);
 
         if (handleFileUpload) {
+
           handleFileUpload([...imageUrls, uploadedFile.url as string]);
         }
 
@@ -144,6 +146,10 @@ const FileUpload: React.FC<FileUploadProps> = ({
           // Ensure the image is removed from the list
           const newFileList = fileList.filter((f: any) => f.uid !== file.uid);
           setFileList(newFileList); // Update state to remove the file
+          if (handleFileUpload) {
+            const newImageUrls = newFileList.filter((u: any) => u.url as string);
+            handleFileUpload([...newImageUrls as string]);
+          }
         }}
       >
         {fileList.length >= maxUpload ? null : uploadButton}
