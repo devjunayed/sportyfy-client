@@ -1,6 +1,6 @@
 import { Form, Input, Button, message } from "antd";
 import { useCreateFacilityMutation } from "../../redux/api/dashboard/facilityApi";
-import { useState } from "react";
+import {  useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import {
@@ -9,19 +9,22 @@ import {
   setLocation,
   setName,
   setPricePerHour,
+  setShortDescription,
 } from "../../redux/features/facilitiySlice";
 import FileUpload from "../../components/ui/Shared/FileUpload/FileUpload";
+import JoditEditor from "jodit-react";
 
 const CreateFacility = () => {
+
   const [createFacility] = useCreateFacilityMutation();
   const [messageApi, contextHolder] = message.useMessage();
   const dispatch = useDispatch();
-  const { name, description, location, pricePerHour, images } = useAppSelector(
+  const { name, description, shortDescription, location, pricePerHour, images } = useAppSelector(
     (state) => state.facility
   );
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [resetKey, setResetKey] = useState(`${Date.now().toString()}`);
-
+  
+  const [newContent, setNewContent] = useState(description);
   const [form] = Form.useForm();
 
   const onFinish = async () => {
@@ -36,8 +39,8 @@ const CreateFacility = () => {
       messageApi.success(response.data.message);
       onReset();
       dispatch(setImages([]));
-      setResetKey(`${Date.now().toString()}`)
-    }else{
+      setResetKey(`${Date.now().toString()}`);
+    } else {
       messageApi.error(response.data.message);
     }
   };
@@ -50,6 +53,9 @@ const CreateFacility = () => {
   const handleFileUpload = (imageUrls: string[]) => {
     dispatch(setImages(imageUrls));
   };
+
+
+  const config = {};
 
   return (
     <div className="flex justify-center items-center ">
@@ -80,15 +86,31 @@ const CreateFacility = () => {
         </Form.Item>
 
         <Form.Item
+          label="Short Description"
+          name="shortDescription"
+          rules={[{ required: true, message: "Please enter a short description" }]}
+        >
+          <Input.TextArea
+            onChange={(e) => dispatch(setShortDescription(e.target.value))}
+            placeholder="Enter short  description"
+            value={shortDescription}
+            defaultValue={shortDescription}
+          />
+        </Form.Item>
+
+        <Form.Item
           label="Description"
           name="description"
           rules={[{ required: true, message: "Please enter a description" }]}
         >
-          <Input.TextArea
-            onChange={(e) => dispatch(setDescription(e.target.value))}
-            placeholder="Enter description"
+          <JoditEditor
+            config={config}
             value={description}
-            defaultValue={description}
+            onBlur={(content) => {
+              console.log(content);
+              dispatch(setDescription(content))
+            }} 
+          
           />
         </Form.Item>
 

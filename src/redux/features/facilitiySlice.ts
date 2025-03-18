@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   images: [] as string[],
   name: "",
+  shortDescription: "",
   description: "",
   pricePerHour: 0,
   location: "",
@@ -23,6 +24,9 @@ const facilitySlice = createSlice({
     setDescription: (state, action) => {
       state.description = action.payload;
     },
+    setShortDescription: (state, action) => {
+      state.shortDescription = action.payload;
+    },
     setPricePerHour: (state, action) => {
       state.pricePerHour = action.payload;
     },
@@ -36,6 +40,7 @@ export const {
   setImages,
   setName,
   setDescription,
+  setShortDescription,
   setPricePerHour,
   setLocation,
 } = facilitySlice.actions;

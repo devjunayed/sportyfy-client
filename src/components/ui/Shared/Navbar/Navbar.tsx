@@ -19,7 +19,6 @@ const Navbar = () => {
   );
 
 
-  console.log(userData);
   const handleMenu = () => {
     setMenu(!menu);
   };
@@ -158,7 +157,7 @@ const Navbar = () => {
                     </div>
                   </li>
                   <li className="mb-2">
-                    <Link to="/admin">Dashboard</Link>
+                    <Link to={`/${user.role}/dashboard`}>Dashboard</Link>
                   </li>
                   <li>
                     <NavbarButton />
