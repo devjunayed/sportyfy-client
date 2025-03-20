@@ -13,9 +13,10 @@ import { useState } from "react";
 
 export interface FacilitiesDataType {
   _id: string;
-  image: string;
+  images: string[];
   name: string;
   description: string;
+  shortDescription: string;
   location: string;
   pricePerHour: number;
 }
@@ -57,10 +58,10 @@ const ManageFacility = () => {
             />
             <Column
               title="Image"
-              dataIndex="image"
+              dataIndex="images"
               key="image"
-              render={(image) => (
-                <Image src={image} alt="faicility" width={50} />
+              render={(images) => (
+                <Image src={images[0]} alt="faicility" width={50} />
               )}
             />
             <Column title="Facility Name" dataIndex="name" key="name" />
