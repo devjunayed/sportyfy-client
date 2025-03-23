@@ -1,7 +1,6 @@
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { FacilitiesDataType } from "../../../pages/admin/ManageFacility";
 // import "react-tabs/style/react-tabs.css";
-import parse from "html-react-parser";
 
 const FacilityTab = ({ facility }: { facility: FacilitiesDataType }) => {
   return (
@@ -18,7 +17,11 @@ const FacilityTab = ({ facility }: { facility: FacilitiesDataType }) => {
         </TabList>
 
         <TabPanel>
-          <div className="mt-4">{parse(facility.description)}</div>
+          <div className="mt-4">
+            {/* Render the HTML content as JSX */}
+        
+            <div dangerouslySetInnerHTML={{__html: facility.description}}></div>
+          </div>
         </TabPanel>
         <TabPanel>
           <div className="mt-4">Reviews will be here</div>
