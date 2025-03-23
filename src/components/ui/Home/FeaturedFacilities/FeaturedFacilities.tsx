@@ -1,9 +1,9 @@
-import { Card } from "antd";
 import Title from "antd/es/typography/Title";
 import { useGetFacilitiesQuery } from "../../../../redux/api/dashboard/facilityApi";
 import { FacilitiesDataType } from "../../../../pages/admin/ManageFacility";
 import HandleDataLoading from "../../Shared/HandleDataLoading/HandleDataLoading";
 import { Link } from "react-router-dom";
+import FacilityCard from "./FacilityCard";
 
 const FeaturedFacilities = () => {
   const { data: facilities, isLoading } = useGetFacilitiesQuery("");
@@ -24,24 +24,7 @@ const FeaturedFacilities = () => {
               ?.slice(0, 4)
               .map((facility: FacilitiesDataType) => (
                 <Link to={`/facility/${facility._id}`}>
-                  <Card
-                    key={facility._id}
-                    cover={
-                      <img
-                        className="size-64"
-                        alt="facility-1"
-                        src={facility.image}
-                      />
-                    }
-                    hoverable
-                  >
-                    <Card.Meta title={facility.name} />
-                    <div className="flex justify-center">
-                      <button className=" w-1/2 mt-4 border bg-gray-800 text-white py-1 rounded-md text-center">
-                        Book Now
-                      </button>
-                    </div>
-                  </Card>
+                  <FacilityCard facility={facility} />
                 </Link>
               ))}
           </div>
