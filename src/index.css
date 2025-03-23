@@ -48,3 +48,7 @@
   .ant-rate-star-zero > div > .ant-rate-star-second span svg{
     fill: lightgrey !important;
   }
+
+  .ant-progress-bg.ant-progress-bg-outer{
+    background: #1B1F3B !important;
+  }

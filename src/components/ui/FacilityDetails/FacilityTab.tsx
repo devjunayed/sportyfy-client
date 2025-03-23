@@ -69,7 +69,7 @@ const FacilityTab = ({ facility }: { facility: FacilitiesDataType }) => {
             {/* Write Reviews */}
             <div className="w-full">
               <Input.TextArea placeholder="Write Your Review ...." />
-              <Rate className="mt-4 text-center w-full" />
+              <Rate  className="mt-4 text-center w-full text-[#1B1F3B]" />
               <div className="w-full flex justify-center">
                 
               <Button className="mt-4 w-40 mx-auto text-white text-center  ">
