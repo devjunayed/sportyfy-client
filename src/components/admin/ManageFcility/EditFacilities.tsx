@@ -77,7 +77,7 @@ const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
         uid: "-1",
         name: "facility_image",
         status: "done",
-        url: data.image,
+        url: data.images[0],
       },
     ]);
     // opening modal
@@ -95,7 +95,7 @@ const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
       const facilityData = {
         name: values.name,
         description: values.description,
-        image: data.image,
+        image: data.images,
         pricePerHour: values.pricePerHour,
         location: values.location,
       };

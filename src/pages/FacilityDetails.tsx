@@ -53,7 +53,7 @@ const FacilityDetails = () => {
         </div>
 
         <div>
-          <FacilityTab />
+          <FacilityTab facility={facility.data} />
         </div>
       </HandleDataLoading>
     </div>
