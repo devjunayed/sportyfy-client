@@ -40,3 +40,7 @@
     background-color: #1B1F3B !important;
   }
  
+
+  .react-tabs__tab--selected{
+    color: #1B1F3B;
+  }

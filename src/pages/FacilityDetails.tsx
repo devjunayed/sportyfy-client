@@ -4,6 +4,8 @@ import { Button, Divider } from "antd";
 import { ArrowLeftOutlined, CalendarOutlined } from "@ant-design/icons";
 import HandleDataLoading from "../components/ui/Shared/HandleDataLoading/HandleDataLoading";
 import FacilitySlider from "../components/ui/FacilityDetails/FacilitySlider";
+import { CiLocationOn } from "react-icons/ci";
+import FacilityTab from "../components/ui/FacilityDetails/FacilityTab";
 
 const FacilityDetails = () => {
   const { id } = useParams();
@@ -30,13 +32,13 @@ const FacilityDetails = () => {
             {/* texts */}
             <div className="lg:w-1/2 flex flex-col  ">
               <h1 className="text-2xl font-bold">{facility?.data?.name}</h1>
+              <p className="text-base mt-4 flex items-center gap-2">
+                <CiLocationOn /> {facility?.data?.location}{" "}
+              </p>
               <p className="py-6">{facility?.data?.shortDescription}</p>
 
               <div className="font-semibold text-xl mr-10 flex justify-between">
                 <p>&#2547; {facility?.data?.pricePerHour} / Hour </p>
-                <p className="text-base">
-                  Location: {facility?.data?.location}{" "}
-                </p>
               </div>
               <Divider />
               <div className="flex-col flex items-center mt-4 justify-between lg:mx-20 gap-10 ">
@@ -51,6 +53,7 @@ const FacilityDetails = () => {
         </div>
 
         <div>
+          <FacilityTab />
         </div>
       </HandleDataLoading>
     </div>

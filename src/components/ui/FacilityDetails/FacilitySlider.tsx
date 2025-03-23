@@ -39,8 +39,8 @@ export default function FacilitySlider({ images }: { images: string[] }) {
         modules={[FreeMode, Navigation, Thumbs]}
       >
         {images.map((image) => (
-          <SwiperSlide>
-            <img src={image} />
+          <SwiperSlide className="max-w-28">
+            <img  src={image} />
           </SwiperSlide>
         ))}
       </Swiper>
