@@ -1,7 +1,8 @@
 import { Card } from "antd";
 import { FacilitiesDataType } from "../../../../pages/admin/ManageFacility";
 import { useState } from "react";
-import { formattedPrice } from "../../../../utils/formattedPrice";
+import { BiLocationPlus } from "react-icons/bi";
+import { TbCurrencyTaka } from "react-icons/tb";
 
 const FacilityCard = ({ facility }: { facility: FacilitiesDataType }) => {
   const [bgImg, setBgImg] = useState(facility.images[0]);
@@ -22,21 +23,21 @@ const FacilityCard = ({ facility }: { facility: FacilitiesDataType }) => {
       }
       hoverable
     >
-      <div className="flex justify-between">
+      <div className="flex gap-4 w-full justify-between">
         <Card.Meta title={facility.name} />
-       
-            <span className="flex  text-gray-700">
-              {formattedPrice(facility.pricePerHour)} / PH
-            </span>
-         
       </div>
       <Card.Meta
-          description={
-            <span className="flex mt-2 ">
-              {facility.location}
+        description={
+          <>
+            <span className="flex items-center gap-2 mt-2  text-gray-700">
+             <TbCurrencyTaka /> {facility.pricePerHour} / PH
             </span>
-          }
-        />
+            <span className="flex   items-center gap-2">
+              <BiLocationPlus /> {facility.location}
+            </span>
+          </>
+        }
+      />
       <div className="flex justify-center">
         <button className=" w-1/2 mt-4 border bg-gray-800 text-white py-1 rounded-md text-center">
           Book Now

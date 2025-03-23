@@ -44,3 +44,7 @@
   .react-tabs__tab--selected{
     color: #1B1F3B;
   }
+
+  .ant-rate-star-zero > div > .ant-rate-star-second span svg{
+    fill: lightgrey !important;
+  }
