@@ -24,13 +24,11 @@ const FacilityCard = ({ facility }: { facility: FacilitiesDataType }) => {
     >
       <div className="flex justify-between">
         <Card.Meta title={facility.name} />
-        <Card.Meta
-          title={
-            <span className="flex ">
+       
+            <span className="flex  text-gray-700">
               {formattedPrice(facility.pricePerHour)} / PH
             </span>
-          }
-        />
+         
       </div>
       <Card.Meta
           description={
