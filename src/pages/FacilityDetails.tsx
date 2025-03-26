@@ -13,7 +13,7 @@ const FacilityDetails = () => {
   const { data: facility, isLoading } = useGetSingleFacilityQuery(id as string);
 
   return (
-    <div className="mx-10 mt-20">
+    <div className=" max-w-7xl mx-auto px-4 md:px-0 mt-20">
       <Button
         onClick={() => navigate(-1)}
         type="primary"

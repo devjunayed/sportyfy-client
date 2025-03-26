@@ -25,7 +25,7 @@ export default function FacilitySlider({ images }: { images: string[] }) {
       >
         {images.map((image) => (
           <SwiperSlide>
-            <img className="h-[480px] w-full object-cover" src={image} />
+            <img className="max-h-[480px] w-full object-cover" src={image} />
           </SwiperSlide>
         ))}
       </Swiper>

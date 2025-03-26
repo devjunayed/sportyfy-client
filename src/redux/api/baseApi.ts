@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
 
+
 export const baseApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    // baseUrl: "https://api.sportyfy.devjunayed.xyz/api",
-    baseUrl: "http://localhost:5000/api",
+    baseUrl: import.meta.env.VITE_BASE_URL,
 
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {

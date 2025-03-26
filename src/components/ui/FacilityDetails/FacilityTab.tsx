@@ -31,8 +31,8 @@ const FacilityTab = ({ facility }: { facility: FacilitiesDataType }) => {
         <TabPanel>
           <div className="mt-4">
             {/* Reviews overview */}
-            <div className="flex w-full flex-nowrap text-nowrap items-center  gap-20 ">
-              <div className="text-center space-y-2 border-r pr-20 ">
+            <div className="flex w-full flex-wrap justify-center text-nowrap items-center gap-10  md:gap-20 ">
+              <div className="text-center items-center space-y-2 border-r md:pr-20 ">
                 <h3 className="font-bold text-xl">4.0</h3>
                 <p>
                   <Rate disabled value={4} className="text-[#1B1F3B]" />
