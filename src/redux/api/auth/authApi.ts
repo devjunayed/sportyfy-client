@@ -20,7 +20,6 @@ const authApi = baseApi.injectEndpoints({
     }),
     getUser: builder.query({
       query: (userEmail: string) => {
-        console.log(userEmail)
         return {
           url: `/user/${userEmail}`,
           method: "GET",

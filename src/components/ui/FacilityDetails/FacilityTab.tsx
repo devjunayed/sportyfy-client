@@ -3,9 +3,23 @@ import { FacilitiesDataType } from "../../../pages/admin/ManageFacility";
 import { Button, Input,  Rate } from "antd";
 import FacilityRatingProgress from "./FacilityRatingProgress";
 import { FaPaperPlane } from "react-icons/fa6";
+import { useState } from "react";
 // import "react-tabs/style/react-tabs.css";
 
 const FacilityTab = ({ facility }: { facility: FacilitiesDataType }) => {
+  const [rating, setRating] = useState(5);
+  const [review, setReview] = useState("");
+  // const user = 
+
+  const handleSubmit = () => {
+    const data = {
+      rating, 
+      review,
+      facilityId: facility._id,
+      // userId
+    }
+  }
+
   return (
     <div className="my-10">
       {" "}
@@ -68,11 +82,11 @@ const FacilityTab = ({ facility }: { facility: FacilitiesDataType }) => {
             <div className="text-center my-20">No Reviews yet</div>
             {/* Write Reviews */}
             <div className="w-full">
-              <Input.TextArea placeholder="Write Your Review ...." />
-              <Rate  className="mt-4 text-center w-full text-[#1B1F3B]" />
+              <Input.TextArea onChange={(e) => setReview(e.target.value)}  placeholder="Write Your Review ...." />
+              <Rate onChange={(value) => setRating(value)}  className="mt-4 text-center w-full text-[#1B1F3B]" />
               <div className="w-full flex justify-center">
                 
-              <Button className="mt-4 w-40 mx-auto text-white text-center  ">
+              <Button onClick={handleSubmit} className="mt-4 w-40 mx-auto text-white text-center  ">
                 <FaPaperPlane /> Submit
               </Button>
               </div>
