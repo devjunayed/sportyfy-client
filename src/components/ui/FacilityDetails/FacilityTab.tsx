@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { FacilitiesDataType } from "../../../pages/admin/ManageFacility";
@@ -13,6 +14,7 @@ const FacilityTab = ({ facility }: { facility: FacilitiesDataType }) => {
   // const user = 
 
   const handleSubmit = () => {
+    // @ts-ignore
     const data = {
       rating, 
       review,
