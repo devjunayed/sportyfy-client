@@ -1,3 +1,4 @@
+import Categories from "../components/ui/Home/Categories/Categories"
 import FeaturedFacilities from "../components/ui/Home/FeaturedFacilities/FeaturedFacilities"
 import Hero from "../components/ui/Home/Hero/Hero"
 import HowItWorks from "../components/ui/Home/HowItWorks/HowItWorks"
@@ -8,6 +9,7 @@ const Home = () => {
   return (
     <div>
      <Hero />
+     <Categories />
      <FeaturedFacilities />
      <HowItWorks />
      <Testimonials />

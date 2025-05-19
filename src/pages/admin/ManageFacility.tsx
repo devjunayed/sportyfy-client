@@ -13,12 +13,18 @@ import { useState } from "react";
 
 export interface FacilitiesDataType {
   _id: string;
-  images: string[];
-  name: string;
-  description: string;
-  shortDescription: string;
-  location: string;
-  pricePerHour: number;
+ name: string
+  images: string[]
+  description: string
+  shortDescription: string
+  category: string
+  rating: number
+  capacity: number
+  openHours: number
+  highlight: string
+  pricePerHour: number
+  location: string
+  isDeleted: boolean
 }
 
 const ManageFacility = () => {
