@@ -39,6 +39,7 @@ const Login: React.FC = () => {
     try {
       // Send data to your server
       const loginResult = await login({ email, password });
+      console.log(loginResult)
 
       if (loginResult?.data?.success) {
         const user = verifyToken(loginResult.data.token);
@@ -51,7 +52,7 @@ const Login: React.FC = () => {
             dispatch(
               setUser({
                 user: user,
-                token: loginResult.data.token,
+                token: loginResult?.data.token,
               })
             );
 
@@ -76,7 +77,7 @@ const Login: React.FC = () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      console.log({LoginError: error});
       messageApi.open({
         type: "error",
         content: "Something went wrong!",

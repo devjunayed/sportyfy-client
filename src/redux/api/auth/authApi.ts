@@ -17,6 +17,7 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: userData,
       }),
+      
     }),
     getUser: builder.query({
       query: (userEmail: string) => {

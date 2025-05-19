@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { FacilitiesDataType } from "../../../pages/admin/ManageFacility";
 import { Button, Input,  Rate } from "antd";
