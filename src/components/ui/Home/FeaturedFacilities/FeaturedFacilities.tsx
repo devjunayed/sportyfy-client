@@ -9,6 +9,8 @@ import { Clock, MapIcon, Users } from "lucide-react";
 const FeaturedFacilities = () => {
   const { data: facilities, isLoading } = useGetFacilitiesQuery("");
 
+  
+
   return (
     <div className="max-w-7xl mx-auto py-10 ">
       <HandleDataLoading
@@ -33,7 +35,7 @@ const FeaturedFacilities = () => {
           </div> */}
 
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {facilities.map((facility: FacilitiesDataType) => (
+          {facilities?.data?.map((facility: FacilitiesDataType) => (
             <a
               href={`/facility/${facility?._id}`}
               key={facility._id}

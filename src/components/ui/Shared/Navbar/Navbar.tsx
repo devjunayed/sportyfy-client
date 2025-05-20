@@ -8,6 +8,7 @@ import { useAppSelector } from "../../../../redux/hooks";
 import { currentUser } from "../../../../redux/features/authSlice";
 import { TUser } from "../../../../types/shared.type";
 import { useGetUserQuery } from "../../../../redux/api/auth/authApi";
+import { capitalize } from "../../../../utils/capitalize";
 
 const Navbar = () => {
   const pathname = useLocation().pathname;
@@ -17,7 +18,6 @@ const Navbar = () => {
   const { data: userData } = useGetUserQuery(
     user ? `${(user as TUser).email}` : ""
   );
-
 
   const handleMenu = () => {
     setMenu(!menu);
@@ -72,7 +72,7 @@ const Navbar = () => {
                       </li>
                     )
                 )}
-                {userData  && (
+                {userData && (
                   <li
                     key={userData?.data?.role as string}
                     className="hover:cursor-pointer"
@@ -115,9 +115,9 @@ const Navbar = () => {
                       </li>
                     )
                 )}
-                {user && (
+                {userData && (
                   <li
-                    key={user.role as string}
+                    key={userData.role as string}
                     className="hover:cursor-pointer"
                   >
                     <NavLink
@@ -133,13 +133,14 @@ const Navbar = () => {
             </div>
           </div>
           <div className="navbar-end">
-            {user ? (
+            {userData ? (
               <div className="dropdown dropdown-end">
                 <div tabIndex={0} role="button" className="">
                   <div className="avatar border rounded-full avatar-placeholder">
                     <div className="bg-neutral text-neutral-content w-10 rounded-full flex items-center justify-center">
                       <span className="flex items-center justify-center h-full">
-                        SY
+                        {capitalize(userData?.data?.name[0])}
+                        {capitalize(userData?.data?.name[1])}
                       </span>
                     </div>
                   </div>

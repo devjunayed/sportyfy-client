@@ -5,7 +5,6 @@ export const routeGenerator = (items: TUserPath[]) => {
 
 
     if (item.path && item.element) {
-      console.log(item)
       acc.push({
         path: item.path,
         element: item.element,
@@ -25,7 +24,6 @@ export const routeGenerator = (items: TUserPath[]) => {
 
     }
 
-    console.log(acc)
     return acc;
   }, []);
 

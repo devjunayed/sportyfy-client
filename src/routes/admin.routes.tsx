@@ -13,7 +13,7 @@ export const adminPaths = [
         name: "Dashboard",
         icon: <MdDashboard />,
         element: <AdminDashboard />,
-        path: '/admin/dashboard',
+        path: 'dashboard',
     },
     {
         name: "Facility",
