@@ -1,42 +1,50 @@
 import { Form, Input, Button, message } from "antd";
-import {  useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-
-import JoditEditor from "jodit-react";
 import { useCreateCategoryMutation } from "../../../redux/api/dashboard/categoryApi";
 import { useAppSelector } from "../../../redux/hooks";
 import FileUpload from "../../ui/Shared/FileUpload/FileUpload";
+import { setSubTitle, setTitle } from "../../../redux/features/categorySlice";
+import { ClockLoader } from "react-spinners";
 
-const CreateCategory = () => {
+type TCreateCategory = {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
+const CreateCategory = ({ setIsOpen }: TCreateCategory) => {
   const [createCategory] = useCreateCategoryMutation();
   const [messageApi, contextHolder] = message.useMessage();
-  const [images, setImages] = useState<string[]>([]);
+  const [image, setImage] = useState<string>("");
   const dispatch = useDispatch();
-  const { name, description, shortDescription, location, pricePerHour } = useAppSelector(
-    (state) => state.facility
-  );
+  const { title, subtitle } = useAppSelector((state) => state.category);
   const [resetKey, setResetKey] = useState(`${Date.now().toString()}`);
-  
+  const [loading, setLoading] = useState(false);
+
   const [form] = Form.useForm();
 
-
   const onFinish = async () => {
-    const response = await createCategory({
-      name,
-      description,
-      shortDescription,
-      location,
-      pricePerHour,
-      images,
-    });
-    if (response.data.success) {
-      messageApi.success(response.data.message);
-      onReset();
-      setImages([])
-      setResetKey(`${Date.now().toString()}`);
-    } else {
-      messageApi.error(response.data.message);
+    try {
+      setLoading(true);
+      const response = await createCategory({
+        title,
+        subtitle,
+        image,
+      });
+
+      if (response?.data?.success) {
+        messageApi.success(response?.data?.message)
+          onReset();
+          setImage("");
+          dispatch(setTitle(""));
+          dispatch(setSubTitle(""));
+          setResetKey(`${Date.now().toString()}`);
+          setIsOpen(false);
+        
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,109 +53,66 @@ const CreateCategory = () => {
     form.resetFields();
   };
 
-  const handleFileUpload =  (imageUrls: string[]) => {
-    setImages([...imageUrls]);
+  const handleFileUpload = (imageUrls: string[]) => {
+    setImage(imageUrls[0]);
   };
 
-
-  const config = {};
-
   return (
-    <div className="flex justify-center items-center ">
+    <div className="flex min-h-[50vh] justify-center items-center  ">
       {contextHolder}
-      <Form layout="vertical" className="w-full" onFinish={onFinish}>
-        <div className="mx-auto w-full mb-6   flex justify-center">
-          <FileUpload
-            initialFileUrls={images}
-            maxUpload={1}
-            resetKey={resetKey}
-            imgbbUrl={`https://api.imgbb.com/1/upload?key=${
-              import.meta.env.VITE_IMGBB_API_KEY
-            }`}
-            handleFileUpload={handleFileUpload}
-          />
+
+      {loading ? (
+        <div>
+          <ClockLoader loading={true} />
         </div>
-        <Form.Item
-          label="Name"
-          name="name"
-          rules={[{ required: true, message: "Please enter a name" }]}
-        >
-          <Input
-            onChange={(e) => dispatch(setName(e.target.value))}
-            defaultValue={name}
-            value={name}
-            placeholder="Enter name"
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="Short Description"
-          name="shortDescription"
-          rules={[{ required: true, message: "Please enter a short description" }]}
-        >
-          <Input.TextArea
-            onChange={(e) => dispatch(setShortDescription(e.target.value))}
-            placeholder="Enter short  description"
-            value={shortDescription}
-            defaultValue={shortDescription}
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="Description"
-          name="description"
-          rules={[{ required: true, message: "Please enter a description" }]}
-        >
-          <JoditEditor
-            config={config}
-            value={description}
-            onBlur={(content) => {
-              console.log(content);
-              dispatch(setDescription(content))
-            }} 
-          
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="Price per Hour"
-          name="pricePerHour"
-          rules={[{ required: true, message: "Please enter price per hour" }]}
-        >
-          <Input
-            min={0}
-            type="number"
-            onChange={(e) => dispatch(setPricePerHour(Number(e.target.value)))}
-            placeholder="Enter price per hour"
-            defaultValue={pricePerHour}
-            value={pricePerHour}
-            style={{ width: "100%" }}
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="Location"
-          name="location"
-          rules={[{ required: true, message: "Please enter a location" }]}
-        >
-          <Input
-            onChange={(e) => dispatch(setLocation(e.target.value))}
-            placeholder="Enter location"
-            defaultValue={location}
-          />
-        </Form.Item>
-
-        <div className="mx-auto">
-          <Form.Item>
-            <Button
-              className="bg-black w-full mx-auto text-white "
-              htmlType="submit"
-            >
-              Submit
-            </Button>
+      ) : (
+        <Form layout="vertical" className="w-full " onFinish={onFinish}>
+          <div className="mx-auto w-full mb-6   flex justify-center">
+            <FileUpload
+              maxUpload={1}
+              resetKey={resetKey}
+              imgbbUrl={`https://api.imgbb.com/1/upload?key=${
+                import.meta.env.VITE_IMGBB_API_KEY
+              }`}
+              handleFileUpload={handleFileUpload}
+            />
+          </div>
+          <Form.Item
+            label="Title"
+            name="title"
+            rules={[{ required: true, message: "Please enter title" }]}
+          >
+            <Input
+              onChange={(e) => dispatch(setTitle(e.target.value))}
+              value={title}
+              placeholder="Enter title"
+            />
           </Form.Item>
-        </div>
-      </Form>
+
+          <Form.Item
+            label="Subtitle"
+            name="subtitle"
+            rules={[{ required: true, message: "Please enter subtitle" }]}
+          >
+            <Input.TextArea
+              onChange={(e) => dispatch(setSubTitle(e.target.value))}
+              placeholder="Enter subtitle"
+              value={subtitle}
+            />
+          </Form.Item>
+
+          <div className="mx-auto">
+            <Form.Item>
+              <Button
+                className="bg-black w-full mx-auto text-white "
+                htmlType="submit"
+              >
+                Submit
+              </Button>
+            </Form.Item>
+          </div>
+        </Form>
+      )}
     </div>
   );
 };

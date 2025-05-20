@@ -29,7 +29,7 @@ const ManageCategory = () => {
           open={isOpen}
           onCancel={() => setIsOpen(false)}
         >
-          <CreateCategory />
+          <CreateCategory setIsOpen={setIsOpen} />
         </Modal>
       </div>
       <div className="    h-[80vh]">

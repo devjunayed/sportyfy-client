@@ -22,10 +22,6 @@ const categorySlice = createSlice({
   },
 });
 
-export const {
-  setTitle,
-  setSubTitle,
-  setImage
-} = categorySlice.actions;
+export const { setTitle, setSubTitle, setImage } = categorySlice.actions;
 
 export default categorySlice.reducer;
