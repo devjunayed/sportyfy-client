@@ -14,21 +14,21 @@ import {
 } from "antd";
 import { useState } from "react";
 import { getBase } from "../../../utils/getBase";
-import { useUpdateFacilityMutation } from "../../../redux/api/dashboard/facilityApi";
-import { FacilitiesDataType } from "../../../pages/admin/ManageFacility";
 
+import { CategoryDataType } from "../../../types/category.type";
+import { useUpdateCategoryMutation } from "../../../redux/api/dashboard/categoryApi";
 
-interface EditFacilitiesProps {
-  data: FacilitiesDataType;
+interface EditCategoryProps {
+  data: CategoryDataType;
   refetch: () => Promise<any>;
 }
 
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
-const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
+const EditCategory = ({ data, refetch }: EditCategoryProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
-  const [updateFacility, { isLoading }] = useUpdateFacilityMutation();
+  const [updateCategory, { isLoading }] = useUpdateCategoryMutation();
 
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -65,19 +65,17 @@ const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
   const showModal = () => {
     // setting old value to the form
     form.setFieldsValue({
-      name: data.name,
-      description: data.description,
-      pricePerHour: data.pricePerHour,
-      location: data.location,
+      title: data.title,
+      subtitle: data.subtitle,
     });
 
     // setting old image to the upload
     setFileList([
       {
         uid: "-1",
-        name: "facility_image",
+        name: "category_image",
         status: "done",
-        url: data.images[0],
+        url: data.image,
       },
     ]);
     // opening modal
@@ -92,12 +90,10 @@ const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
   // Handle form submission
   const handleOk = async (values: any) => {
     try {
-      const facilityData = {
-        name: values.name,
-        description: values.description,
-        image: data.images,
-        pricePerHour: values.pricePerHour,
-        location: values.location,
+      const categoryData = {
+        title: values.title,
+        subtitle: values.subtitle,
+        image: data.image,
       };
 
       const imgbbKey = import.meta.env.VITE_IMGBB_API_KEY;
@@ -117,7 +113,7 @@ const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
         const uploadedImageData = await response.json();
 
         if (uploadedImageData.success) {
-          facilityData.image = uploadedImageData.data.url;
+          categoryData.image = uploadedImageData.data.url;
         } else {
           messageApi.open({
             type: "error",
@@ -127,31 +123,30 @@ const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
         }
       }
 
-      // Debugging output: check what data is being sent
-      console.log("Facility Data to be sent:", facilityData);
 
       // Sending updated data to the server
       const id = data._id;
-      const response = await updateFacility({ id, facilityData });
+      const response = await updateCategory({ id, categoryData });
 
       if (response?.data?.success) {
         messageApi.open({
           type: "success",
-          content: "Facility successfully updated",
+          content: "Category successfully updated",
         });
         refetch();
         setIsModalVisible(false);
       } else {
         messageApi.open({
           type: "error",
-          content: response?.data?.message || "Error updating facility",
+          content: response?.data?.message || "Error updating category",
         });
+        console.log(response)
       }
     } catch (error) {
-      console.error("Error updating facility:", error);
+      console.error("Error updating category:", error);
       messageApi.open({
         type: "error",
-        content: "Error updating facility!",
+        content: "Error updating category!",
       });
     }
   };
@@ -159,7 +154,7 @@ const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
   return (
     <>
       <a onClick={showModal}>
-        <EditOutlined size={24} /> 
+        <EditOutlined size={24} />
       </a>
       <div className="w-full mx-auto">
         {contextHolder}
@@ -170,7 +165,7 @@ const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
           style={{ maxWidth: 600 }}
         >
           <Modal
-            title="Edit Facility"
+            title="Edit Category"
             open={isModalVisible}
             onOk={() => form.submit()}
             confirmLoading={isLoading}
@@ -178,10 +173,10 @@ const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
             okText="Save"
             cancelText="Cancel"
             footer={[
-              <Button key="reset" onClick={onReset}>
+              <Button key="reset" className="text-white" onClick={onReset}>
                 Reset
               </Button>,
-              <Button key="back" onClick={handleCancel}>
+              <Button key="back" className="text-white" onClick={handleCancel}>
                 Cancel
               </Button>,
               <Button
@@ -225,30 +220,17 @@ const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
                 />
               )}
             </div>
-            <Form.Item name="name" label="Name" rules={[{ required: true }]}>
+            <Form.Item name="title" label="Title" rules={[{ required: true }]}>
               <Input />
             </Form.Item>
             <Form.Item
-              name="description"
-              label="Description"
+              name="subtitle"
+              label="Subtitle"
               rules={[{ required: true }]}
             >
               <Input />
             </Form.Item>
-            <Form.Item
-              name="pricePerHour"
-              label="Price Per Hour"
-              rules={[{ required: true }]}
-            >
-              <Input type="number" />
-            </Form.Item>
-            <Form.Item
-              name="location"
-              label="Location"
-              rules={[{ required: true }]}
-            >
-              <Input />
-            </Form.Item>
+           
           </Modal>
         </Form>
       </div>
@@ -256,4 +238,4 @@ const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
   );
 };
 
-export default EditFacilities;
+export default EditCategory;

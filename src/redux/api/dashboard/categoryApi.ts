@@ -12,8 +12,8 @@ const categoryApi = baseApi.injectEndpoints({
       invalidatesTags: ["category"],
     }),
     getCategories: builder.query({
-      query: (queryUrl) => ({
-        url: `category?${queryUrl}`,
+      query: () => ({
+        url: `category`,
         method: "GET",
       }),
       providesTags: ["category"],

@@ -32,14 +32,13 @@ const CreateCategory = ({ setIsOpen }: TCreateCategory) => {
       });
 
       if (response?.data?.success) {
-        messageApi.success(response?.data?.message)
-          onReset();
-          setImage("");
-          dispatch(setTitle(""));
-          dispatch(setSubTitle(""));
-          setResetKey(`${Date.now().toString()}`);
-          setIsOpen(false);
-        
+        messageApi.success(response?.data?.message);
+        onReset();
+        setImage("");
+        dispatch(setTitle(""));
+        dispatch(setSubTitle(""));
+        setResetKey(`${Date.now().toString()}`);
+        setIsOpen(false);
       }
     } catch (error) {
       console.log(error);
@@ -83,6 +82,7 @@ const CreateCategory = ({ setIsOpen }: TCreateCategory) => {
             rules={[{ required: true, message: "Please enter title" }]}
           >
             <Input
+              key="title"
               onChange={(e) => dispatch(setTitle(e.target.value))}
               value={title}
               placeholder="Enter title"
@@ -95,6 +95,7 @@ const CreateCategory = ({ setIsOpen }: TCreateCategory) => {
             rules={[{ required: true, message: "Please enter subtitle" }]}
           >
             <Input.TextArea
+              key="subtitle"
               onChange={(e) => dispatch(setSubTitle(e.target.value))}
               placeholder="Enter subtitle"
               value={subtitle}

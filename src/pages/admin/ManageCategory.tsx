@@ -6,9 +6,18 @@ import { PlusCircleFilled } from "@ant-design/icons";
 import { useState } from "react";
 import { useGetCategoriesQuery } from "../../redux/api/dashboard/categoryApi";
 import CreateCategory from "../../components/admin/ManageCategory/CreateCategory";
+import { CategoryDataType } from "../../types/category.type";
+import ViewCategoryData from "../../components/admin/ManageCategory/ViewCategoryData";
+import EditCategory from "../../components/admin/ManageCategory/EditCategory";
+import DeleteCategory from "../../components/admin/ManageCategory/DeleteCategory";
 
 const ManageCategory = () => {
-  const { data = [], refetch, isLoading } = useGetCategoriesQuery("");
+  const {
+    data ,
+    refetch,
+    isLoading,
+  } = useGetCategoriesQuery("");
+  console.log({fromMange: data});
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="mt-20 overflow-y-hidden">
@@ -33,11 +42,11 @@ const ManageCategory = () => {
         </Modal>
       </div>
       <div className="    h-[80vh]">
-        <HandleDataLoading loadingOnly data={data.data} isLoading={isLoading}>
+        <HandleDataLoading loadingOnly data={data?.data} isLoading={isLoading}>
           <Table
             sticky
             scroll={{ y: 500 }}
-            dataSource={data.data}
+            dataSource={data?.data || []}
             className="  overflow-x-auto"
           >
             <Column
@@ -48,10 +57,10 @@ const ManageCategory = () => {
             />
             <Column
               title="Image"
-              dataIndex="images"
+              dataIndex="image"
               key="image"
-              render={(images) => (
-                <Image src={images[0]} alt="faicility" width={50} />
+              render={(image) => (
+                <Image src={image} alt="faicility" width={50} />
               )}
             />
             <Column title="Category title" dataIndex="title" key="title" />
@@ -67,9 +76,9 @@ const ManageCategory = () => {
               render={(_: any, record: CategoryDataType) => {
                 return (
                   <Space size="middle">
-                    <ViewFacilitiesData data={record} />
-                    <EditFacilities data={record} refetch={refetch} />
-                    <DeleteFacilities refetch={refetch} data={record} />
+                    <ViewCategoryData data={record} />
+                    <EditCategory data={record} refetch={refetch} />
+                    <DeleteCategory refetch={refetch} data={record} />
                   </Space>
                 );
               }}
