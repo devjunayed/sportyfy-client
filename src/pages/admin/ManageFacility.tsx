@@ -8,8 +8,8 @@ import ViewFacilitiesData from "../../components/admin/ManageFcility/ViewFacilit
 import EditFacilities from "../../components/admin/ManageFcility/EditFacilities";
 import { formattedPrice } from "../../utils/formattedPrice";
 import { PlusCircleFilled } from "@ant-design/icons";
-import CreateFacility from "./CreateFacility";
 import { useState } from "react";
+import CreateFacility from "../../components/admin/ManageFcility/CreateFacility";
 
 export interface FacilitiesDataType {
   _id: string;

@@ -4,9 +4,11 @@ import Column from "antd/es/table/Column";
 import HandleDataLoading from "../../components/ui/Shared/HandleDataLoading/HandleDataLoading";
 import { PlusCircleFilled } from "@ant-design/icons";
 import { useState } from "react";
+import { useGetCategoriesQuery } from "../../redux/api/dashboard/categoryApi";
+import CreateCategory from "../../components/admin/ManageCategory/CreateCategory";
 
 const ManageCategory = () => {
-  const { data = [], refetch, isLoading } = useGetFacilitiesQuery("");
+  const { data = [], refetch, isLoading } = useGetCategoriesQuery("");
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="mt-20 overflow-y-hidden">
@@ -27,7 +29,7 @@ const ManageCategory = () => {
           open={isOpen}
           onCancel={() => setIsOpen(false)}
         >
-          <CreateFacility />
+          <CreateCategory />
         </Modal>
       </div>
       <div className="    h-[80vh]">

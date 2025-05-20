@@ -1,21 +1,15 @@
 import { Form, Input, Button, message } from "antd";
-import { useCreateFacilityMutation } from "../../redux/api/dashboard/facilityApi";
 import {  useState } from "react";
 import { useDispatch } from "react-redux";
-import { useAppSelector } from "../../redux/hooks";
-import {
-  setDescription,
-  setLocation,
-  setName,
-  setPricePerHour,
-  setShortDescription,
-} from "../../redux/features/facilitiySlice";
-import FileUpload from "../../components/ui/Shared/FileUpload/FileUpload";
+
 import JoditEditor from "jodit-react";
+import { useCreateCategoryMutation } from "../../../redux/api/dashboard/categoryApi";
+import { useAppSelector } from "../../../redux/hooks";
+import FileUpload from "../../ui/Shared/FileUpload/FileUpload";
 
-const CreateFacility = () => {
+const CreateCategory = () => {
 
-  const [createFacility] = useCreateFacilityMutation();
+  const [createCategory] = useCreateCategoryMutation();
   const [messageApi, contextHolder] = message.useMessage();
   const [images, setImages] = useState<string[]>([]);
   const dispatch = useDispatch();
@@ -28,7 +22,7 @@ const CreateFacility = () => {
 
 
   const onFinish = async () => {
-    const response = await createFacility({
+    const response = await createCategory({
       name,
       description,
       shortDescription,
@@ -65,7 +59,7 @@ const CreateFacility = () => {
         <div className="mx-auto w-full mb-6   flex justify-center">
           <FileUpload
             initialFileUrls={images}
-            maxUpload={10}
+            maxUpload={1}
             resetKey={resetKey}
             imgbbUrl={`https://api.imgbb.com/1/upload?key=${
               import.meta.env.VITE_IMGBB_API_KEY
@@ -158,4 +152,4 @@ const CreateFacility = () => {
   );
 };
 
-export default CreateFacility;
+export default CreateCategory;
