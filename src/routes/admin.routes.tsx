@@ -4,8 +4,10 @@ import { MdDashboard } from "react-icons/md";
 import { PiBuildingOfficeDuotone } from "react-icons/pi";
 import { IoCalendarClearOutline } from "react-icons/io5";
 import ManageFacility from "../pages/admin/ManageFacility";
-import AddAdmin from "../pages/admin/AddAdmin";
 import Bookings from "../pages/admin/Bookings";
+import AddAdmin from "../pages/admin/AddAdmin";
+import ManageCategory from "../pages/admin/ManageCategory";
+import { BiCategory } from "react-icons/bi";
 
 
 export const adminPaths = [
@@ -14,6 +16,13 @@ export const adminPaths = [
         icon: <MdDashboard />,
         element: <AdminDashboard />,
         path: 'dashboard',
+    },
+    {
+        name: "Category",
+        icon: <BiCategory />,
+        path: 'manage-category',
+        element: <ManageCategory />
+      
     },
     {
         name: "Facility",
