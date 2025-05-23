@@ -35,7 +35,7 @@ const FeaturedFacilities = () => {
           </div> */}
 
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {facilities?.data?.map((facility: FacilitiesDataType) => (
+          {facilities?.data?.slice(0, 6).map((facility: FacilitiesDataType) => (
             <a
               href={`/facility/${facility?._id}`}
               key={facility._id}

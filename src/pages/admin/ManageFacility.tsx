@@ -13,18 +13,18 @@ import CreateFacility from "../../components/admin/ManageFcility/CreateFacility"
 
 export interface FacilitiesDataType {
   _id: string;
- name: string
-  images: string[]
-  description: string
-  shortDescription: string
-  category: string
-  rating: number
-  capacity: number
-  openHours: number
-  highlight: string
-  pricePerHour: number
-  location: string
-  isDeleted: boolean
+  name: string;
+  images: string[];
+  description: string;
+  shortDescription: string;
+  category: string;
+  rating: number;
+  capacity: number;
+  openHours: number;
+  highlight: string;
+  pricePerHour: number;
+  location: string;
+  isDeleted: boolean;
 }
 
 const ManageFacility = () => {
@@ -54,8 +54,20 @@ const ManageFacility = () => {
       </div>
       <div className="    h-[80vh]">
         <HandleDataLoading loadingOnly data={data.data} isLoading={isLoading}>
-          <Table sticky scroll={{y: 500}}  dataSource={data.data} className="  overflow-x-auto">
-          
+          <Table
+            pagination={{
+              pageSize: 10,
+              showSizeChanger: true,
+              pageSizeOptions: ["5", "10", "20", "50"],
+              showTotal: (total, range) =>
+                `${range[0]}-${range[1]} of ${total} facilities`,
+            }}
+            rowKey="_id"
+            sticky
+            scroll={{ y: 500 }}
+            dataSource={data.data}
+            className="  overflow-x-auto"
+          >
             <Column
               title="No."
               key="serial"
@@ -72,8 +84,12 @@ const ManageFacility = () => {
             />
             <Column title="Facility Name" dataIndex="name" key="name" />
 
-          
-            <Column width={400} title="Location" dataIndex="location" key="location" />
+            <Column
+              width={400}
+              title="Location"
+              dataIndex="location"
+              key="location"
+            />
             <Column
               title="PPH"
               render={(_: any, record: FacilitiesDataType) => {
