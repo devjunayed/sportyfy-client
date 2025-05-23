@@ -117,7 +117,7 @@ const Navbar = () => {
                 )}
                 {userData && (
                   <li
-                    key={userData.role as string}
+                    key={userData?.role as string}
                     className="hover:cursor-pointer"
                   >
                     <NavLink
@@ -158,7 +158,7 @@ const Navbar = () => {
                     </div>
                   </li>
                   <li className="mb-2">
-                    <Link to={`/${user.role}/dashboard`}>Dashboard</Link>
+                    <Link to={`/${user?.role}/dashboard`}>Dashboard</Link>
                   </li>
                   <li>
                     <NavbarButton />
