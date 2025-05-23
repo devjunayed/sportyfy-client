@@ -3,8 +3,8 @@ import { Flex, Input, Select, Pagination, Slider } from "antd";
 import { useEffect, useState } from "react";
 import { useGetFacilitiesQuery } from "../redux/api/dashboard/facilityApi";
 import { FacilitiesDataType } from "./admin/ManageFacility";
-import FacilityCard from "../components/ui/Facilities/FacilityCard";
 import HandleDataLoading from "../components/ui/Shared/HandleDataLoading/HandleDataLoading";
+import FacilityCard from "../components/ui/Home/FeaturedFacilities/FacilityCard";
 
 const Facilities = () => {
   const [queryUrl, setQueryUrl] = useState<string>("");
@@ -113,7 +113,7 @@ const Facilities = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-4 bg-white pl-4 pt-4">
               {facilityData?.data?.map((facility: FacilitiesDataType) => (
                 <div className="mx-auto" key={facility._id}>
-                  <FacilityCard {...facility} />
+                  <FacilityCard facility={facility} />
                 </div>
               ))}
             </div>
