@@ -64,7 +64,7 @@ const Navbar = () => {
               >
                 {viewersPath.map(
                   (link) =>
-                    !link.name && (
+                    link.name && (
                       <li key={link?.path} className="hover:cursor-pointer">
                         <NavLink className={"cursor-pointer"} to={link?.path}>
                           {link?.name}
