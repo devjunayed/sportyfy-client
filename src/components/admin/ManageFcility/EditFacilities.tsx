@@ -1,259 +1,228 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, Form, Input, InputNumber, message, Modal } from "antd";
+import { EditOutlined } from "@ant-design/icons";
+import { useEffect, useState } from "react";
+import JoditEditor from "jodit-react";
+
+import { useDispatch } from "react-redux";
 import {
-  Button,
-  Form,
-  GetProp,
-  Image,
-  Input,
-  message,
-  Modal,
-  Upload,
-  UploadFile,
-  UploadProps,
-} from "antd";
-import { useState } from "react";
-import { getBase } from "../../../utils/getBase";
+  setName,
+  setDescription,
+  setShortDescription,
+  setLocation,
+  setPricePerHour,
+  setCategory,
+  setCapacity,
+  setOpenHours,
+  setHighlight,
+} from "../../../redux/features/facilitiySlice";
+import { useAppSelector } from "../../../redux/hooks";
+import FileUpload from "../../ui/Shared/FileUpload/FileUpload";
 import { useUpdateFacilityMutation } from "../../../redux/api/dashboard/facilityApi";
 import { FacilitiesDataType } from "../../../pages/admin/ManageFacility";
 
-
-interface EditFacilitiesProps {
+interface EditFacilityProps {
   data: FacilitiesDataType;
   refetch: () => Promise<any>;
 }
 
-type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
-
-const EditFacilities = ({ data, refetch }: EditFacilitiesProps) => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
+const EditFacility = ({ data, refetch }: EditFacilityProps) => {
   const [form] = Form.useForm();
-  const [updateFacility, { isLoading }] = useUpdateFacilityMutation();
-
+  const dispatch = useDispatch();
   const [messageApi, contextHolder] = message.useMessage();
 
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [updateFacility, { isLoading }] = useUpdateFacilityMutation();
 
-  const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase(file.originFileObj as FileType);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [images, setImages] = useState<string[]>(data.images || []);
+  const [resetKey, setResetKey] = useState(`${Date.now().toString()}`);
+  console.log(data);
+
+  const {
+    name,
+    description,
+    shortDescription,
+    location,
+    pricePerHour,
+    category,
+    capacity,
+    openHours,
+    highlight,
+    isDeleted,
+  } = useAppSelector((state) => state.facility);
+
+  useEffect(() => {
+    if (isModalVisible) {
+      dispatch(setName(data.name));
+      dispatch(setDescription(data.description));
+      dispatch(setShortDescription(data.shortDescription));
+      dispatch(setLocation(data.location));
+      dispatch(setPricePerHour(data.pricePerHour));
+      dispatch(setCategory(data.category));
+      dispatch(setCapacity(data.capacity));
+      dispatch(setOpenHours(data.openHours as unknown as string));
+      dispatch(setHighlight(data.highlight));
+      setImages(data.images || []);
     }
+  }, [isModalVisible]);
 
-    setPreviewImage(file.url || (file.preview as string));
-    setPreviewOpen(true);
-  };
-
-  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
-    const updatedFileList = newFileList.map((file) => {
-      if (file.status === "uploading" || file.status === "error") {
-        return { ...file, status: "done" };
-      }
-      return file;
-    });
-
-    setFileList(updatedFileList as UploadFile[]);
-  };
-
-  const onReset = () => {
-    form.resetFields();
-    setFileList([]);
-  };
-
-  // Open modal
   const showModal = () => {
-    // setting old value to the form
     form.setFieldsValue({
+      images: data.images,
+      shortDescription: data.shortDescription,
+      category: data.category,
+      capacity: data.capacity,
+      openHours: data.openHours,
+      highlight: data.highlight,
       name: data.name,
       description: data.description,
       pricePerHour: data.pricePerHour,
       location: data.location,
     });
-
-    // setting old image to the upload
-    setFileList([
-      {
-        uid: "-1",
-        name: "facility_image",
-        status: "done",
-        url: data.images[0],
-      },
-    ]);
-    // opening modal
     setIsModalVisible(true);
   };
 
-  // Close modal
   const handleCancel = () => {
     setIsModalVisible(false);
+    form.resetFields();
   };
 
-  // Handle form submission
-  const handleOk = async (values: any) => {
-    try {
-      const facilityData = {
-        name: values.name,
-        description: values.description,
-        image: data.images,
-        pricePerHour: values.pricePerHour,
-        location: values.location,
-      };
+  const handleFileUpload = (imageUrls: string[]) => {
+    setImages([...imageUrls]);
+  };
 
-      const imgbbKey = import.meta.env.VITE_IMGBB_API_KEY;
+  const onFinish = async () => {
+    const facilityData = {
+      name,
+      description,
+      shortDescription,
+      location,
+      pricePerHour,
+      images,
+      category,
+      capacity,
+      openHours,
+      highlight,
+      isDeleted,
+    };
 
-      // Checking if a new image is uploaded
-      if (fileList.length > 0 && fileList[0].originFileObj) {
-        const formData = new FormData();
-        formData.append("image", fileList[0].originFileObj as Blob);
-        const response = await fetch(
-          `https://api.imgbb.com/1/upload?key=${imgbbKey}`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
+    const response = await updateFacility({ id: data._id, facilityData });
 
-        const uploadedImageData = await response.json();
-
-        if (uploadedImageData.success) {
-          facilityData.image = uploadedImageData.data.url;
-        } else {
-          messageApi.open({
-            type: "error",
-            content: "Error uploading image!",
-          });
-          return;
-        }
-      }
-
-      // Debugging output: check what data is being sent
-      console.log("Facility Data to be sent:", facilityData);
-
-      // Sending updated data to the server
-      const id = data._id;
-      const response = await updateFacility({ id, facilityData });
-
-      if (response?.data?.success) {
-        messageApi.open({
-          type: "success",
-          content: "Facility successfully updated",
-        });
-        refetch();
-        setIsModalVisible(false);
-      } else {
-        messageApi.open({
-          type: "error",
-          content: response?.data?.message || "Error updating facility",
-        });
-      }
-    } catch (error) {
-      console.error("Error updating facility:", error);
-      messageApi.open({
-        type: "error",
-        content: "Error updating facility!",
-      });
+    if (response.data?.success) {
+      messageApi.success(response.data.message);
+      refetch();
+      setIsModalVisible(false);
+      setResetKey(`${Date.now().toString()}`);
+    } else {
+      messageApi.error(response.data?.message || "Update failed.");
     }
   };
 
   return (
-    <>
+    <div className="w-full">
       <a onClick={showModal}>
-        <EditOutlined size={24} /> 
+        <EditOutlined />
       </a>
-      <div className="w-full mx-auto">
+
+      <Modal
+        width={820}
+        title="Edit Facility"
+        open={isModalVisible}
+        onCancel={handleCancel}
+        footer={[
+          <Button key="back" className="text-white" onClick={handleCancel}>
+            Cancel
+          </Button>,
+          <Button
+            key="submit"
+            type="primary"
+            loading={isLoading}
+            onClick={() => form.submit()}
+          >
+            Save
+          </Button>,
+        ]}
+      >
         {contextHolder}
         <Form
+          layout="vertical"
           form={form}
-          onFinish={handleOk}
-          name="control-hooks"
-          style={{ maxWidth: 600 }}
+          className="w-full"
+          onFinish={onFinish}
         >
-          <Modal
-            title="Edit Facility"
-            open={isModalVisible}
-            onOk={() => form.submit()}
-            confirmLoading={isLoading}
-            onCancel={handleCancel}
-            okText="Save"
-            cancelText="Cancel"
-            footer={[
-              <Button key="reset" onClick={onReset}>
-                Reset
-              </Button>,
-              <Button key="back" onClick={handleCancel}>
-                Cancel
-              </Button>,
-              <Button
-                key="submit"
-                className="bg-black text-white hover:bg-gray-900"
-                loading={isLoading}
-                onClick={() => form.submit()}
-              >
-                Save
-              </Button>,
-            ]}
+          <div className="mb-6 mx-auto w-full flex justify-center">
+            <FileUpload
+              initialFileUrls={images}
+              maxUpload={10}
+              resetKey={resetKey}
+              imgbbUrl={`https://api.imgbb.com/1/upload?key=${
+                import.meta.env.VITE_IMGBB_API_KEY
+              }`}
+              handleFileUpload={handleFileUpload}
+            />
+          </div>
+
+          <Form.Item
+            label="Name"
+            name="name"
+            rules={[{ required: true, message: "Please enter a name" }]}
           >
-            <div className="mx-auto w-full mb-6 flex justify-center">
-              <Upload
-                action={""}
-                listType="picture-circle"
-                fileList={fileList}
-                onPreview={handlePreview}
-                onChange={handleChange}
-              >
-                {fileList.length >= 1 ? null : (
-                  <button
-                    style={{ border: 0, background: "none" }}
-                    type="button"
-                  >
-                    <PlusOutlined className="text-black" />
-                    <div className="text-black" style={{ marginTop: 8 }}>
-                      Upload
-                    </div>
-                  </button>
-                )}
-              </Upload>
-              {previewImage && (
-                <Image
-                  wrapperStyle={{ display: "none" }}
-                  preview={{
-                    visible: previewOpen,
-                    onVisibleChange: (visible) => setPreviewOpen(visible),
-                  }}
-                  src={previewImage}
-                />
-              )}
-            </div>
-            <Form.Item name="name" label="Name" rules={[{ required: true }]}>
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name="description"
-              label="Description"
-              rules={[{ required: true }]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name="pricePerHour"
-              label="Price Per Hour"
-              rules={[{ required: true }]}
-            >
-              <Input type="number" />
-            </Form.Item>
-            <Form.Item
-              name="location"
-              label="Location"
-              rules={[{ required: true }]}
-            >
-              <Input />
-            </Form.Item>
-          </Modal>
+            <Input
+              defaultValue={name}
+              onChange={(e) => dispatch(setName(e.target.value))}
+            />
+          </Form.Item>
+
+          <Form.Item label="Short Description" name="shortDescription">
+            <Input
+              onChange={(e) => dispatch(setShortDescription(e.target.value))}
+            />
+          </Form.Item>
+
+          <Form.Item label="Description" name="description">
+            <JoditEditor
+              value={description}
+              onChange={(newContent) => dispatch(setDescription(newContent))}
+            />
+          </Form.Item>
+
+          <Form.Item label="Price Per Hour" name="pricePerHour">
+            <InputNumber
+              className="w-full"
+              onChange={(value) => dispatch(setPricePerHour(Number(value)))}
+            />
+          </Form.Item>
+
+          <Form.Item label="Location" name="location">
+            <Input onChange={(e) => dispatch(setLocation(e.target.value))} />
+          </Form.Item>
+
+          <Form.Item label="Category" name="category">
+            <Input onChange={(e) => dispatch(setCategory(e.target.value))} />
+          </Form.Item>
+
+          <Form.Item label="Capacity" name="capacity" className="w-full">
+            <InputNumber
+              className="w-full"
+              min={1}
+              onChange={(value) =>
+                dispatch(setCapacity(value ?? data.capacity))
+              }
+            />
+          </Form.Item>
+
+          <Form.Item label="Open Hours" name="openHours">
+            <Input onChange={(e) => dispatch(setOpenHours(e.target.value))} />
+          </Form.Item>
+
+          <Form.Item label="Highlight" name="highlight">
+            <Input onChange={(e) => dispatch(setHighlight(e.target.value))} />
+          </Form.Item>
         </Form>
-      </div>
-    </>
+      </Modal>
+    </div>
   );
 };
 
-export default EditFacilities;
+export default EditFacility;

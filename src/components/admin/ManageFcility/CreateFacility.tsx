@@ -1,26 +1,45 @@
-import { Form, Input, Button, message } from "antd";
-import {  useState } from "react";
+import { Form, Input, Button, InputNumber,  message } from "antd";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import JoditEditor from "jodit-react";
 import { useCreateFacilityMutation } from "../../../redux/api/dashboard/facilityApi";
 import { useAppSelector } from "../../../redux/hooks";
 import FileUpload from "../../ui/Shared/FileUpload/FileUpload";
-import { setDescription, setLocation, setName, setPricePerHour, setShortDescription } from "../../../redux/features/facilitiySlice";
+import {
+  setDescription,
+  setLocation,
+  setName,
+  setPricePerHour,
+  setShortDescription,
+  setCategory,
+  setCapacity,
+  setOpenHours,
+  setHighlight,
+} from "../../../redux/features/facilitiySlice";
 
 const CreateFacility = () => {
-
   const [createFacility] = useCreateFacilityMutation();
   const [messageApi, contextHolder] = message.useMessage();
   const [images, setImages] = useState<string[]>([]);
   const dispatch = useDispatch();
-  const { name, description, shortDescription, location, pricePerHour } = useAppSelector(
-    (state) => state.facility
-  );
-  const [resetKey, setResetKey] = useState(`${Date.now().toString()}`);
-  
-  const [form] = Form.useForm();
 
+  const {
+    name,
+    description,
+    shortDescription,
+    location,
+    pricePerHour,
+    category,
+    capacity,
+    openHours,
+    highlight,
+    isDeleted,
+  } = useAppSelector((state) => state.facility);
+
+  const [resetKey, setResetKey] = useState(`${Date.now().toString()}`);
+
+  const [form] = Form.useForm();
 
   const onFinish = async () => {
     const response = await createFacility({
@@ -30,11 +49,16 @@ const CreateFacility = () => {
       location,
       pricePerHour,
       images,
+      category,
+      capacity,
+      openHours,
+      highlight,
+      isDeleted,
     });
     if (response.data.success) {
       messageApi.success(response.data.message);
       onReset();
-      setImages([])
+      setImages([]);
       setResetKey(`${Date.now().toString()}`);
     } else {
       messageApi.error(response.data.message);
@@ -46,18 +70,34 @@ const CreateFacility = () => {
     form.resetFields();
   };
 
-  const handleFileUpload =  (imageUrls: string[]) => {
+  const handleFileUpload = (imageUrls: string[]) => {
     setImages([...imageUrls]);
   };
-
 
   const config = {};
 
   return (
     <div className="flex justify-center items-center ">
       {contextHolder}
-      <Form layout="vertical" className="w-full" onFinish={onFinish}>
-        <div className="mx-auto w-full mb-6   flex justify-center">
+      <Form
+        layout="vertical"
+        form={form}
+        className="w-full"
+        onFinish={onFinish}
+        initialValues={{
+          name,
+          shortDescription,
+          description,
+          pricePerHour,
+          location,
+          category,
+          capacity,
+          openHours,
+          highlight,
+          isDeleted,
+        }}
+      >
+        <div className="mx-auto w-full mb-6 flex justify-center">
           <FileUpload
             initialFileUrls={images}
             maxUpload={10}
@@ -68,6 +108,7 @@ const CreateFacility = () => {
             handleFileUpload={handleFileUpload}
           />
         </div>
+
         <Form.Item
           label="Name"
           name="name"
@@ -75,7 +116,6 @@ const CreateFacility = () => {
         >
           <Input
             onChange={(e) => dispatch(setName(e.target.value))}
-            defaultValue={name}
             value={name}
             placeholder="Enter name"
           />
@@ -88,9 +128,8 @@ const CreateFacility = () => {
         >
           <Input.TextArea
             onChange={(e) => dispatch(setShortDescription(e.target.value))}
-            placeholder="Enter short  description"
+            placeholder="Enter short description"
             value={shortDescription}
-            defaultValue={shortDescription}
           />
         </Form.Item>
 
@@ -103,10 +142,8 @@ const CreateFacility = () => {
             config={config}
             value={description}
             onBlur={(content) => {
-              console.log(content);
-              dispatch(setDescription(content))
-            }} 
-          
+              dispatch(setDescription(content));
+            }}
           />
         </Form.Item>
 
@@ -120,7 +157,6 @@ const CreateFacility = () => {
             type="number"
             onChange={(e) => dispatch(setPricePerHour(Number(e.target.value)))}
             placeholder="Enter price per hour"
-            defaultValue={pricePerHour}
             value={pricePerHour}
             style={{ width: "100%" }}
           />
@@ -134,16 +170,70 @@ const CreateFacility = () => {
           <Input
             onChange={(e) => dispatch(setLocation(e.target.value))}
             placeholder="Enter location"
-            defaultValue={location}
+            value={location}
           />
         </Form.Item>
 
+        {/* New Fields Start */}
+
+        <Form.Item
+          label="Category"
+          name="category"
+          rules={[{ required: true, message: "Please enter category" }]}
+        >
+          <Input
+            onChange={(e) => dispatch(setCategory(e.target.value))}
+            value={category}
+            placeholder="Enter category"
+          />
+        </Form.Item>
+
+     
+
+        <Form.Item
+          label="Capacity"
+          name="capacity"
+          rules={[{ required: true, message: "Please enter capacity" }]}
+        >
+          <InputNumber
+            min={1}
+            value={capacity}
+            onChange={(value) => dispatch(setCapacity(value ?? 1))}
+            style={{ width: "100%" }}
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="Open Hours"
+          name="openHours"
+          rules={[{ required: true, message: "Please enter open hours" }]}
+        >
+           <Input
+            onChange={(e) => dispatch(setOpenHours(e.target.value))}
+            value={openHours}
+            placeholder="Example: 08:00 AM - 10:00 PM"
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="Highlight"
+          name="highlight"
+          rules={[{ required: true, message: "Please enter highlight" }]}
+        >
+          <Input
+            onChange={(e) => dispatch(setHighlight(e.target.value))}
+            value={highlight}
+            placeholder="Highlight text"
+          />
+        </Form.Item>
+
+   
+
+        {/* New Fields End */}
+
         <div className="mx-auto">
           <Form.Item>
-            <Button
-              className="bg-black w-full mx-auto text-white "
-              htmlType="submit"
-            >
+            <Button className="bg-black w-full mx-auto text-white" htmlType="submit">
               Submit
             </Button>
           </Form.Item>

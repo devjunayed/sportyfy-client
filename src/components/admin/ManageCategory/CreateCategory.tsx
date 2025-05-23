@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useCreateCategoryMutation } from "../../../redux/api/dashboard/categoryApi";
 import { useAppSelector } from "../../../redux/hooks";
-import FileUpload from "../../ui/Shared/FileUpload/FileUpload";
 import { setSubTitle, setTitle } from "../../../redux/features/categorySlice";
 import { ClockLoader } from "react-spinners";
 
@@ -14,10 +13,8 @@ type TCreateCategory = {
 const CreateCategory = ({ setIsOpen }: TCreateCategory) => {
   const [createCategory] = useCreateCategoryMutation();
   const [messageApi, contextHolder] = message.useMessage();
-  const [image, setImage] = useState<string>("");
   const dispatch = useDispatch();
   const { title, subtitle } = useAppSelector((state) => state.category);
-  const [resetKey, setResetKey] = useState(`${Date.now().toString()}`);
   const [loading, setLoading] = useState(false);
 
   const [form] = Form.useForm();
@@ -28,16 +25,13 @@ const CreateCategory = ({ setIsOpen }: TCreateCategory) => {
       const response = await createCategory({
         title,
         subtitle,
-        image,
       });
 
       if (response?.data?.success) {
         messageApi.success(response?.data?.message);
         onReset();
-        setImage("");
         dispatch(setTitle(""));
         dispatch(setSubTitle(""));
-        setResetKey(`${Date.now().toString()}`);
         setIsOpen(false);
       }
     } catch (error) {
@@ -52,9 +46,7 @@ const CreateCategory = ({ setIsOpen }: TCreateCategory) => {
     form.resetFields();
   };
 
-  const handleFileUpload = (imageUrls: string[]) => {
-    setImage(imageUrls[0]);
-  };
+
 
   return (
     <div className="flex min-h-[50vh] justify-center items-center  ">
@@ -66,16 +58,7 @@ const CreateCategory = ({ setIsOpen }: TCreateCategory) => {
         </div>
       ) : (
         <Form layout="vertical" className="w-full " onFinish={onFinish}>
-          <div className="mx-auto w-full mb-6   flex justify-center">
-            <FileUpload
-              maxUpload={1}
-              resetKey={resetKey}
-              imgbbUrl={`https://api.imgbb.com/1/upload?key=${
-                import.meta.env.VITE_IMGBB_API_KEY
-              }`}
-              handleFileUpload={handleFileUpload}
-            />
-          </div>
+         
           <Form.Item
             label="Title"
             name="title"
