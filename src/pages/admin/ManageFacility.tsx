@@ -31,7 +31,7 @@ const ManageFacility = () => {
   const { data = [], refetch, isLoading } = useGetFacilitiesQuery("");
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="mt-20 overflow-y-hidden">
+    <div className="mt-20 overflow-y-auto max-h-[85vh]">
       <div className="flex justify-between mb-4 items-center">
         <h1 className="text-xl font-bold">Manage Facility</h1>
         <Button
@@ -52,19 +52,17 @@ const ManageFacility = () => {
           <CreateFacility />
         </Modal>
       </div>
-      <div className="    h-[80vh]">
+      <div className="    ">
         <HandleDataLoading loadingOnly data={data.data} isLoading={isLoading}>
           <Table
             pagination={{
               pageSize: 10,
-              showSizeChanger: true,
-              pageSizeOptions: ["5", "10", "20", "50"],
               showTotal: (total, range) =>
                 `${range[0]}-${range[1]} of ${total} facilities`,
             }}
             rowKey="_id"
             sticky
-            scroll={{ y: 500 }}
+            // scroll={{ y: 500 }}
             dataSource={data.data}
             className="  overflow-x-auto"
           >
