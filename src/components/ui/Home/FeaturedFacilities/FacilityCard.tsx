@@ -1,49 +1,64 @@
-import { Card } from "antd";
+
+import { StarFilled } from "@ant-design/icons";
 import { FacilitiesDataType } from "../../../../pages/admin/ManageFacility";
-import { useState } from "react";
-import { BiLocationPlus } from "react-icons/bi";
-import { TbCurrencyTaka } from "react-icons/tb";
+import { Clock, MapIcon, Users } from "lucide-react";
+
 
 const FacilityCard = ({ facility }: { facility: FacilitiesDataType }) => {
-  const [bgImg, setBgImg] = useState(facility.images[0]);
   return (
-    <Card
-      onMouseEnter={() =>
-        facility.images.length > 1 && setBgImg(facility.images[1])
-      }
-      onMouseLeave={() => setBgImg(facility.images[0])}
+    <a
+      href={`/facility/${facility?._id}`}
       key={facility._id}
-      cover={
-        <div
-          className={` h-44 w-full bg-cover transition-all duration-700 ease-in-out`}
-          style={{
-            backgroundImage: `url(${bgImg})`,
-          }}
-        ></div>
-      }
-      hoverable
+      className="group overflow-hidden rounded-lg border border-gray-100 bg-white shadow-sm transition-all hover:shadow-md"
     >
-      <div className="flex gap-4 w-full justify-between">
-        <Card.Meta title={facility.name} />
+      <div className="relative h-48 w-full overflow-hidden">
+        <img
+          src={facility.images[0] || "/placeholder.svg"}
+          alt={facility.name}
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+        <div className="absolute right-3 top-3 rounded-full bg-white px-2 py-1 text-xs font-medium text-gray-900">
+          {facility?.category}
+        </div>
       </div>
-      <Card.Meta
-        description={
-          <>
-            <span className="flex items-center gap-2 mt-2  text-gray-700">
-             <TbCurrencyTaka /> {facility.pricePerHour} / PH
+
+      <div className="p-6">
+        <div className="mb-2 flex items-center justify-between">
+          <h3 className="text-xl font-semibold text-gray-900">
+            {facility.name}
+          </h3>
+          <div className="flex items-center gap-1">
+            <StarFilled className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+            <span className="text-sm font-medium text-gray-900">
+              {facility?.rating}
             </span>
-            <span className="flex   items-center gap-2">
-              <BiLocationPlus /> {facility.location}
-            </span>
-          </>
-        }
-      />
-      <div className="flex justify-center">
-        <button className=" w-1/2 mt-4 border bg-gray-800 text-white py-1 rounded-md text-center">
-          Book Now
-        </button>
+          </div>
+        </div>
+
+        <div className="mb-4 flex items-center gap-1 text-gray-500">
+          <MapIcon className="h-4 w-4" />
+          <span className="text-sm">{facility.location}</span>
+        </div>
+
+        <div className="space-y-2 border-t border-gray-100 pt-4">
+          <div className="flex items-center gap-2">
+            <Users className="h-4 w-4 text-gray-400" />
+            <span className="text-sm text-gray-600">{facility?.capacity}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Clock className="h-4 w-4 text-gray-400" />
+            <span className="text-sm text-gray-600">{facility?.openHours}</span>
+          </div>
+        </div>
+
+        <div className="mt-4 rounded-md bg-gray-50 px-3 py-2">
+          <p className="text-sm font-medium text-gray-700">
+            <span className="font-semibold text-gray-900">Highlight: </span>
+            {facility?.highlight}
+          </p>
+        </div>
       </div>
-    </Card>
+    </a>
   );
 };
 

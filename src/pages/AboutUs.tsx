@@ -23,9 +23,11 @@ const { Title, Paragraph, Text } = Typography;
 
 const AboutUs = () => {
   return (
-    <div className="max-w-7xl mx-auto mt-20">
-      <HeaderSportyfy text={"about us"} />
-      <div style={{ padding: "50px", backgroundColor: "#f9f9f9" }}>
+    <div className="md:max-w-7xl mx-auto mt-20">
+      <div className="mx-4 ">
+        <HeaderSportyfy text={"about us"} />
+      </div>
+      <div className="mx-4" style={{  backgroundColor: "#f9f9f9" }}>
         {/* Mission Statement */}
         <Row justify="center">
           <Col span={24} style={{ textAlign: "center", marginBottom: "40px" }}>
@@ -50,7 +52,12 @@ const AboutUs = () => {
         {/* Team Section */}
         <Row gutter={[16, 16]} justify="center">
           <Col span={24} style={{ textAlign: "center", marginBottom: "30px" }}>
-            <Title level={2}>Meet Our Team</Title>
+            <h3
+              className="text-xl md:text-3xl font-bold mb-10"
+              style={{ color: "#1B1F3B" }}
+            >
+              Meet Our Team
+            </h3>
             <Paragraph
               style={{
                 maxWidth: "800px",
@@ -144,7 +151,12 @@ const AboutUs = () => {
         {/* History & Milestones */}
         <Row justify="center" style={{ marginTop: "50px" }}>
           <Col span={24} style={{ textAlign: "center", marginBottom: "30px" }}>
-            <Title level={2}>Our Journey</Title>
+            <h3
+              className="text-xl md:text-3xl font-bold"
+              style={{ color: "#1B1F3B" }}
+            >
+              Our Journey
+            </h3>
           </Col>
           <Col span={24} style={{ maxWidth: "800px", margin: "0 auto" }}>
             <Timeline mode="alternate">
