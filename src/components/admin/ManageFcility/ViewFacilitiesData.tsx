@@ -9,7 +9,6 @@ import parse from 'html-react-parser';
 const ViewFacilitiesData = ({ data }: { data: FacilitiesDataType }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log(data)
   return (
     <div>
       <button onClick={() => setIsOpen(true)}>

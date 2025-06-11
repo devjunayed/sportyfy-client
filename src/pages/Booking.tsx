@@ -12,6 +12,7 @@ import { useCreateBookingMutation } from "../redux/api/booking/bookingApi";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import HandleDataLoading from "../components/ui/Shared/HandleDataLoading/HandleDataLoading";
 import dayjs from "dayjs";
+import parse from 'html-react-parser'
 
 interface TSlot {
   startTime: string;
@@ -98,9 +99,9 @@ const Booking = () => {
         <div>
           {/* Facility Overview */}
           <div
-            className="hero bg-[#1B1F3B]  text-white rounded-xl mb-10"
+            className="hero bg-[#1B1F3B]  text-white rounded-xl my-10"
             style={{
-              backgroundImage: `url(${facility?.data?.image})`,
+              backgroundImage: `url(${facility?.data?.images[0]})`,
             }}
           >
             <div className="hero-overlay bg-opacity-90 rounded-lg"></div>
@@ -110,7 +111,7 @@ const Booking = () => {
                   {facility?.data?.name}
                 </h2>
                 <Divider />
-                <p className="mb-4">{facility?.data?.description}</p>
+                <p className="mb-4">{parse(`${facility?.data?.shortDescription}`)}</p>
                 <p>
                   <strong>Price Per Hour:</strong>{" "}
                   {facility?.data?.pricePerHour} &#2547;

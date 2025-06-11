@@ -37,7 +37,6 @@ const EditFacility = ({ data, refetch }: EditFacilityProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [images, setImages] = useState<string[]>(data.images || []);
   const [resetKey, setResetKey] = useState(`${Date.now().toString()}`);
-  console.log(data);
 
   const {
     name,
