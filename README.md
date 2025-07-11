@@ -1,92 +1,36 @@
-
-# Sportyfy: Sports Facility Booking Platform
-
-**Live Link:** [https://sportyfy.devjunayed.xyz/](https://sportyfy.devjunayed.xyz/)  
-**API Link:** [https://api.sportyfy.devjunayed.xyz/](https://api.sportyfy.devjunayed.xyz/)
-
-## Introduction
-Sportyfy is a comprehensive sports facility booking platform that enables users to easily find and book various sports facilities. Whether you're looking to play tennis, book a basketball court, or find a swimming pool, Sportyfy provides a seamless experience for both users and administrators. With a user-friendly interface and robust backend, Sportyfy aims to facilitate sports activities by simplifying the booking process.
-
-## Table of Contents
-1. [Features](#features)
-2. [Getting Started](#getting-started)
-3. [User Accounts](#user-accounts)
-4. [Admin Accounts](#admin-accounts)
-5. [API Endpoints](#api-endpoints)
-6. [Technologies Used](#technologies-used)
-7. [Contribution](#contribution)
-8. [License](#license)
-
-## Features
-- User-friendly landing page for easy navigation.
-- User and admin dashboards for managing bookings and facilities.
-- Login and registration functionalities with social media integration.
-- Facility listing and details pages.
-- Booking page with availability checker and payment integration.
-- Responsive design for mobile and desktop devices.
-- Error handling and user notifications.
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
-To get started with the Sportyfy project, follow these steps:
 
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd sportyfy
-   ```
-3. Install the dependencies:
-   ```bash
-   npm install
-   ```
-4. Start the development server:
-   ```bash
-   npm start
-   ```
+First, run the development server:
 
-## User Accounts
-### Demo User Account
-- **Email:** user@gmail.com
-- **Password:** user123
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-Users can sign up, log in, and manage their bookings through the user dashboard.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Admin Accounts
-### Demo Admin Account
-- **Email:** admin@gmail.com
-- **Password:** admin123
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-Administrators can manage facilities, bookings, and user accounts through the admin dashboard.
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## API Endpoints
-### User Routes
-1. **User Sign Up**: `POST /api/auth/signup`
-2. **User Login**: `POST /api/auth/login`
+## Learn More
 
-### Facility Routes (Admin Only)
-3. **Create a Facility**: `POST /api/facility`
-4. **Update a Facility**: `PUT /api/facility/:id`
-5. **Delete a Facility**: `DELETE /api/facility/:id`
-6. **Get All Facilities**: `GET /api/facility`
+To learn more about Next.js, take a look at the following resources:
 
-### Booking Routes
-7. **Check Availability**: `GET /api/check-availability`
-8. **Create a Booking**: `POST /api/bookings`
-9. **View All Bookings**: `GET /api/bookings`
-10. **View Bookings by User**: `GET /api/bookings/user`
-11. **Cancel a Booking**: `DELETE /api/bookings/:id`
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## Technologies Used
-- React for the frontend
-- Node.js and Express for the backend
-- MongoDB for the database
-- CSS/Tailwind/AntDesign/DaiysiUi for styling
-- SSL Commerz for payment integration
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Contribution
-Contributions are welcome! Please create an issue or submit a pull request for any features or bug fixes.
+## Deploy on Vercel
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
