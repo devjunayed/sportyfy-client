@@ -38,6 +38,7 @@ const LoginPage: React.FC = () => {
 
   const onFinish = async () => {
     try {
+      console.log({email, password})
       const loginResult = await login({ email, password });
       console.log(loginResult);
 

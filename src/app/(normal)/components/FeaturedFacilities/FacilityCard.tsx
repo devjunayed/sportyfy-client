@@ -1,64 +1,66 @@
+/* eslint-disable @next/next/no-img-element */
 import { StarFilled } from "@ant-design/icons";
-import { FacilitiesDataType } from "../../../../pages/admin/ManageFacility";
+import { FacilitiesDataType } from "@/types/facility.type";
 import { Clock, MapIcon, Users } from "lucide-react";
 
 const FacilityCard = ({ facility }: { facility: FacilitiesDataType }) => {
   return (
-    <div className="border-2">
+    <div className="rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow duration-300">
       <a
         href={`/facility/${facility?._id}`}
-        key={facility._id}
-        className="group overflow-hidden rounded-lg  bg-white shadow-sm transition-all hover:shadow-md"
+        className="group block overflow-hidden rounded-xl"
       >
-        <div className="relative h-48 w-full overflow-hidden">
+        {/* Image + Category */}
+        <div className="relative h-48 w-full overflow-hidden rounded-t-xl">
           <img
             src={facility.images[0] || "/placeholder.svg"}
             alt={facility.name}
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
-          <div className="absolute right-3 top-3 rounded-full bg-white px-2 py-1 text-xs font-medium text-gray-900">
+          <div className="absolute top-3 right-3 rounded-full bg-white px-3 py-1 text-xs font-medium text-gray-800 shadow-sm">
             {facility?.category}
           </div>
         </div>
 
-        <div className="p-6">
-          <div className="mb-2 flex items-center justify-between">
-            <h3 className="text-xl font-semibold text-gray-900">
+        {/* Content */}
+        <div className="p-5 space-y-3">
+          {/* Title & Rating */}
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold text-gray-900">
               {facility.name}
             </h3>
-            <div className="flex items-center gap-1">
-              <StarFilled className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-              <span className="text-sm font-medium text-gray-900">
-                {facility?.rating}
+            <div className="flex items-center gap-1 text-yellow-500">
+              <StarFilled className="text-sm" />
+              <span className="text-sm font-medium text-gray-800">
+                {facility?.rating?.toFixed(1) ?? "N/A"}
               </span>
             </div>
           </div>
 
-          <div className="mb-4 flex items-center gap-1 text-gray-500">
+          {/* Location */}
+          <div className="flex items-center gap-2 text-gray-600 text-sm">
             <MapIcon className="h-4 w-4" />
-            <span className="text-sm">{facility.location}</span>
+            <span>{facility.location}</span>
           </div>
 
-          <div className="space-y-2 border-t border-gray-100 pt-4">
+          {/* Capacity & Hours */}
+          <div className="flex justify-between text-sm text-gray-600">
             <div className="flex items-center gap-2">
-              <Users className="h-4 w-4 text-gray-400" />
-              <span className="text-sm text-gray-600">
-                {facility?.capacity}
-              </span>
+              <Users className="h-4 w-4 text-gray-500" />
+              <span>{facility?.capacity} people</span>
             </div>
             <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-gray-400" />
-              <span className="text-sm text-gray-600">
-                {facility?.openHours}
-              </span>
+              <Clock className="h-4 w-4 text-gray-500" />
+              <span>{facility?.openHours}</span>
             </div>
           </div>
 
-          <div className="mt-4 rounded-md bg-gray-50 px-3 py-2">
-            <p className="text-sm font-medium text-gray-700">
-              <span className="font-semibold text-gray-900">Highlight: </span>
+          {/* Highlight */}
+          <div className="rounded-md bg-gray-50 p-3">
+            <span className="text-sm text-gray-700">
+              <strong className="text-gray-900">Highlight:</strong>{" "}
               {facility?.highlight}
-            </p>
+            </span>
           </div>
         </div>
       </a>

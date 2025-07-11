@@ -4,20 +4,20 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Sportyfy | Make your game",
-  description: "A sporty facility booking system where user and admin can manage bookings seemlesly.",
+  description:
+    "A sporty facility booking system where user and admin can manage bookings seemlesly.",
 };
 
-export default function NormalLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <div>
-
-        <Navbar />
-        {children}
-        <Footer />
+      <Navbar />
+      {children}
+      <Footer />
     </div>
   );
 }
