@@ -1,5 +1,4 @@
 import Navbar from "@/components/Shared/Navbar/Navbar";
-import { AntdRegistry } from "@ant-design/nextjs-registry";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,9 +13,9 @@ export default function NormalLayout({
 }>) {
   return (
     <div>
-      <AntdRegistry>
+
         <Navbar />
-        {children}</AntdRegistry>
+        {children}
     </div>
   );
 }

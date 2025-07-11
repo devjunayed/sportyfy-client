@@ -3,13 +3,14 @@ import { CloseOutlined, MenuOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import Logo from "../Logo/Logo";
 import NavbarButton from "./NavbarButton";
-import { useAppSelector } from "../../../../redux/hooks";
-import { currentUser } from "../../../../redux/features/authSlice";
-import { TUser } from "../../../../types/shared.type";
-import { useGetUserQuery } from "../../../../redux/api/auth/authApi";
-import { capitalize } from "../../../../utils/capitalize";
+import { useAppSelector } from "@/redux/hooks"; 
+import { currentUser } from "@/redux/features/authSlice"; 
+import { TUser } from "@/types/shared.type";
+import { useGetUserQuery } from "@/redux/api/auth/authApi";
+import { capitalize } from "@/utils/capitalize"; 
 import { usePathname } from "next/navigation";
 import { viewersPath } from "@/routes/viewers.routes";
+import Link from "next/link";
 
 const Navbar = () => {
   // const pathname = useLocation().pathname;
@@ -68,9 +69,9 @@ const Navbar = () => {
                   (link) =>
                     link.name && (
                       <li key={link?.path} className="hover:cursor-pointer">
-                        <NavLink className={"cursor-pointer"} to={link?.path}>
+                        <Link className={"cursor-pointer"} href={link?.path}>
                           {link?.name}
-                        </NavLink>
+                        </Link>
                       </li>
                     )
                 )}
@@ -79,13 +80,13 @@ const Navbar = () => {
                     key={userData?.data?.role as string}
                     className="hover:cursor-pointer"
                   >
-                    <NavLink
+                    <Link
                       replace={true}
                       className={"cursor-pointer"}
-                      to={`/${userData?.data?.role as string}/dashboard`}
+                      href={`/${userData?.data?.role as string}/dashboard`}
                     >
                       Dashboard
-                    </NavLink>
+                    </Link>
                   </li>
                 )}
 
@@ -108,12 +109,12 @@ const Navbar = () => {
                   (link) =>
                     link.name && (
                       <li key={link?.path} className=" hover:cursor-pointer">
-                        <NavLink
+                        <Link
                           className="hover:cursor-pointer bg-none "
-                          to={link?.path}
+                          href={link?.path}
                         >
                           {link?.name}
-                        </NavLink>
+                        </Link>
                       </li>
                     )
                 )}
@@ -122,13 +123,13 @@ const Navbar = () => {
                     key={userData?.role as string}
                     className="hover:cursor-pointer"
                   >
-                    <NavLink
+                    <Link
                       className={"cursor-pointer"}
                       replace={true}
-                      to={`/${userData?.data?.role as string}/dashboard`}
+                      href={`/${userData?.data?.role as string}/dashboard`}
                     >
                       Dashboard
-                    </NavLink>
+                    </Link>
                   </li>
                 )}
               </ul>
@@ -160,7 +161,7 @@ const Navbar = () => {
                     </div>
                   </li>
                   <li className="mb-2">
-                    <Link to={`/${user?.role}/dashboard`}>Dashboard</Link>
+                    <Link href={`/${user?.role}/dashboard`}>Dashboard</Link>
                   </li>
                   <li>
                     <NavbarButton />
