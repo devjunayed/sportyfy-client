@@ -7,6 +7,7 @@
 // import AboutUs from 
 // import ContactUs from 
 
+import Facilities from "@/app/(normal)/facilities/page";
 import HomePage from "@/app/(normal)/page";
 
 export const viewersPath = [
@@ -15,11 +16,11 @@ export const viewersPath = [
     path: "/",
     element: <HomePage />,
   },
-  // {
-  //   name: "Facilities",
-  //   path: "/facilities",
-  //   element: <Facilities />,
-  // },
+  {
+    name: "Facilities",
+    path: "/facilities",
+    element: <Facilities />,
+  },
   // {
   //   name: "About",
   //   path: "/about",

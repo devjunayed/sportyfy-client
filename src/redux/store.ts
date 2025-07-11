@@ -6,7 +6,7 @@ import authSlice from "./features/authSlice";
 import categorySlice from "./features/categorySlice";
 import dashboardSlice from "./features/dashboardSlice";
 import facilitySlice from "./features/facilitiySlice";
-import { persistReducer, persistStore } from "redux-persist";
+import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from "redux-persist";
 import storage from "redux-persist/lib/storage"
 const persistConfig = {
   key: 'auth',
@@ -28,7 +28,13 @@ export const store = configureStore({
     user: persistedAuthReducer
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(baseApi.middleware),
+    getDefaultMiddleware(
+      {
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }
+    ).concat(baseApi.middleware),
 });
 
 
