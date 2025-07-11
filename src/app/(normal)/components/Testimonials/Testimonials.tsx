@@ -1,6 +1,7 @@
-import { Card, Carousel, Image, Typography } from "antd";
+import { Card, Carousel, Image } from "antd";
+import Title from "antd/es/typography/Title";
+import Text from "antd/es/typography/Text"
 
-const { Title, Text } = Typography;
 
 const Testimonials = () => {
   return (
@@ -16,14 +17,15 @@ const Testimonials = () => {
           <Card hoverable>
             <div className="flex justify-center items-center  flex-col">
               <Image
+              alt="image"
               preview={false}
                 className="mx-auto rounded-full mb-4"
                 width={150}
                 src="https://xsgames.co/randomusers/avatar.php?g=male"
               />
               <Text>
-                "I had a great experience booking a football field. The process
-                was quick and seamless!"
+                &ldquo;I had a great experience booking a football field. The process
+                was quick and seamless!&rdquo;
               </Text>
               <Text strong>- John Doe</Text>
             </div>
@@ -33,14 +35,15 @@ const Testimonials = () => {
           <Card hoverable>
           <div className="flex justify-center items-center  flex-col">
               <Image
+              alt="image"
               preview={false}
                 className="mx-auto rounded-full mb-4"
                 width={150}
                 src="https://xsgames.co/randomusers/avatar.php?g=female"
               />
             <Text>
-              "Easy to use and hassle-free booking system. I highly recommend
-              this platform."
+              &ldquo;Easy to use and hassle-free booking system. I highly recommend
+              this platform.&rdquo;
             </Text>
             <Text strong>- Jenny Smith</Text>
             </div>
@@ -50,14 +53,15 @@ const Testimonials = () => {
           <Card hoverable>
           <div className="flex justify-center items-center  flex-col">
               <Image
+              alt="image"
               preview={false}
                 className="mx-auto rounded-full mb-4"
                 width={150}
                 src="https://xsgames.co/randomusers/avatar.php?g=male"
               />
             <Text>
-              "I love how I can compare different venues and book the best one
-              with just a few clicks!"
+              &ldquo;I love how I can compare different venues and book the best one
+              with just a few clicks!&rdquo;
             </Text>
             <Text strong>- Mike Johnson</Text>
             </div>

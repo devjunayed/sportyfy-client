@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+"use client";
 import Logo from "../Logo/Logo";
 import { FaFacebook, FaFacebookMessenger, FaWhatsapp } from "react-icons/fa";
 import { Button, Input } from "antd";
+import Link from "next/link";
 
 const { Search } = Input;
 
@@ -9,16 +10,16 @@ const Footer = () => {
   const onSearch = () => {};
   return (
     <div className="w-full  bg-[#1B1F3B]">
-      <footer className="footer max-w-7xl mx-auto px-4 md:px-0 text-white py-10">
+      <footer className="footer flex justify-between max-w-7xl mx-auto px-4 md:px-0 text-white py-10">
         <aside className="flex  justify-center text-center items-center flex-col">
           <Logo />
         </aside>
         <nav>
           <h6 className="footer-title">Links</h6>
-          <Link to="/about-us" className="link link-hover">
+          <Link href="/about-us" className="link link-hover">
             About us
           </Link>
-          <Link to="/contact" className="link link-hover">
+          <Link href="/contact" className="link link-hover">
             Contact
           </Link>
           <a className="link link-hover">Jobs</a>

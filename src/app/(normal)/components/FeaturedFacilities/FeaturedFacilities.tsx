@@ -1,8 +1,9 @@
-import { useGetFacilitiesQuery } from "../../../../redux/api/dashboard/facilityApi";
-import { FacilitiesDataType } from "../../../../pages/admin/ManageFacility";
-import HandleDataLoading from "../../Shared/HandleDataLoading/HandleDataLoading";
+"use client"
+import { useGetFacilitiesQuery } from "@/redux/api/dashboard/facilityApi";
+import { FacilitiesDataType } from "@/types/facility.type";
+import HandleDataLoading from "@/components/Shared/HandleDataLoading/HandleDataLoading";
 
-import SectionTitle from "../../Shared/SectionTitle/SectionTitle";
+import SectionTitle from "@/components/Shared/SectionTitle/SectionTitle";
 import FacilityCard from "./FacilityCard";
 
 const FeaturedFacilities = () => {
@@ -24,8 +25,8 @@ const FeaturedFacilities = () => {
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {facilities?.data
               ?.slice(0, 6)
-              .map((facility: FacilitiesDataType) => (
-                <FacilityCard facility={facility} />
+              .map((facility: FacilitiesDataType, index: number) => (
+                <FacilityCard key={index} facility={facility} />
               ))}
           </div>
 
