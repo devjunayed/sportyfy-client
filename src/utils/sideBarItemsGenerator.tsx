@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import Link from "next/link";
 import { TSidebarItem, TUserPath } from "../types/shared.type";
 
 export const sideBarItemsGenerator = (
@@ -16,9 +16,9 @@ export const sideBarItemsGenerator = (
         label: item.children ? (
           <span>{!collapsed && item.name}</span>
         ) : (
-          <NavLink to={`/${role}/${item.path}`}>
+          <Link href={`/${role}/${item.path}`}>
             {!collapsed && item.name} 
-          </NavLink>
+          </Link>
         ),
       };
 
@@ -33,7 +33,7 @@ export const sideBarItemsGenerator = (
                 const childFullPath = `/${role}/${item.path}/${child.path}`;
                 return {
                   key: child.name, 
-                  label: <NavLink to={childFullPath}>{child.name}</NavLink>,
+                  label: <Link href={childFullPath}>{child.name}</Link>,
                 } as TSidebarItem; 
               }
               return null; 

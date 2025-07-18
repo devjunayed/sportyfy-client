@@ -1,18 +1,18 @@
 "use client";
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Layout, Menu } from "antd";
-import { useAppSelector } from "../redux/hooks";
-import { currentToken } from "../redux/features/authSlice";
-import { verifyToken } from "../utils/verifyToken";
-import { TSidebarItem, TUser } from "../types/shared.type";
-import { sideBarItemsGenerator } from "../utils/sideBarItemsGenerator";
-import { adminPaths } from "../routes/admin.routes";
-import { userPaths } from "../routes/user.routes";
+import { useAppSelector } from "@/redux/hooks";
+import { currentToken } from "@/redux/features/authSlice";
+import { verifyToken } from "@/utils/verifyToken";
+import { TSidebarItem, TUser } from "@/types/shared.type";
+import { sideBarItemsGenerator } from "@/utils/sideBarItemsGenerator";
+import { adminPaths } from "@/routes/admin.routes";
+import { userPaths } from "@/routes/user.routes";
 import { useEffect, useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { ItemType } from "antd/es/menu/interface";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const { Sider } = Layout;
 
