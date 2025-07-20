@@ -1,15 +1,21 @@
+"use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Image, Modal, Space, Table } from "antd";
 import Column from "antd/es/table/Column";
-import HandleDataLoading from "../../components/ui/Shared/HandleDataLoading/HandleDataLoading";
+import HandleDataLoading from "@/components/Shared/HandleDataLoading/HandleDataLoading";
 import { PlusCircleFilled } from "@ant-design/icons";
 import { useState } from "react";
-import { useGetCategoriesQuery } from "../../redux/api/dashboard/categoryApi";
-import CreateCategory from "../../components/admin/ManageCategory/CreateCategory";
-import { CategoryDataType } from "../../types/category.type";
-import ViewCategoryData from "../../components/admin/ManageCategory/ViewCategoryData";
-import EditCategory from "../../components/admin/ManageCategory/EditCategory";
-import DeleteCategory from "../../components/admin/ManageCategory/DeleteCategory";
+import { useGetCategoriesQuery } from "@/redux/api/dashboard/categoryApi";
+import CreateCategory from "../manage-category/components/CreateCategory"; 
+import { CategoryDataType } from "@/types/category.type";
+import ViewCategoryData from "../manage-category/components/ViewCategoryData"; 
+import EditCategory from "../manage-category/components/EditCategory"; 
+import DeleteCategory from "../manage-category/components/DeleteCategory"; 
+import Modal from "antd/es/modal/Modal";
+import { Table } from "antd";
+import { Button } from "antd";
+import { Image } from "antd";
+import { Space } from "antd";
+
 
 const ManageCategory = () => {
   const {

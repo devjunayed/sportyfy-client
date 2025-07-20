@@ -1,8 +1,7 @@
 import Navbar from "@/components/Shared/Navbar/Navbar";
 import Sidebar from "./components/Sidebar";
 import type { Metadata } from "next";
-import Layout from "antd/es/layout/layout";
-import { Content } from "antd/es/layout/layout";
+import Layout, { Content } from "antd/es/layout/layout";
 
 
 

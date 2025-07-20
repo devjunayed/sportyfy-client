@@ -1,5 +1,7 @@
 // import {     UserOutlined } from "@ant-design/icons";
 import AdminDashboard from "@/app/admin/components/AdminDashboard";
+import ManageCategory from "@/app/admin/components/ManageCategory";
+import { BiCategory } from "react-icons/bi";
 import { MdDashboard } from "react-icons/md";
 // import { IoCalendarClearOutline } from "react-icons/io5";
 // import Bookings from "../pages/admin/Bookings";
@@ -18,13 +20,13 @@ export const adminPaths = [
         element: <AdminDashboard />,
         path: 'dashboard',
     },
-    // {
-    //     name: "Category",
-    //     icon: <BiCategory />,
-    //     path: 'manage-category',
-    //     element: <ManageCategory />
+    {
+        name: "Category",
+        icon: <BiCategory />,
+        path: 'manage-category',
+        element: <ManageCategory />
       
-    // },
+    },
    
    
     // {

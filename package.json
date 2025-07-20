@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.0.2",
-    "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@reduxjs/toolkit": "^2.8.2",
     "antd": "^5.26.5",
     "jwt-decode": "^4.0.0",
@@ -26,7 +25,6 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
-    "@types/antd": "^0.12.32",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
