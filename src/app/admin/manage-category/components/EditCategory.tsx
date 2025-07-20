@@ -13,10 +13,10 @@ import {
   UploadProps,
 } from "antd";
 import { useState } from "react";
-import { getBase } from "../../../utils/getBase";
+import { getBase } from "@/utils/getBase";
 
-import { CategoryDataType } from "../../../types/category.type";
-import { useUpdateCategoryMutation } from "../../../redux/api/dashboard/categoryApi";
+import { CategoryDataType } from "@/types/category.type";
+import { useUpdateCategoryMutation } from "@/redux/api/dashboard/categoryApi";
 
 interface EditCategoryProps {
   data: CategoryDataType;
@@ -96,7 +96,7 @@ const EditCategory = ({ data, refetch }: EditCategoryProps) => {
         image: data.image,
       };
 
-      const imgbbKey = import.meta.env.VITE_IMGBB_API_KEY;
+      const imgbbKey = process.env.NEXT_IMGBB_API_KEY;
 
       // Checking if a new image is uploaded
       if (fileList.length > 0 && fileList[0].originFileObj) {
@@ -211,6 +211,7 @@ const EditCategory = ({ data, refetch }: EditCategoryProps) => {
               </Upload>
               {previewImage && (
                 <Image
+                alt=""
                   wrapperStyle={{ display: "none" }}
                   preview={{
                     visible: previewOpen,

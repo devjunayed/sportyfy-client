@@ -2,8 +2,8 @@
 import { DeleteOutlined } from "@ant-design/icons";
 import { message, Popconfirm } from "antd";
 import { useState } from "react";
-import { useDeleteCategoryMutation } from "../../../redux/api/dashboard/categoryApi";
-import { CategoryDataType } from "../../../types/category.type";
+import { useDeleteCategoryMutation } from "@/redux/api/dashboard/categoryApi";
+import { CategoryDataType } from "@/types/category.type";
 
 interface DeleteCategoryProps {
   data: CategoryDataType;

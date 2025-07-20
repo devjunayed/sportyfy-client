@@ -2,8 +2,7 @@ import Navbar from "@/components/Shared/Navbar/Navbar";
 import Sidebar from "./components/Sidebar";
 import type { Metadata } from "next";
 import Layout, { Content } from "antd/es/layout/layout";
-
-
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard",
@@ -24,7 +23,9 @@ export default function RootLayout({
               background: "#fff",
             }}
           >
-            <Sidebar />
+            <Suspense fallback={<div>Loading layout...</div>}>
+              <Sidebar />
+            </Suspense>
             <Content className="px-6 mx-auto" style={{ minHeight: 280 }}>
               {children}
             </Content>

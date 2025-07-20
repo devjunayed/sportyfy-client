@@ -1,9 +1,9 @@
 import { Form, Input, Button, message } from "antd";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useCreateCategoryMutation } from "../../../redux/api/dashboard/categoryApi";
-import { useAppSelector } from "../../../redux/hooks";
-import { setSubTitle, setTitle } from "../../../redux/features/categorySlice";
+import { useCreateCategoryMutation } from "@/redux/api/dashboard/categoryApi";
+import { useAppSelector } from "@/redux/hooks";
+import { setSubTitle, setTitle } from "@/redux/features/categorySlice";
 import { ClockLoader } from "react-spinners";
 
 type TCreateCategory = {

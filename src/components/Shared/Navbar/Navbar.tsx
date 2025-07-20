@@ -13,7 +13,7 @@ import { viewersPath } from "@/routes/viewers.routes";
 import Link from "next/link";
 
 const Navbar = () => {
-  // const pathname = useLocation().pathname;
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
@@ -27,13 +27,20 @@ const Navbar = () => {
   };
 
   useEffect(() => {
+    setMounted(true);
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
+    handleScroll();
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  if (!mounted) {
+  // Prevent rendering mismatched UI on server/client
+  return null;
+}
 
   return (
     <div>

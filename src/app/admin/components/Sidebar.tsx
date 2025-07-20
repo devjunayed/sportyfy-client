@@ -22,6 +22,7 @@ const userRole = {
 };
 
 const Sidebar = () => {
+  const [mounted, setMounted] = useState(false);
   const token = useAppSelector(currentToken);
   const [collapsed, setCollapsed] = useState(false);
   const location = usePathname();
@@ -73,6 +74,7 @@ const Sidebar = () => {
   });
 
   useEffect(() => {
+    setMounted(true);
     // Update selected key based on the current route
     const activePath = sidebarItems?.flatMap((menu) =>
       menu.children?.map((child) => child.path)
@@ -82,6 +84,10 @@ const Sidebar = () => {
       setSelectedKeys([activeKey]);
     }
   }, [location]);
+
+  if (!mounted) {
+    return null; // or a loader placeholder if you want
+  }
 
   return (
     <Sider

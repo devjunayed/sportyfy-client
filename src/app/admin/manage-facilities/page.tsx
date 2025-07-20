@@ -1,15 +1,16 @@
+"use client"
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Image, Modal, Space, Table } from "antd";
-import { useGetFacilitiesQuery } from "../../redux/api/dashboard/facilityApi";
+import { useGetFacilitiesQuery } from "@/redux/api/dashboard/facilityApi";
 import Column from "antd/es/table/Column";
-import DeleteFacilities from "../../components/admin/ManageFcility/DeleteFacilities";
-import HandleDataLoading from "../../components/ui/Shared/HandleDataLoading/HandleDataLoading";
-import ViewFacilitiesData from "../../components/admin/ManageFcility/ViewFacilitiesData";
-import EditFacilities from "../../components/admin/ManageFcility/EditFacilities";
-import { formattedPrice } from "../../utils/formattedPrice";
+import DeleteFacilities from "./components/DeleteFacilities"; 
+import HandleDataLoading from "@/components/Shared/HandleDataLoading/HandleDataLoading"; 
+import ViewFacilitiesData from "./components/ViewFacilitiesData"; 
+import { formattedPrice } from "@/utils/formattedPrice";
 import { PlusCircleFilled } from "@ant-design/icons";
 import { useState } from "react";
-import CreateFacility from "../../components/admin/ManageFcility/CreateFacility";
+import CreateFacility from "./components/CreateFacility"; 
+import EditFacilities from "./components/EditFacilities"; 
 
 export interface FacilitiesDataType {
   _id: string;
