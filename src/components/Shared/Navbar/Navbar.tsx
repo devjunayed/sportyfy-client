@@ -5,8 +5,7 @@ import Logo from "../Logo/Logo";
 import NavbarButton from "./NavbarButton";
 import { useAppSelector } from "@/redux/hooks"; 
 import { currentUser } from "@/redux/features/authSlice"; 
-import { TUser } from "@/types/shared.type";
-import { useGetUserQuery } from "@/redux/api/auth/authApi";
+
 import { capitalize } from "@/utils/capitalize"; 
 import { usePathname } from "next/navigation";
 import { viewersPath } from "@/routes/viewers.routes";
@@ -18,9 +17,9 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
   const user = useAppSelector(currentUser);
-  const { data: userData } = useGetUserQuery(
-    user ? `${(user as TUser).email}` : ""
-  );
+
+
+  console.log(user)
 
   const handleMenu = () => {
     setMenu(!menu);
@@ -82,15 +81,15 @@ const Navbar = () => {
                       </li>
                     )
                 )}
-                {userData && (
+                {user && (
                   <li
-                    key={userData?.data?.role as string}
+                    key={user?.role as string}
                     className="hover:cursor-pointer"
                   >
                     <Link
                       replace={true}
                       className={"cursor-pointer"}
-                      href={`/${userData?.data?.role as string}/dashboard`}
+                      href={`/${user?.role as string}/dashboard`}
                     >
                       Dashboard
                     </Link>
@@ -125,15 +124,15 @@ const Navbar = () => {
                       </li>
                     )
                 )}
-                {userData && (
+                {user && (
                   <li
-                    key={userData?.role as string}
+                    key={user?.role as string}
                     className="hover:cursor-pointer"
                   >
                     <Link
                       className={"cursor-pointer"}
                       replace={true}
-                      href={`/${userData?.data?.role as string}/dashboard`}
+                      href={`/${user?.role as string}/dashboard`}
                     >
                       Dashboard
                     </Link>
@@ -143,14 +142,14 @@ const Navbar = () => {
             </div>
           </div>
           <div className="navbar-end">
-            {userData ? (
+            {user ? (
               <div className="dropdown dropdown-end">
                 <div tabIndex={0} role="button" className="">
                   <div className="avatar border rounded-full avatar-placeholder">
                     <div className="bg-neutral text-neutral-content w-10 rounded-full flex items-center justify-center">
                       <span className="flex items-center justify-center h-full">
-                        {capitalize(userData?.data?.name[0])}
-                        {capitalize(userData?.data?.name[1])}
+                        {capitalize(user?.name[0])}
+                        {capitalize(user?.name[1])}
                       </span>
                     </div>
                   </div>
@@ -162,8 +161,8 @@ const Navbar = () => {
                   <li className="mt-2">
                     <div>
                       <div className="flex flex-col  ">
-                        <span className="text-lg">{userData?.data?.name}</span>
-                        <span>{userData?.data?.email}</span>
+                        <span className="text-lg">{user?.name}</span>
+                        <span>{user?.email}</span>
                       </div>
                     </div>
                   </li>

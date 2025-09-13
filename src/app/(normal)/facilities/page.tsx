@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useGetFacilitiesQuery } from "@/redux/api/dashboard/facilityApi";
 import { FacilitiesDataType } from "@/types/facility.type";
 import HandleDataLoading from "@/components/Shared/HandleDataLoading/HandleDataLoading";
-import FacilityCard from "../components/FeaturedFacilities/FacilityCard"; 
+import FacilityCard from "../_components/FeaturedFacilities/FacilityCard";
 
 const Facilities = () => {
   const [queryUrl, setQueryUrl] = useState<string>("");
@@ -94,7 +94,6 @@ const Facilities = () => {
                 rail: { backgroundColor: "gray" }, // Unfilled track color
                 track: { backgroundColor: "black" }, // Filled track color
                 handle: {
-                 
                   borderRadius: "20px",
                   borderColor: "black",
                   backgroundColor: "black",

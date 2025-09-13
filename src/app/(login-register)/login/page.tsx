@@ -38,12 +38,12 @@ const LoginPage: React.FC = () => {
 
   const onFinish = async () => {
     try {
-      console.log({email, password})
-      const loginResult = await login({ email, password });
-      console.log(loginResult);
+      const {data: loginResult} = await login({ email, password });
 
-      if (loginResult?.data?.success) {
-        const user = verifyToken(loginResult.data.token);
+      console.log(loginResult.token)
+
+      if (loginResult?.success) {
+        const user = verifyToken(loginResult.token as string);
 
         messageApi.open({
           type: "success",
@@ -51,8 +51,13 @@ const LoginPage: React.FC = () => {
         }).then(() => {
           dispatch(
             setUser({
-              user: user,
-              token: loginResult?.data.token,
+              user: {
+                name: loginResult?.data?.name,
+                email: loginResult?.data?.email,
+                role: loginResult?.data?.role,
+                _id: loginResult?.data?._id,
+              },
+              token: loginResult?.token,
             })
           );
 

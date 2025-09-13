@@ -22,10 +22,10 @@ export type TRoute = {
 };
 
 export interface TUser {
+  _id: string;
   email: string;
+  name: string;
   role: string;
-  iat: number;
-  exp: number;
 }
 
 export type TSidebarItem = {

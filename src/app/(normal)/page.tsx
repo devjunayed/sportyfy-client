@@ -1,10 +1,10 @@
 import React from "react";
-import Hero from "./components/Hero/Hero";
-import Categories from "./components/Categories/Categories";
-import FeaturedFacilities from "./components/FeaturedFacilities/FeaturedFacilities";
-import HowItWorks from "./components/HowItWorks/HowItWorks";
-import OffersPromotions from "./components/OffersPromotions/OffersPromotions";
-import Testimonials from "./components/Testimonials/Testimonials";
+import Hero from "./_components/Hero/Hero";
+import Categories from "./_components/Categories/Categories";
+import FeaturedFacilities from "./_components/FeaturedFacilities/FeaturedFacilities";
+import HowItWorks from "./_components/HowItWorks/HowItWorks";
+import OffersPromotions from "./_components/OffersPromotions/OffersPromotions";
+import Testimonials from "./_components/Testimonials/Testimonials";
 
 const HomePage = () => {
   return (
