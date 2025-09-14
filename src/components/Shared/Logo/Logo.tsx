@@ -1,8 +1,10 @@
+import Link from "next/link";
+
 const Logo = () => {
   return (
-    <a className="text-xl" href="/">
+    <Link className="text-xl" href="/">
       🤸‍♀️ Sportyfy
-    </a>
+    </Link>
   );
 };
 

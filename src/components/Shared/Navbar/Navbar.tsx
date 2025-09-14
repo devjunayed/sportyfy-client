@@ -3,10 +3,10 @@ import { CloseOutlined, MenuOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import Logo from "../Logo/Logo";
 import NavbarButton from "./NavbarButton";
-import { useAppSelector } from "@/redux/hooks"; 
-import { currentUser } from "@/redux/features/authSlice"; 
+import { useAppSelector } from "@/redux/hooks";
+import { currentUser } from "@/redux/features/authSlice";
 
-import { capitalize } from "@/utils/capitalize"; 
+import { capitalize } from "@/utils/capitalize";
 import { usePathname } from "next/navigation";
 import { viewersPath } from "@/routes/viewers.routes";
 import Link from "next/link";
@@ -17,9 +17,6 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
   const user = useAppSelector(currentUser);
-
-
-
 
   const handleMenu = () => {
     setMenu(!menu);
@@ -37,9 +34,9 @@ const Navbar = () => {
   }, []);
 
   if (!mounted) {
-  // Prevent rendering mismatched UI on server/client
-  return null;
-}
+    // Prevent rendering mismatched UI on server/client
+    return null;
+  }
 
   return (
     <div>
@@ -71,16 +68,13 @@ const Navbar = () => {
                     : "-translate-x-[500rem] transition-none"
                 } transform bg-[#1B1F3B]  menu menu-sm dropdown-content rounded z-[1] mt-3 w-52 p-4  shadow-gray-400 shadow`}
               >
-                {viewersPath.map(
-                  (link) =>
-                    link.name && (
-                      <li key={link?.path} className="hover:cursor-pointer">
-                        <Link className={"cursor-pointer"} href={link?.path}>
-                          {link?.name}
-                        </Link>
-                      </li>
-                    )
-                )}
+                {viewersPath.map((link) => (
+                  <li key={link?.path} className="hover:cursor-pointer">
+                    <Link className={"cursor-pointer"} href={link?.path}>
+                      {link?.name}
+                    </Link>
+                  </li>
+                ))}
                 {user && (
                   <li
                     key={user?.role as string}
@@ -111,19 +105,16 @@ const Navbar = () => {
             {/* Larger device menu */}
             <div className=" hidden w-full lg:flex">
               <ul className="flex flex-wrap items-center gap-4 bg-none menu-horizontal px-1">
-                {viewersPath.map(
-                  (link) =>
-                    link.name && (
-                      <li key={link?.path} className=" hover:cursor-pointer">
-                        <Link
-                          className="hover:cursor-pointer bg-none "
-                          href={link?.path}
-                        >
-                          {link?.name}
-                        </Link>
-                      </li>
-                    )
-                )}
+                {viewersPath.map((link) => (
+                  <li key={link?.path} className=" hover:cursor-pointer">
+                    <Link
+                      className="hover:cursor-pointer bg-none "
+                      href={link?.path}
+                    >
+                      {link?.name}
+                    </Link>
+                  </li>
+                ))}
                 {user && (
                   <li
                     key={user?.role as string}
