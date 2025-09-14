@@ -5,25 +5,20 @@ import HandleDataLoading from "@/components/Shared/HandleDataLoading/HandleDataL
 import { PlusCircleFilled } from "@ant-design/icons";
 import { useState } from "react";
 import { useGetCategoriesQuery } from "@/redux/api/dashboard/categoryApi";
-import CreateCategory from "../manage-category/components/CreateCategory"; 
+import CreateCategory from "./components/CreateCategory";
 import { CategoryDataType } from "@/types/category.type";
-import ViewCategoryData from "../manage-category/components/ViewCategoryData"; 
-import EditCategory from "../manage-category/components/EditCategory"; 
-import DeleteCategory from "../manage-category/components/DeleteCategory"; 
+import ViewCategoryData from "./components/ViewCategoryData";
+import EditCategory from "./components/EditCategory";
+import DeleteCategory from "./components/DeleteCategory";
 import Modal from "antd/es/modal/Modal";
 import { Table } from "antd";
 import { Button } from "antd";
 import { Image } from "antd";
 import { Space } from "antd";
 
-
 const ManageCategory = () => {
-  const {
-    data ,
-    refetch,
-    isLoading,
-  } = useGetCategoriesQuery("");
-  console.log({fromMange: data});
+  const { data, refetch, isLoading } = useGetCategoriesQuery("");
+  console.log({ fromMange: data });
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="mt-20 overflow-y-hidden">

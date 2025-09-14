@@ -19,7 +19,7 @@ const Navbar = () => {
   const user = useAppSelector(currentUser);
 
 
-  console.log(user)
+
 
   const handleMenu = () => {
     setMenu(!menu);

@@ -17,7 +17,7 @@ export const adminPaths = [
     {
         name: "Category",
         icon: <BiCategory />,
-        path: 'manage-category',
+        path: 'dashboard/manage-category',
       
     },
    
@@ -25,21 +25,21 @@ export const adminPaths = [
     {
         name: "facility",
         icon: <GiPingPongBat size={16} />,
-        path: 'manage-facilities',
+        path: 'dashboard/manage-facilities',
     },
     {
         name: "Bookings",
         icon: <IoCalendarClearOutline size={16} />,
-        path: 'manage-bookings',
+        path: 'dashboard/manage-bookings',
     },
     {
         name: "Slots",
         icon: <Clock size={16} />,
-        path: 'manage-slots',
+        path: 'dashboard/manage-slots',
     },
     {
         name: "Manage Admin",
         icon: <UserOutlined size={16} />,
-        path: 'manage-admin',
+        path: 'dashboard/manage-admin',
     },
 ]

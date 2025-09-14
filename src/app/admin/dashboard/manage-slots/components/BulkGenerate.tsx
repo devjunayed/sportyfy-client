@@ -3,8 +3,8 @@
 import { Button, DatePicker, Select, TimePicker, message } from "antd";
 import { useState } from "react";
 import type { Dayjs } from "dayjs";
-import { useGetFacilitiesQuery } from "../../../../redux/api/dashboard/facilityApi";
-import { TFacility } from "../../../../types/facility.type";
+import { useGetFacilitiesQuery } from "../../../../../redux/api/dashboard/facilityApi";
+import { TFacility } from "../../../../../types/facility.type";
 import {
   RiAiGenerate,
   RiDeleteBin5Line,

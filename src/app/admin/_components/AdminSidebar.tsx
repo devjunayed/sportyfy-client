@@ -2,12 +2,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Layout, Menu } from "antd";
 import { useAppSelector } from "@/redux/hooks";
-import { currentToken } from "@/redux/features/authSlice";
-import { verifyToken } from "@/utils/verifyToken";
-import { TSidebarItem, TUser } from "@/types/shared.type";
+import {  currentUser } from "@/redux/features/authSlice";
+import { TSidebarItem } from "@/types/shared.type";
 import { sideBarItemsGenerator } from "@/utils/sideBarItemsGenerator";
 import { adminPaths } from "@/routes/admin.routes";
-import { userPaths } from "@/routes/user.routes";
 import { useEffect, useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { ItemType } from "antd/es/menu/interface";
@@ -16,14 +14,10 @@ import { usePathname } from "next/navigation";
 
 const { Sider } = Layout;
 
-const userRole = {
-  ADMIN: "admin",
-  USER: "user",
-};
 
-const Sidebar = () => {
+const AdminSidebar = () => {
   const [mounted, setMounted] = useState(false);
-  const token = useAppSelector(currentToken);
+  const user = useAppSelector(currentUser);
   const [collapsed, setCollapsed] = useState(false);
   const location = usePathname();
   const [, setIsMobile] = useState(false);
@@ -34,25 +28,10 @@ const Sidebar = () => {
 
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
 
-  // checking user role
-  let user: TUser | null = null;
 
-  if (token) {
-    user = verifyToken(token) as TUser;
-  }
+  const sidebarItems: TSidebarItem[] = sideBarItemsGenerator(adminPaths, user?.role, collapsed);
 
-  let sidebarItems: TSidebarItem[] = [];
-
-  switch (user?.role) {
-    case userRole.ADMIN:
-      sidebarItems = sideBarItemsGenerator(adminPaths, userRole.ADMIN, collapsed);
-      break;
-    case userRole.USER:
-      sidebarItems = sideBarItemsGenerator(userPaths, userRole.USER, collapsed);
-      break;
-    default:
-      sidebarItems = [];
-  }
+  
 
   const menu: ItemType[] = sidebarItems.map((menu, index) => {
     return {
@@ -123,4 +102,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default AdminSidebar;

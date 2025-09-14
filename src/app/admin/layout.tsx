@@ -1,21 +1,24 @@
 import Navbar from "@/components/Shared/Navbar/Navbar";
-import Sidebar from "./components/Sidebar";
 import type { Metadata } from "next";
 import Layout, { Content } from "antd/es/layout/layout";
+import AdminSidebar from "./_components/AdminSidebar";
+import NavbarSkeleton from "@/components/Shared/Navbar/NavbarSkeleton";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard",
 };
 
-export default function RootLayout({
+export default function layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <Navbar />
+    <div>
+      <Suspense fallback={<NavbarSkeleton />}>
+        <Navbar />
+      </Suspense>
       <Layout>
         <Content>
           <Layout
@@ -23,15 +26,13 @@ export default function RootLayout({
               background: "#fff",
             }}
           >
-            <Suspense fallback={<div>Loading layout...</div>}>
-              <Sidebar />
-            </Suspense>
+            {/* <AdminSidebar /> */}
             <Content className="px-6 mx-auto" style={{ minHeight: 280 }}>
               {children}
             </Content>
           </Layout>
         </Content>
       </Layout>
-    </>
+    </div>
   );
 }
