@@ -68,7 +68,7 @@ const Facilities = () => {
   const perPageOptions = [5, 10, 20, 50];
 
   return (
-    <div className="m-10 mt-28">
+    <div className="m-10 pt-28">
       <div className="w-2/3 md:w-1/2 mx-auto mb-10">
         <Search
           placeholder="input search text"

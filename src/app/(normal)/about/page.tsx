@@ -26,7 +26,7 @@ import Meta from "antd/es/card/Meta";
 
 const AboutUs = () => {
   return (
-    <div className="md:max-w-7xl mx-auto mt-20">
+    <div className="md:max-w-7xl mx-auto pt-20">
       <div className="mx-4 ">
         <HeaderSportyfy text={"about us"} />
       </div>

@@ -23,7 +23,7 @@ const ContactUs = () => {
   const onFinish = () => {
   };
   return (
-    <div className="mt-20 md:max-w-7xl mx-auto ">
+    <div className="pt-20 md:max-w-7xl mx-auto ">
       <div className="mx-2">
 
       <HeaderSportyfy text="Contact us" />

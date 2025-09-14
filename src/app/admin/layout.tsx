@@ -26,7 +26,7 @@ export default function layout({
               background: "#fff",
             }}
           >
-            {/* <AdminSidebar /> */}
+            <AdminSidebar />
             <Content className="px-6 mx-auto" style={{ minHeight: 280 }}>
               {children}
             </Content>
