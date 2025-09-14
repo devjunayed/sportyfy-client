@@ -1,10 +1,9 @@
-import { delay } from '@/utils/delay';
 import React from 'react'
+import AdminDashboard from './_components/AdminDashboard';
 
 const AdminDashboardPage = async () => {
-  await delay(5000)
   return (
-    <div className='mt-20 overflow-y-hidden'>AdminDashboardPage</div>
+    <div className='overflow-y-hidden'><AdminDashboard /></div>
   )
 }
 

@@ -7,7 +7,7 @@ import Column from "antd/es/table/Column";
 import { formattedPrice } from "@/utils/formattedPrice";
 import { PlusCircleFilled } from "@ant-design/icons";
 import { useState } from "react";
-import BulkGenerateModal from "./components/BulkGenerateModal"; 
+import BulkGenerateModal from "./_components/BulkGenerateModal"; 
 import HandleDataLoading from "@/components/Shared/HandleDataLoading/HandleDataLoading";
 
 export interface FacilitiesDataType {

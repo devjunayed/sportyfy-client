@@ -1,15 +1,15 @@
+"use client"
 import { CloseCircleFilled } from "@ant-design/icons";
 import { currentUser } from "@/redux/features/authSlice";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useGetUserQuery } from "@/redux/api/auth/authApi";
 import { TUser } from "@/types/shared.type";
-import { useDispatch } from "react-redux";
 import { closeGreetings } from "@/redux/features/dashboardSlice";
 
 const AdminDashboard = () => {
   const user = useAppSelector(currentUser);
   const greetings = useAppSelector((state) => state.dashboard.greetings);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { data: userData } = useGetUserQuery(
     user ? `${(user as TUser).email}` : ""
   );
@@ -18,7 +18,7 @@ const AdminDashboard = () => {
     dispatch(closeGreetings());
   };
   return (
-    <div className="mt-20">
+    <div className="pt-20">
       <div
         className={`${
           !greetings && "hidden"

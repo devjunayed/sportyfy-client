@@ -1,7 +1,7 @@
 import Navbar from "@/components/Shared/Navbar/Navbar";
 import type { Metadata } from "next";
 import Layout, { Content } from "antd/es/layout/layout";
-import AdminSidebar from "./_components/AdminSidebar";
+import AdminSidebar from "./dashboard/_components/AdminSidebar";
 import NavbarSkeleton from "@/components/Shared/Navbar/NavbarSkeleton";
 import { Suspense } from "react";
 
