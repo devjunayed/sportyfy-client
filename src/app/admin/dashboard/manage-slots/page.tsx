@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Image,  Space, Table } from "antd";
@@ -27,7 +28,7 @@ export interface FacilitiesDataType {
 }
 
 const ManageSlots = () => {
-  const { data = [], refetch, isLoading } = useGetFacilitiesQuery("");
+  const { data = [],  isLoading } = useGetFacilitiesQuery("");
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="mt-20 overflow-y-auto max-h-[85vh]">

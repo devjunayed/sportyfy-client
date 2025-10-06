@@ -16,7 +16,7 @@ const OffersPromotions = () => {
         Exclusive Offers & Promotions
       </Title>
       <Paragraph>
-        Don't miss out on our limited-time offers! Subscribe to our newsletter
+        Don&apos;t miss out on our limited-time offers! Subscribe to our newsletter
         to stay updated on the latest promotions.
       </Paragraph>
       <Button
