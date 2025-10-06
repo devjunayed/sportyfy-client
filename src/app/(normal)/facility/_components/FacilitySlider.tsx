@@ -1,6 +1,6 @@
 import { useState } from "react";
 // Import Swiper React components
-import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
+import {  Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
 import "swiper/css";
@@ -23,8 +23,8 @@ export default function FacilitySlider({ images }: { images: string[] }) {
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper2"
       >
-        {images.map((image) => (
-          <SwiperSlide>
+        {images.map((image, index) => (
+          <SwiperSlide key={index}>
             <img className="max-h-[480px] w-full object-cover" src={image} />
           </SwiperSlide>
         ))}
@@ -38,8 +38,8 @@ export default function FacilitySlider({ images }: { images: string[] }) {
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
       >
-        {images.map((image) => (
-          <SwiperSlide className="max-w-28">
+        {images.map((image, index) => (
+          <SwiperSlide key={index} className="max-w-28">
             <img  src={image} />
           </SwiperSlide>
         ))}
