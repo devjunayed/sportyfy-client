@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Pagination } from "antd";
 
-const CustomPagination = ({ current, total, pageSize, onChange }) => {
+const CustomPagination = ({ current, total, pageSize, onChange }: any) => {
   return (
     <Pagination
       current={current}
