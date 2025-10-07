@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Image,  Space, Table } from "antd";
-import { useGetFacilitiesQuery } from "../../redux/api/dashboard/facilityApi";
 import Column from "antd/es/table/Column";
-import DeleteFacilities from "../../components/admin/ManageFcility/DeleteFacilities";
-import HandleDataLoading from "../../components/ui/Shared/HandleDataLoading/HandleDataLoading";
-import ViewFacilitiesData from "../../components/admin/ManageFcility/ViewFacilitiesData";
-import EditFacilities from "../../components/admin/ManageFcility/EditFacilities";
-import { formattedPrice } from "../../utils/formattedPrice";
+
 import { PlusCircleFilled } from "@ant-design/icons";
 import { useState } from "react";
-import BulkGenerateModal from "../../components/admin/ManageSlots/CreateSlots/BulkGenerateModal";
+import { useGetFacilitiesQuery } from "@/redux/api/dashboard/facilityApi";
+import BulkGenerateModal from "../manage-slots/_components/BulkGenerateModal";
+import HandleDataLoading from "@/components/Shared/HandleDataLoading/HandleDataLoading";
+import { formattedPrice } from "@/utils/formattedPrice";
+import ViewFacilitiesData from "../manage-facilities/components/ViewFacilitiesData";
+import DeleteFacilities from "../manage-facilities/components/DeleteFacilities";
 
 export interface FacilitiesDataType {
   _id: string;
@@ -111,7 +111,7 @@ const ManageSlots = () => {
                 return (
                   <Space size="middle">
                     <ViewFacilitiesData data={record} />
-                    <EditFacilities data={record} refetch={refetch} />
+                    {/* <EditFacilities data={record} refetch={refetch} /> */}
                     <DeleteFacilities refetch={refetch} data={record} />
                   </Space>
                 );

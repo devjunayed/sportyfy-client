@@ -1,7 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
+import { CategoryDataType } from "@/types/category.type";
 import { EyeFilled } from "@ant-design/icons";
 import { Modal } from "antd";
 import { useState } from "react";
-import { CategoryDataType } from "../../../types/category.type";
 
 const ViewCategoryData = ({ data }: { data: CategoryDataType }) => {
   const [isOpen, setIsOpen] = useState(false);

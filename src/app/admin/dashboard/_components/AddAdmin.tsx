@@ -7,11 +7,16 @@ import { useDispatch } from "react-redux";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 import { useForm } from "antd/es/form/Form";
-import { useAppSelector } from "../../redux/hooks";
-import { RegistrationFieldType } from "../../types/registration.type";
-import { ErrorResponse } from "../../types/shared.type";
-import { clearRegisterForm, setAddress, setEmail, setName, setPassword, setPhone } from "../../redux/features/registerSlice";
-import { useRegisterMutation } from "../../redux/api/auth/authApi";
+// import { useAppSelector } from "../../redux/hooks";
+// import { RegistrationFieldType } from "../../types/registration.type";
+// import { ErrorResponse } from "../../types/shared.type";
+// import { clearRegisterForm, setAddress, setEmail, setName, setPassword, setPhone } from "../../redux/features/registerSlice";
+// import { useRegisterMutation } from "../../redux/api/auth/authApi";
+import { useAppSelector } from "@/redux/hooks";
+import { RegistrationFieldType } from "@/types/registration.type";
+import { useRegisterMutation } from "@/redux/api/auth/authApi";
+import { ErrorResponse } from "@/types/shared.type";
+import { clearRegisterForm, setAddress, setEmail, setName, setPassword, setPhone } from "@/redux/features/registerSlice";
 
 const AddAdmin: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();

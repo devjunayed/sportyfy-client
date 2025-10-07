@@ -1,7 +1,7 @@
+import HandleDataLoading from "@/components/Shared/HandleDataLoading/HandleDataLoading";
+import { useGetAllBookingQuery } from "@/redux/api/booking/bookingApi";
 import {  Table } from "antd";
-import { useGetAllBookingQuery } from "../../redux/api/booking/bookingApi";
 import Column from "antd/es/table/Column";
-import HandleDataLoading from "../../components/ui/Shared/HandleDataLoading/HandleDataLoading";
 
 const Bookings = () => {
   const { data: bookings, isLoading } = useGetAllBookingQuery("");
