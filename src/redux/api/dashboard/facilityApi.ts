@@ -1,4 +1,4 @@
-"use server"
+
 import { baseApi } from "../baseApi";
 
 const facilityApi = baseApi.injectEndpoints({
