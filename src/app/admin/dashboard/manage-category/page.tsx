@@ -18,7 +18,6 @@ import { Space } from "antd";
 
 const ManageCategory = () => {
   const { data, refetch, isLoading } = useGetCategoriesQuery("");
-  console.log({ fromMange: data });
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="mt-20 overflow-y-hidden">

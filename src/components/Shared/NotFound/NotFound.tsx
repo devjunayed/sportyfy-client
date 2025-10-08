@@ -1,5 +1,5 @@
 import { Button, Result } from "antd";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 const NotFound = () => {
   return (
@@ -10,10 +10,10 @@ const NotFound = () => {
         subTitle="Sorry, the page you visited does not exist."
         extra={
           <>
-            <Link to="/">
+            <Link href="/">
               <Button type="primary" style={{ backgroundColor: "#1B1F3B" }}>Go to Home</Button>
             </Link>
-            <Link to="/login">
+            <Link href="/login">
               <Button style={{ marginLeft: "10px", backgroundColor: "#595959", color: "white" }}>
                 Login
               </Button>

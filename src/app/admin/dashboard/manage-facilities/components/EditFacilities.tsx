@@ -21,7 +21,7 @@ import {
 import { useAppSelector } from "@/redux/hooks";
 import FileUpload from "@/components/Shared/FileUpload/FileUpload";
 import { useUpdateFacilityMutation } from "@/redux/api/dashboard/facilityApi";
-import { FacilitiesDataType } from "../page";
+import { FacilitiesDataType } from "@/types/facility.type";
 
 interface EditFacilityProps {
   data: FacilitiesDataType;

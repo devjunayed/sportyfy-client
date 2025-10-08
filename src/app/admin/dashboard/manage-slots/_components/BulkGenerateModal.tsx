@@ -1,3 +1,4 @@
+"use client";
 import { Button, Modal } from "antd";
 import BulkGenerate from "./BulkGenerate";
 import React from "react";

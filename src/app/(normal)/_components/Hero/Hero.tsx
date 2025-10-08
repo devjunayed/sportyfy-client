@@ -28,6 +28,7 @@ const Hero = () => {
               <Link href="/facilities">Book Now</Link>
             </Button>
           </div>
+ 
         </div>
       </div>
     </div>

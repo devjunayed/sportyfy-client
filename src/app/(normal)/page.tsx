@@ -10,6 +10,7 @@ const HomePage = () => {
   return (
     <div>
       <Hero />
+     
       <Categories />
       <FeaturedFacilities />
       <HowItWorks />
@@ -20,3 +21,7 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+export const dynamic = "force-dynamic"; // disables static prerendering
+export const fetchCache = "force-no-store"; // disables caching/fetch optimization
+export const revalidate = 0; // optional: ensures no ISR

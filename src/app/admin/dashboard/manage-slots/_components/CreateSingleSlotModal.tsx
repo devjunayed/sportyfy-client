@@ -1,3 +1,4 @@
+"use client";
 import { Button, Modal } from "antd";
 import CreateSingleSlot from "./CreateSingleSlot";
 import React from "react";
