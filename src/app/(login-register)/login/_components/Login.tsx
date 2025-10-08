@@ -29,8 +29,11 @@ const Login: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const dispatch = useDispatch();
   const { email, password } = useAppSelector((state) => state.login);
-  const [login] = useLoginMutation();
+  const [login, error] = useLoginMutation();
   const [form] = Form.useForm();
+
+
+  console.log({errorFromLogin: error});
 
   useEffect(() => {
     form.setFieldsValue({ email, password });
