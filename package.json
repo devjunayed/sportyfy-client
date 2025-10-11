@@ -11,8 +11,13 @@
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.0.2",
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@heroui/button": "^2.2.27",
+    "@heroui/react": "^2.8.5",
+    "@heroui/system": "^2.4.23",
+    "@heroui/theme": "^2.4.23",
     "@reduxjs/toolkit": "^2.8.2",
     "antd": "^5.26.5",
+    "framer-motion": "^12.23.24",
     "html-react-parser": "^5.2.6",
     "jodit-react": "^5.2.19",
     "jwt-decode": "^4.0.0",

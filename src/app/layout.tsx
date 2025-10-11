@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Raleway } from "next/font/google";
-import '@ant-design/v5-patch-for-react-19';
 import "./globals.css";
-import { AntdRegistry } from "@ant-design/nextjs-registry";
-import StoreProvider from "@/provider/StoreProvider";
+import SportyFyProvider from "@/provider/SportyfyProvider";
 
 const raleway = Raleway({
   variable: "--font-geist-raleway",
@@ -25,9 +23,9 @@ export default function RootLayout({
       <body
         className={`${raleway.variable}  antialiased`}
       >
-        <AntdRegistry>
-          <StoreProvider>{children}</StoreProvider>
-        </AntdRegistry>
+        
+          <SportyFyProvider>{children}</SportyFyProvider>
+    
       </body>
     </html>
   );

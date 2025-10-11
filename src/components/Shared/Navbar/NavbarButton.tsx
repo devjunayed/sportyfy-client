@@ -1,8 +1,8 @@
-import { Button } from "antd";
 import { useAppSelector } from "@/redux/hooks"; 
 import { currentUser, logOut } from "@/redux/features/authSlice";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
+import { Button } from "@heroui/button";
 
 const NavbarButton = ({ className }: { className?: string }) => {
   const user = useAppSelector(currentUser);
