@@ -1,11 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React from "react";
-import { Card} from "@heroui/card";
+import { Card } from "@heroui/card";
 // import { useDispatch } from "react-redux";
 // import { setEmail, setPassword } from "@/redux/features/loginSlice";
 
-import { RiAdminFill, RiAdminLine, RiLock2Line, RiUserLine } from "react-icons/ri";
+import {
+  RiAdminFill,
+  RiAdminLine,
+  RiLock2Line,
+  RiUserLine,
+} from "react-icons/ri";
 import { BiLogIn, BiUser } from "react-icons/bi";
 
 import Link from "next/link";
@@ -80,10 +85,11 @@ const Login: React.FC = () => {
     <div className="min-h-screen flex justify-center items-center">
       <Card
         isFooterBlurred
-        className="max-w-full p-10 min-w-[500px] gap-7  min-h-[300px] flex sm:col-span-7"
+        className="max-w-full p-10 min-w-[600px] gap-7  min-h-[300px] flex sm:col-span-7"
       >
-        <div className="flex justify-center">
+        <div className="flex justify-center flex-col gap-4 items-center">
           <Logo />
+          <p className="text-default-600">Login in  your account</p>
         </div>
         <div className="w-full ">
           <SForm onSubmit={(values) => handleSubmit(values)}>
@@ -117,7 +123,7 @@ const Login: React.FC = () => {
                   }}
                   className="bg-black text-white w-full"
                 >
-                  User Login <RiUserLine size={18}/>
+                  User Login <RiUserLine size={18} />
                 </SButton>
               </div>
               <SInput
@@ -138,24 +144,21 @@ const Login: React.FC = () => {
               />
 
               <SButton type="submit" className="bg-black text-white">
-                Login <BiLogIn size={18}/>
+                Login <BiLogIn size={18} />
               </SButton>
-         
-               <p className="text-right -my-2 text-sm text-default-700">
-                 Don&apos;t have an account{" "}
-                 <Link href="/register" className="underline">
-                   Register
-                 </Link>
-               </p>
 
-               <p className="text-center text-default-700">
-                OR
-               </p>
-               <SButton className="bg-orange-600 text-white w-full flex justify-center items-center gap-2">
-                Sign in with Google <FaGoogle size={18}/>
-               </SButton>
-            
-        </div>
+              <p className="text-right -my-2 text-sm text-default-700">
+                Don&apos;t have an account{" "}
+                <Link href="/register" className="underline">
+                  Register
+                </Link>
+              </p>
+
+              <p className="text-center text-default-700">OR</p>
+              <SButton className="bg-orange-600 text-white w-full flex justify-center items-center gap-2">
+                Sign in with Google <FaGoogle size={18} />
+              </SButton>
+            </div>
             {/* Email Field */}
 
             {/* Submit Button */}
@@ -163,7 +166,6 @@ const Login: React.FC = () => {
         </div>
       </Card>
     </div>
-  
   );
 };
 

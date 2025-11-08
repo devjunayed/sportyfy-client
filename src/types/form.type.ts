@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface IFormValues {
   name: string;
   placeholder?: string
@@ -7,4 +9,6 @@ export interface IFormValues {
   size?: "sm" | "md" | "lg" | undefined;
   required?: boolean;
   className?: string;
+  end?: React.ReactNode
+  start?: React.ReactNode
 }

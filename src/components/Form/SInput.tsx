@@ -15,6 +15,8 @@ const SInput = ({
   variant = "bordered",
   type = "",
   size = "md",
+  end,
+  start,
   required = false,
 }: ISInput) => {
   const {
@@ -24,6 +26,8 @@ const SInput = ({
 
   return (
     <Input
+      endContent={end}
+      startContent={start}
       classNames={{
         input: `${className}`,
       }}
