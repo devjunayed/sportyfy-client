@@ -1,12 +1,11 @@
+
 import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
 import clsx from "clsx";
-
-
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
-import Navbar from "@/components/Shared/Navbar/Navbar";
 import { SportyFyProvider } from "./provider/SportyfyProvider";
+import Navbar from "@/components/navbar";
 
 export const metadata: Metadata = {
   title: {
@@ -40,7 +39,9 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <SportyFyProvider themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+        <SportyFyProvider
+          themeProps={{ attribute: "class", defaultTheme: "dark" }}
+        >
           <div className="relative flex flex-col h-screen">
             <Navbar />
             <main className="container mx-auto max-w-7xl px-6 flex-grow">
