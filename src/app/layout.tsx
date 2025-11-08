@@ -1,13 +1,12 @@
 import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
-import { Link } from "@heroui/link";
 import clsx from "clsx";
 
-import { Providers } from "./providers";
 
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
-import { Navbar } from "@/components/navbar";
+import Navbar from "@/components/Shared/Navbar/Navbar";
+import { SportyFyProvider } from "./provider/SportyfyProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -41,13 +40,14 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+        <SportyFyProvider themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">
+            <Navbar />
             <main className="container mx-auto max-w-7xl px-6 flex-grow">
               {children}
             </main>
           </div>
-        </Providers>
+        </SportyFyProvider>
       </body>
     </html>
   );

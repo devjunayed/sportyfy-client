@@ -1,5 +1,4 @@
 "use client";
-import { CloseOutlined, MenuOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import Logo from "../Logo/Logo";
 import NavbarButton from "./NavbarButton";
@@ -10,6 +9,7 @@ import { capitalize } from "@/utils/capitalize";
 import { usePathname } from "next/navigation";
 import { viewersPath } from "@/routes/viewers.routes";
 import Link from "next/link";
+import { IoCloseOutline, IoMenuOutline } from "react-icons/io5";
 
 const Navbar = () => {
   const [mounted, setMounted] = useState(false);
@@ -58,7 +58,7 @@ const Navbar = () => {
                 className="btn btn-ghost "
                 onClick={handleMenu}
               >
-                {!menu ? <MenuOutlined /> : <CloseOutlined />}
+                {!menu ? <IoMenuOutline /> : <IoCloseOutline />}
               </div>
               <ul
                 onClick={handleMenu}

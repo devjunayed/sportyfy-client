@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Spin } from "antd";
 import { ReactNode } from "react";
 import NoDataFound from "../NoDataFound/NoDataFound";
+import { Spinner } from "@heroui/spinner";
 
 interface THandleDataLoading {
   children: ReactNode;
@@ -24,7 +24,7 @@ const HandleDataLoading = ({
     return (
       <div className="flex min-h-screen items-center justify-center text-red-700 text-xl">
         {" "}
-        <Spin size="large" />
+        <Spinner size="lg" />
       </div>
     );
   }
