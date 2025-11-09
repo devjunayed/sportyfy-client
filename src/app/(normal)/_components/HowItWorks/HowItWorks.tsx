@@ -23,11 +23,11 @@ export default function HowItWorks() {
   ]
 
   return (
-    <section className="w-full bg-white py-16">
+    <section className="w-full  ">
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold text-gray-900">How It Works</h2>
-          <p className="mt-2 text-gray-600">Book your favorite sports facility in three simple steps</p>
+          <h2 className="text-3xl font-bold ">How It Works</h2>
+          <p className="mt-2 text-gray-500">Book your favorite sports facility in three simple steps</p>
         </div>
 
         <div className="mx-auto max-w-4xl space-y-12 md:space-y-16">
@@ -39,7 +39,7 @@ export default function HowItWorks() {
 
               <div className="flex-1">
                 <div className="flex items-center gap-3">
-                  <h3 className="text-xl font-semibold text-gray-900">{step.title}</h3>
+                  <h3 className="text-xl font-semibold ">{step.title}</h3>
                   <step.icon className="h-5 w-5 text-gray-500" />
                 </div>
                 <p className="mt-2 text-gray-600">{step.description}</p>
