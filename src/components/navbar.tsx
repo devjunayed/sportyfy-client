@@ -23,7 +23,6 @@ import { ThemeSwitch } from "./theme-switch";
 import { SearchIcon } from "./icons";
 import { Button } from "@heroui/button";
 import { viewersPath } from "@/routes/viewers.routes";
-import { view } from "framer-motion";
 
 export default function App() {
   const items = [
@@ -47,7 +46,7 @@ export default function App() {
 
   const menuItems = ["Profile", "Dashboard", "Activity", "Analytics", "System"];
   return (
-    <Navbar maxWidth="full" className="w-full" isBordered>
+    <Navbar maxWidth="2xl" shouldHideOnScroll   className="mx-0 px-0  dark text-white"  isBordered>
       <NavbarContent justify="start">
         <NavbarBrand className="mr-4">
           <Logo />
@@ -114,7 +113,7 @@ export default function App() {
         />
         <ThemeSwitch />
         <Dropdown placement="bottom-end">
-          <DropdownTrigger className="hidden">
+          <DropdownTrigger className="hidden sm:flex">
             <Avatar
               isBordered
               as="button"
@@ -138,11 +137,10 @@ export default function App() {
           </DropdownMenu>
         </Dropdown>
 
-
         <NavbarItem className="hidden lg:flex">
           <Link href="#">Login</Link>
         </NavbarItem>
-        <NavbarItem className="hidden">
+        <NavbarItem className="hidden lg:flex">
           <Button as={Link} color="warning" href="#" variant="flat">
             Sign Up
           </Button>

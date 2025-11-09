@@ -1,5 +1,5 @@
 import Footer from "@/components/Shared/Footer/Footer";
-import Navbar from "@/components/Shared/Navbar/Navbar";
+import Navbar from "@/components/navbar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,9 +14,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <div className="">
       <Navbar />
-      {children}
+      <main>{children}</main>
       <Footer />
     </div>
   );

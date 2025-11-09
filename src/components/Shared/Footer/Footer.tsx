@@ -1,10 +1,10 @@
 "use client";
 import Logo from "../Logo/Logo";
 import { FaFacebook, FaFacebookMessenger, FaWhatsapp } from "react-icons/fa";
-import { Button, Input } from "antd";
 import Link from "next/link";
-
-const { Search } = Input;
+import { Button } from "@heroui/button";
+import SInput from "@/components/Form/SInput";
+import SForm from "@/components/Form/SForm";
 
 const Footer = () => {
   const onSearch = () => {};
@@ -45,18 +45,21 @@ const Footer = () => {
             </a>
           </div>
           <h6 className="footer-title mt-4">Newsletter</h6>
-          <Search
-            placeholder="input search text"
-            style={{backgroundColor: "white", borderRadius: '8px', border: "1px white"}}
-            allowClear
-            enterButton={
-              <Button style={{ background: "black", color: "white", }}>
-                Subscribe
-              </Button>
-            }
-            size="large"
-            onSearch={onSearch}
-          />
+          <SForm onSubmit={() => {}}>
+            <SInput
+              name="newsletter"
+              placeholder="input search text"
+              // style={{backgroundColor: "white", borderRadius: '8px', border: "1px white"}}
+              // allowClear
+              end={
+                <Button style={{ background: "black", color: "white" }}>
+                  Subscribe
+                </Button>
+              }
+              size="lg"
+              // onSearch={onSearch}
+            />
+          </SForm>
         </nav>
       </footer>
       <footer className="footer border-t footer-center bg-[#1B1F3B] text-white p-4">

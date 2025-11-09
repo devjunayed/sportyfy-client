@@ -5,7 +5,6 @@ import clsx from "clsx";
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { SportyFyProvider } from "./provider/SportyfyProvider";
-import Navbar from "@/components/navbar";
 
 export const metadata: Metadata = {
   title: {
@@ -42,12 +41,7 @@ export default function RootLayout({
         <SportyFyProvider
           themeProps={{ attribute: "class", defaultTheme: "dark" }}
         >
-          <div className="relative flex flex-col h-screen">
-            <Navbar />
-            <main className="container mx-auto max-w-7xl px-6 flex-grow">
-              {children}
-            </main>
-          </div>
+          {children}
         </SportyFyProvider>
       </body>
     </html>
