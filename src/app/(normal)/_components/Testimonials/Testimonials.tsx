@@ -1,72 +1,70 @@
+"use client"
+import React from "react"
+import { Card, CardBody } from "@heroui/card"
+import Slider from "react-slick"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
+import { Image } from "@heroui/image"
 
+const testimonials = [
+  {
+    name: "John Doe",
+    image: "https://xsgames.co/randomusers/avatar.php?g=male",
+    text: "I had a great experience booking a football field. The process was quick and seamless!",
+  },
+  {
+    name: "Jenny Smith",
+    image: "https://xsgames.co/randomusers/avatar.php?g=female",
+    text: "Easy to use and hassle-free booking system. I highly recommend this platform.",
+  },
+  {
+    name: "Mike Johnson",
+    image: "https://xsgames.co/randomusers/avatar.php?g=male",
+    text: "I love how I can compare different venues and book the best one with just a few clicks!",
+  },
+]
 
 const Testimonials = () => {
-  return (
-    <div
-    className="max-w-7xl mx-auto"
-      style={{ padding: "50px", backgroundColor: "white", textAlign: "center" }}
-    >
-      {/* <Title level={2} style={{ color: "#1B1F3B" }}>
-        What Our Customers Say
-      </Title>
-      <Carousel autoplay>
-        <div>
-          <Card hoverable>
-            <div className="flex justify-center items-center  flex-col">
-              <Image
-              alt="image"
-              preview={false}
-                className="mx-auto rounded-full mb-4"
-                width={150}
-                src="https://xsgames.co/randomusers/avatar.php?g=male"
-              />
-              <Text>
-                &ldquo;I had a great experience booking a football field. The process
-                was quick and seamless!&rdquo;
-              </Text>
-              <Text strong>- John Doe</Text>
-            </div>
-          </Card>
-        </div>
-        <div>
-          <Card hoverable>
-          <div className="flex justify-center items-center  flex-col">
-              <Image
-              alt="image"
-              preview={false}
-                className="mx-auto rounded-full mb-4"
-                width={150}
-                src="https://xsgames.co/randomusers/avatar.php?g=female"
-              />
-            <Text>
-              &ldquo;Easy to use and hassle-free booking system. I highly recommend
-              this platform.&rdquo;
-            </Text>
-            <Text strong>- Jenny Smith</Text>
-            </div>
-          </Card>
-        </div>
-        <div>
-          <Card hoverable>
-          <div className="flex justify-center items-center  flex-col">
-              <Image
-              alt="image"
-              preview={false}
-                className="mx-auto rounded-full mb-4"
-                width={150}
-                src="https://xsgames.co/randomusers/avatar.php?g=male"
-              />
-            <Text>
-              &ldquo;I love how I can compare different venues and book the best one
-              with just a few clicks!&rdquo;
-            </Text>
-            <Text strong>- Mike Johnson</Text>
-            </div>
-          </Card>
-        </div>
-      </Carousel> */}
-    </div>
-  );
-};
+  const settings = {
+    dots: true,
+    infinite: true,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    speed: 800,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+  }
 
-export default Testimonials;
+  return (
+    <section className="w-full  py-16">
+      <div className="max-w-7xl mx-auto text-center ">
+        <h2 className="text-3xl font-bold  mb-10">
+          What Our Customers Say
+        </h2>
+
+        <Slider {...settings}>
+          {testimonials.map((t, index) => (
+            <div key={index}>
+              <Card shadow="sm" isPressable className="mx-auto min-w-full max-w-xl">
+                <CardBody className="flex flex-col items-center h-full w-full text-center p-8 space-y-4">
+                  <Image
+                    alt={t.name}
+                    src={t.image}
+                    width={150}
+                    height={150}
+                    className="rounded-full mx-auto"
+                  />
+                  <p className="italic">&ldquo;{t.text}&rdquo;</p>
+                  <p className="font-semibold text-gray-500">- {t.name}</p>
+                </CardBody>
+              </Card>
+            </div>
+          ))}
+        </Slider>
+      </div>
+    </section>
+  )
+}
+
+export default Testimonials
