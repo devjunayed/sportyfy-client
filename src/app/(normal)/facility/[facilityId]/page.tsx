@@ -1,7 +1,6 @@
 "use client"
 import HandleDataLoading from "@/components/Shared/HandleDataLoading/HandleDataLoading";
 import { useGetSingleFacilityQuery } from "@/redux/api/dashboard/facilityApi";
-import { Button, Divider } from "antd";
 import { useParams, useRouter } from "next/navigation";
 import FacilitySlider from "../_components/FacilitySlider";
 import { CiLocationOn } from "react-icons/ci";
@@ -9,6 +8,8 @@ import Link from "next/link";
 import FacilityTab from "../_components/FacilityTab";
 import { TiArrowLeftOutline } from "react-icons/ti";
 import { IoCalendarNumberOutline } from "react-icons/io5";
+import { Button } from "@heroui/button";
+import { Divider } from "@heroui/divider";
 
 
 const FacilityDetailsPage = () => {
@@ -20,8 +21,8 @@ const FacilityDetailsPage = () => {
   return (
     <div className=" max-w-7xl mx-auto px-4 md:px-0 mt-20">
       <Button
-        onClick={() => navigate.back()}
-        type="primary"
+        onPress={() => navigate.back()}
+        
         className="bg-[#1B1F3B] mt-4 ml-2 flex gap-2"
       >
         <TiArrowLeftOutline/> Back

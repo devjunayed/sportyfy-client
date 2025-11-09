@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { Button, Input, Rate } from "antd";
 import FacilityRatingProgress from "./FacilityRatingProgress";
 import { FaPaperPlane } from "react-icons/fa6";
 import { useState } from "react";
@@ -53,7 +52,7 @@ const FacilityTab = ({ facility }: { facility: FacilitiesDataType }) => {
               <div className="text-center items-center space-y-2 border-r md:pr-20 ">
                 <h3 className="font-bold text-xl">4.0</h3>
                 <p>
-                  <Rate disabled value={4} className="text-[#1B1F3B]" />
+                  {/* <Star disabled value={4} className="text-[#1B1F3B]" /> */}
                 </p>
                 <p>35k ratings</p>
               </div>
@@ -86,7 +85,7 @@ const FacilityTab = ({ facility }: { facility: FacilitiesDataType }) => {
             <div className="text-center my-20">No Reviews yet</div>
             {/* Write Reviews */}
             <div className="w-full">
-              <Input.TextArea
+              {/* <Input.TextArea
                 onChange={(e) => setReview(e.target.value)}
                 placeholder="Write Your Review ...."
               />
@@ -101,7 +100,7 @@ const FacilityTab = ({ facility }: { facility: FacilitiesDataType }) => {
                 >
                   <FaPaperPlane /> Submit
                 </Button>
-              </div>
+              </div> */}
             </div>
           </div>
         </TabPanel>
