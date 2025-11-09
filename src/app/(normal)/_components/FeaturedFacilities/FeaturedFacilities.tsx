@@ -9,6 +9,8 @@ import FacilityCard from "./FacilityCard";
 const FeaturedFacilities = () => {
   const { data: facilities, isLoading } = useGetFacilitiesQuery("");
 
+  console.log("FeaturedFacilities facilities:", facilities);
+
   return (
     <div className="max-w-7xl mx-auto py-10 ">
       <HandleDataLoading
