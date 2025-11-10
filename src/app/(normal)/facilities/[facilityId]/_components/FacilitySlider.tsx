@@ -25,7 +25,7 @@ export default function FacilitySlider({ images }: { images: string[] }) {
       >
         {images.map((image, index) => (
           <SwiperSlide key={index}>
-            <img className="max-h-[480px] w-full object-cover" src={image} />
+            <img className="max-h-[480px] rounded-xl w-full object-cover" src={image} />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -40,7 +40,7 @@ export default function FacilitySlider({ images }: { images: string[] }) {
       >
         {images.map((image, index) => (
           <SwiperSlide key={index} className="max-w-28">
-            <img  src={image} />
+            <img className="rounded-xl object-cover h-20 w-50"  src={image} />
           </SwiperSlide>
         ))}
       </Swiper>

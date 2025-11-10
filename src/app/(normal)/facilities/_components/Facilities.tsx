@@ -60,22 +60,12 @@ const Facilities = () => {
   };
 
   return (
-    <section className="max-w-7xl mx-auto pt-28 px-4 pb-20">
+    <section className="max-w-7xl mx-auto pt-4  px-4 pb-20">
       {/* --- Filters --- */}
-      <Card className="p-6 mb-10 shadow-sm border border-gray-100 sticky top-20 bg-white/90 backdrop-blur-md z-30">
+      <Card className="p-6 mb-10 shadow-sm border border-gray-300 sticky top-0 bg-white/90 backdrop-blur-md z-30">
         <CardBody className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* Search */}
-          <Input
-            size="lg"
-            placeholder="Search facilities..."
-            startContent={<Search className="text-gray-400" size={18} />}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-            classNames={{
-              inputWrapper: "shadow-sm",
-            }}
-          />
+         
+        
 
           {/* Price Range */}
           <div className="flex flex-col justify-center">
@@ -107,6 +97,23 @@ const Facilities = () => {
             <SelectItem key="default">Default</SelectItem>
             <SelectItem key="priceLowHigh">Price: Low to High</SelectItem>
             <SelectItem key="priceHighLow">Price: High to Low</SelectItem>
+            <SelectItem key="ratingLowHigh">Rating: Low to High</SelectItem>
+            <SelectItem key="ratingHighLow">Rating: High to Low</SelectItem>
+            <SelectItem key="name">Name (A–Z)</SelectItem>
+          </Select>
+
+          {/* Filter by Category */}
+          <Select
+            label="Filter by Category"
+            size="lg"
+            onChange={(e) => setSortBy(e.target.value)}
+            selectedKeys={[sortBy]}
+          >
+            <SelectItem key="default">Default</SelectItem>
+            <SelectItem key="priceLowHigh">Price: Low to High</SelectItem>
+            <SelectItem key="priceHighLow">Price: High to Low</SelectItem>
+            <SelectItem key="ratingLowHigh">Rating: Low to High</SelectItem>
+            <SelectItem key="ratingHighLow">Rating: High to Low</SelectItem>
             <SelectItem key="name">Name (A–Z)</SelectItem>
           </Select>
 
@@ -156,7 +163,7 @@ const Facilities = () => {
               <Card
                 key={facility._id}
                 shadow="sm"
-                className="border hover:shadow-md transition-all duration-200"
+                className="border border-gray-300 hover:shadow-md transition-all duration-200"
               >
                 <CardBody className="flex flex-col sm:flex-row gap-5 items-center">
                   <img
@@ -174,7 +181,7 @@ const Facilities = () => {
                       {facility.description}
                     </p>
                     <p className="mt-2 font-medium text-[#1B1F3B]">
-                      Price: {facility.price} ৳
+                      Price: {facility?.pricePerHour} ৳
                     </p>
                   </div>
                 </CardBody>

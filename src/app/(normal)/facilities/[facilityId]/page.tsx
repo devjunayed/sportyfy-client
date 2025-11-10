@@ -1,31 +1,31 @@
-"use client"
+"use client";
 import HandleDataLoading from "@/components/Shared/HandleDataLoading/HandleDataLoading";
 import { useGetSingleFacilityQuery } from "@/redux/api/dashboard/facilityApi";
 import { useParams, useRouter } from "next/navigation";
-import FacilitySlider from "../_components/FacilitySlider";
+import FacilitySlider from "./_components/FacilitySlider";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
-import FacilityTab from "../_components/FacilityTab";
+import FacilityTab from "./_components/FacilityTab";
 import { TiArrowLeftOutline } from "react-icons/ti";
 import { IoCalendarNumberOutline } from "react-icons/io5";
 import { Button } from "@heroui/button";
 import { Divider } from "@heroui/divider";
-
+import { Chip } from "@heroui/chip";
 
 const FacilityDetailsPage = () => {
-  const {facilityId}= useParams();
+  const { facilityId } = useParams();
   const navigate = useRouter();
-  const { data: facility, isLoading } = useGetSingleFacilityQuery(facilityId as string);
-
+  const { data: facility, isLoading } = useGetSingleFacilityQuery(
+    facilityId as string
+  );
 
   return (
-    <div className=" max-w-7xl mx-auto px-4 md:px-0 mt-20">
+    <div className=" max-w-7xl mx-auto px-4 md:px-0 ">
       <Button
         onPress={() => navigate.back()}
-        
-        className="bg-[#1B1F3B] mt-4 ml-2 flex gap-2"
+        className="bg-[#1B1F3B] text-white mt-4 ml-2 flex gap-2"
       >
-        <TiArrowLeftOutline/> Back
+        <TiArrowLeftOutline /> Back
       </Button>
 
       {/*content  */}
@@ -38,18 +38,26 @@ const FacilityDetailsPage = () => {
             {/* texts */}
             <div className="lg:w-1/2 flex flex-col  ">
               <h1 className="text-2xl font-bold">{facility?.data?.name}</h1>
+              <Chip>{facility?.data?.category}</Chip>
               <p className="text-base mt-4 flex items-center gap-2">
                 <CiLocationOn /> {facility?.data?.location}{" "}
               </p>
               <p className="py-6">{facility?.data?.shortDescription}</p>
-
-              <div className="font-semibold text-xl mr-10 flex justify-between">
-                <p>&#2547; {facility?.data?.pricePerHour} / Hour </p>
+              {/* Highlight */}
+              <div className="rounded-md border border-gray-300 dark:border-gray-700 dark:bg-[#18181B] bg-gray-50 p-3">
+                <span className="text-sm ">
+                  <strong className="">Highlight:</strong> {facility?.data?.highlight}
+                </span>
               </div>
+
               <Divider />
               <div className="flex-col flex items-center mt-4 justify-between lg:mx-20 gap-10 ">
                 <Button className="bg-[#1B1F3B] text-white">
-                  <Link href={`/booking/${facilityId}`} type="primary" className="">
+                  <Link
+                    href={`/booking/${facilityId}`}
+                    type="primary"
+                    className="flex items-center gap-2"
+                  >
                     Book Now <IoCalendarNumberOutline />
                   </Link>
                 </Button>
