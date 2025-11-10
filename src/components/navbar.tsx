@@ -138,10 +138,10 @@ export default function App() {
         </Dropdown>
 
         <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
+          <Link href="/login">Login</Link>
         </NavbarItem>
         <NavbarItem className="hidden lg:flex">
-          <Button as={Link} color="warning" href="#" variant="flat">
+          <Button as={Link} color="warning" href="/register" variant="flat">
             Sign Up
           </Button>
         </NavbarItem>
