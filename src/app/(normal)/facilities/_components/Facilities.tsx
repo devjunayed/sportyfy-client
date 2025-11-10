@@ -77,7 +77,7 @@ const Facilities = () => {
               minValue={0}
               maxValue={5000}
               value={priceRange}
-              onChange={handlePriceChange}
+              onChange={() => handlePriceChange}
               aria-label="Price range"
               className="max-w-xs mx-auto"
             />

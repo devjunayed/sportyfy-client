@@ -11,6 +11,8 @@ import { IoCalendarNumberOutline } from "react-icons/io5";
 import { Button } from "@heroui/button";
 import { Divider } from "@heroui/divider";
 import { Chip } from "@heroui/chip";
+import { Clock, MapIcon, Users } from "lucide-react";
+import { BiStar } from "react-icons/bi";
 
 const FacilityDetailsPage = () => {
   const { facilityId } = useParams();
@@ -36,17 +38,40 @@ const FacilityDetailsPage = () => {
               <FacilitySlider images={facility?.data?.images as string[]} />
             </div>
             {/* texts */}
-            <div className="lg:w-1/2 flex flex-col  ">
+            <div className="lg:w-1/2 flex flex-col gap-4  ">
               <h1 className="text-2xl font-bold">{facility?.data?.name}</h1>
-              <Chip>{facility?.data?.category}</Chip>
-              <p className="text-base mt-4 flex items-center gap-2">
-                <CiLocationOn /> {facility?.data?.location}{" "}
-              </p>
-              <p className="py-6">{facility?.data?.shortDescription}</p>
+              <div className="flex gap-2">
+                <Chip>{facility?.data?.category}</Chip>
+                <Chip className="  rounded-full  px-3 py-1 text-xs font-medium  shadow-sm ">
+                  <div className="flex items-center gap-1 ">
+                    <BiStar className="text-sm" />
+                    <span className="text-sm font-medium ">
+                      {facility?.data?.rating?.toFixed(1) ?? "N/A"}
+                    </span>
+                  </div>
+                </Chip>
+              </div>
+              <p className="">{facility?.data?.shortDescription}</p>
+              <Divider />
+              <div className="flex items-center gap-2  text-sm">
+                <MapIcon size={16} />
+                <span>{facility?.data?.location}</span>
+              </div>
+
+              <div className="flex items-center gap-2 text-sm">
+                <Users className="h-4 w-4 " />
+                <span>{facility?.data?.capacity} people</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm ">
+                <Clock className="h-4 w-4 " />
+                <span>{facility?.data?.openHours}</span>
+              </div>
+
               {/* Highlight */}
               <div className="rounded-md border border-gray-300 dark:border-gray-700 dark:bg-[#18181B] bg-gray-50 p-3">
                 <span className="text-sm ">
-                  <strong className="">Highlight:</strong> {facility?.data?.highlight}
+                  <strong className="">Highlight:</strong>{" "}
+                  {facility?.data?.highlight}
                 </span>
               </div>
 
