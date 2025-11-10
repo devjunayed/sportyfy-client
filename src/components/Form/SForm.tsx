@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useImperativeHandle } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
 interface formConfig {
@@ -9,9 +9,18 @@ interface formConfig {
 interface IProps extends formConfig {
   children: ReactNode;
   onSubmit: SubmitHandler<any>;
+  className?: string;
+  formRef?: React.MutableRefObject<any>;
 }
-const SForm = ({ children, onSubmit, defaultValues, resolver } : IProps) => {
+const SForm = ({
+  children,
+  onSubmit,
+  defaultValues,
+  resolver,
+  className,
+}: IProps) => {
   const formConfig: formConfig = {};
+
 
   if (defaultValues) {
     formConfig["defaultValues"] = defaultValues;
@@ -22,11 +31,18 @@ const SForm = ({ children, onSubmit, defaultValues, resolver } : IProps) => {
   }
 
   const methods = useForm(formConfig);
+
+
   const submitHandler = methods.handleSubmit;
 
-  return <FormProvider {...methods}>
-    <form onSubmit={submitHandler(onSubmit)}>{children}</form>
-  </FormProvider>;
+ 
+  return ( 
+    <FormProvider {...methods}>
+      <form className={className} onSubmit={submitHandler(onSubmit)}>
+        {children}
+      </form>
+    </FormProvider>
+  );
 };
 
 export default SForm;

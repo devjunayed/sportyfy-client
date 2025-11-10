@@ -5,7 +5,10 @@ import { IFormValues } from "@/types/form.type";
 import { Input } from "@heroui/input";
 import { useFormContext } from "react-hook-form";
 
-interface ISInput extends IFormValues {}
+interface ISInput extends IFormValues {
+  defaultValue?: string,
+  value?: string
+}
 
 const SInput = ({
   name,
@@ -17,6 +20,8 @@ const SInput = ({
   size = "md",
   end,
   start,
+  defaultValue,
+  value,
   required = false,
 }: ISInput) => {
   const {
@@ -35,6 +40,7 @@ const SInput = ({
       placeholder={placeholder}
       label={label}
       required={required}
+      labelPlacement="outside-top"
       size={size}
       type={type}
       variant={variant}
