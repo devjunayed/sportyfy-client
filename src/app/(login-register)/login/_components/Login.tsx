@@ -7,7 +7,6 @@ import Link from "next/link";
 import SButton from "@/components/UI/SButton";
 import Logo from "../../../../components/Shared/Logo/Logo";
 import { FaGoogle } from "react-icons/fa";
-import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { useLoginMutation } from "@/redux/api/auth/authApi";
@@ -18,6 +17,7 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { ErrorResponse } from "@/types/shared.type";
 import { Input } from "@heroui/input";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 /*===================================
        Main Login function
@@ -43,7 +43,9 @@ const Login: React.FC = () => {
         const user = verifyToken(loginResult.token as string);
 
         if (user) {
-          toast.success("Logged in successfully");
+          toast.success("Logged in successfully", {
+            position: "top-center",
+          });
           dispatch(
             setUser({
               user: {

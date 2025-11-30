@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextRequest, NextResponse } from "next/server";
 import {  jwtDecode } from "jwt-decode";
+import { cookies } from "next/headers";
 
 const AuthRoutes = ["/login", "/register"];
 const roleBasedRoutes = {
@@ -14,8 +15,13 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   console.log(pathname);
 
+
+  const cookieStore  = await cookies();
+  const token = cookieStore.get("token");
+  console.log({token})
+
   const accessToken =  request.cookies.get("token")?.value;
-  console.log(accessToken)
+  console.log({accessToken})
 
   if (!accessToken) {
     if (AuthRoutes.includes(pathname)) {
@@ -35,11 +41,11 @@ export async function middleware(request: NextRequest) {
   }
 
   const jwtData = jwtDecode(accessToken);
-  console.log(jwtData)
+  console.log({jwtData})
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/admin/:path", "/user/:path", "/booking/:path", "/login", "/register"],
+  matcher: ["/admin/:path*", "/user/:path", "/booking/:path", "/login", "/register"],
 };

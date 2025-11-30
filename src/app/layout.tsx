@@ -1,10 +1,11 @@
-
 import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
-import { SportyFyProvider } from "./provider/SportyfyProvider";
+import { SportyFyProvider } from "../provider/SportyfyProvider";
+import { getServerSession } from "next-auth";
+import authOptions from "@/utils/authOptions";
 
 export const metadata: Metadata = {
   title: {
@@ -24,11 +25,12 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession(authOptions);
   return (
     <html suppressHydrationWarning lang="en">
       <head />
@@ -39,6 +41,7 @@ export default function RootLayout({
         )}
       >
         <SportyFyProvider
+          session={session}
           themeProps={{ attribute: "class", defaultTheme: "dark" }}
         >
           {children}

@@ -1,7 +1,7 @@
 "use client";
 
 import type { ThemeProviderProps } from "next-themes";
-import {Toaster} from 'sonner'
+import { Toaster } from "sonner";
 
 import * as React from "react";
 import { HeroUIProvider } from "@heroui/system";
@@ -9,10 +9,13 @@ import { useRouter } from "next/navigation";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { AppStore, makeStore } from "@/redux/store";
 import { Provider } from "react-redux";
+import { SessionProvider } from "next-auth/react";
+
 
 export interface ProvidersProps {
   children: React.ReactNode;
   themeProps?: ThemeProviderProps;
+  session: any
 }
 
 declare module "@react-types/shared" {
@@ -23,7 +26,11 @@ declare module "@react-types/shared" {
   }
 }
 
-export function SportyFyProvider({ children, themeProps }: ProvidersProps) {
+export  function SportyFyProvider({
+  children,
+  themeProps,
+  session
+}: ProvidersProps) {
   const router = useRouter();
   const storeRef = React.useRef<AppStore | null>(null);
   if (!storeRef.current) {
@@ -31,12 +38,17 @@ export function SportyFyProvider({ children, themeProps }: ProvidersProps) {
     storeRef.current = makeStore();
   }
 
+
+
+
   return (
-    <HeroUIProvider navigate={router.push}>
-      <Provider store={storeRef.current}>
-        <Toaster />
-        <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
-      </Provider>
-    </HeroUIProvider>
+    <SessionProvider session={session}>
+      <HeroUIProvider navigate={router.push}>
+        <Provider store={storeRef.current}>
+          <Toaster />
+          <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
+        </Provider>
+      </HeroUIProvider>
+    </SessionProvider>
   );
 }
