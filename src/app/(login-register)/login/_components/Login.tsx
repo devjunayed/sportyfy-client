@@ -1,5 +1,6 @@
 "use client";
-import React, { FormEvent, useRef, useState } from "react";
+import React, { FormEvent, useState } from "react";
+
 import { Card } from "@heroui/card";
 import { RiAdminLine, RiUserLine } from "react-icons/ri";
 import { BiLogIn } from "react-icons/bi";
@@ -10,7 +11,6 @@ import { FaGoogle } from "react-icons/fa";
 import { useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { useLoginMutation } from "@/redux/api/auth/authApi";
-import { verifyToken } from "@/utils/verifyToken";
 import { toast } from "sonner";
 import { setUser } from "@/redux/features/authSlice";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
@@ -18,6 +18,7 @@ import { ErrorResponse } from "@/types/shared.type";
 import { Input } from "@heroui/input";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { signIn } from "../../../../../auth";
 
 /*===================================
        Main Login function
@@ -29,50 +30,47 @@ const Login: React.FC = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const searchParams = useSearchParams(); // ✅ for query string like ?redirect=/something
 
-  const dispatch = useDispatch();
-  const [login] = useLoginMutation();
+  // const dispatch = useDispatch();
+  // const [login] = useLoginMutation();
 
   const onFinish = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const { data: loginResult } = await login({ email, password });
+      // const { data: loginResult } = await login({ email, password });
+      const response = await signIn("credentials", { email, password, redirect: false });
+      console.log(response);
+      // if (loginResult?.success) {
+      //   if (loginResult) {
+      //     toast.success("Logged in successfully", {
+      //       position: "top-center",
+      //     });
+      //     dispatch(
+      //       setUser({
+      //         user: {
+      //           name: loginResult?.data?.name,
+      //           email: loginResult?.data?.email,
+      //           role: loginResult?.data?.role,
+      //           _id: loginResult?.data?._id,
+      //         },
+      //         token: loginResult?.token,
+      //       })
+      //     );
+      //   }
 
-      console.log(loginResult.token);
+      //   const redirectParam = searchParams.get("redirect");
+      //   const role = user?.role;
 
-      if (loginResult?.success) {
-        const user = verifyToken(loginResult.token as string);
-
-        if (user) {
-          toast.success("Logged in successfully", {
-            position: "top-center",
-          });
-          dispatch(
-            setUser({
-              user: {
-                name: loginResult?.data?.name,
-                email: loginResult?.data?.email,
-                role: loginResult?.data?.role,
-                _id: loginResult?.data?._id,
-              },
-              token: loginResult?.token,
-            })
-          );
-        }
-
-        const redirectParam = searchParams.get("redirect");
-        const role = user?.role;
-
-        if (redirectParam) {
-          router.push(redirectParam);
-        } else {
-          router.push(`/${role}/dashboard`);
-        }
-      } else {
-        const error = loginResult.error as FetchBaseQueryError;
-        if ("data" in error) {
-          toast.error((error?.data as ErrorResponse).message);
-        }
-      }
+      //   if (redirectParam) {
+      //     router.push(redirectParam);
+      //   } else {
+      //     router.push(`/${role}/dashboard`);
+      //   }
+      // } else {
+      //   const error = loginResult.error as FetchBaseQueryError;
+      //   if ("data" in error) {
+      //     toast.error((error?.data as ErrorResponse).message);
+      //   }
+      // }
     } catch (error) {
       console.log({ LoginError: error });
       toast.success("Something went wrong!");

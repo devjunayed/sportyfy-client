@@ -35,10 +35,7 @@ export default async function RootLayout({
     <html suppressHydrationWarning lang="en">
       <head />
       <body
-        className={clsx(
-          "min-h-screen text-foreground bg-background font-sans antialiased",
-          fontSans.variable
-        )}
+      
       >
         <SportyFyProvider
           session={session}

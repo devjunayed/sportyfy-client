@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { AppStore, makeStore } from "@/redux/store";
 import { Provider } from "react-redux";
-import { SessionProvider } from "next-auth/react";
 
 
 export interface ProvidersProps {
@@ -42,13 +41,11 @@ export  function SportyFyProvider({
 
 
   return (
-    <SessionProvider session={session}>
       <HeroUIProvider navigate={router.push}>
         <Provider store={storeRef.current}>
           <Toaster />
           <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
         </Provider>
       </HeroUIProvider>
-    </SessionProvider>
   );
 }
