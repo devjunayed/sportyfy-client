@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
+import { useTheme } from "next-themes";
 import Logo from "../Logo/Logo";
 import NavbarButton from "./NavbarButton";
 import { useAppSelector } from "@/redux/hooks";
@@ -15,8 +16,18 @@ import {
   IoLogOutOutline,
   IoChevronDownOutline,
 } from "react-icons/io5";
+import { SunFilledIcon, MoonFilledIcon } from "@/components/icons";
 
-const Navbar = () => {
+interface NavbarProps {
+  position?: "fixed" | "relative";
+  hideOnScroll?: boolean;
+}
+
+const Navbar = ({
+  position = "relative",
+  hideOnScroll = true,
+}: NavbarProps) => {
+  const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -41,7 +52,10 @@ const Navbar = () => {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
         setDropdownOpen(false);
       }
     };
@@ -54,6 +68,13 @@ const Navbar = () => {
     const onScroll = () => {
       const currentY = window.scrollY;
       setIsScrolled(currentY > 50);
+
+      // Only apply scroll-hide behavior when navbar is fixed and hideOnScroll is enabled
+      if (position !== "fixed" || !hideOnScroll) {
+        setIsVisible(true);
+        return;
+      }
+
       if (menuRef.current) {
         setIsVisible(true);
         lastScrollY.current = currentY;
@@ -69,7 +90,7 @@ const Navbar = () => {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [position, hideOnScroll]);
 
   useEffect(() => {
     setMenu(false);
@@ -90,12 +111,13 @@ const Navbar = () => {
       )}
 
       <div
-        className={`fixed top-0 left-0 w-full z-50 transition-transform duration-300 ${
-          isVisible ? "translate-y-0" : "-translate-y-full"
+        className={`${position === "fixed" ? "fixed" : "relative"} top-0 left-0 w-full z-50 transition-transform duration-300 ${
+          position === "fixed" && !isVisible
+            ? "-translate-y-full"
+            : "translate-y-0"
         } ${isDark ? "bg-[#1B1F3B] shadow-md backdrop-blur-lg" : ""} text-white`}
       >
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
-
           {/* LEFT: Logo + desktop links */}
           <div className="flex items-center gap-8">
             <Logo />
@@ -164,7 +186,9 @@ const Navbar = () => {
                         <p className="text-sm font-semibold text-white truncate">
                           {user.name}
                         </p>
-                        <p className="text-xs text-white/50 truncate">{user.email}</p>
+                        <p className="text-xs text-white/50 truncate">
+                          {user.email}
+                        </p>
                       </div>
                     </div>
 
@@ -174,14 +198,20 @@ const Navbar = () => {
                         href={`/${user.role}/dashboard`}
                         className="flex items-center gap-3 px-4 py-2.5 text-sm text-white/80 hover:bg-white/8 hover:text-white transition-colors"
                       >
-                        <IoGridOutline size={16} className="opacity-60 shrink-0" />
+                        <IoGridOutline
+                          size={16}
+                          className="opacity-60 shrink-0"
+                        />
                         Dashboard
                       </Link>
                       <Link
                         href={`/${user.role}/profile`}
                         className="flex items-center gap-3 px-4 py-2.5 text-sm text-white/80 hover:bg-white/8 hover:text-white transition-colors"
                       >
-                        <IoPersonOutline size={16} className="opacity-60 shrink-0" />
+                        <IoPersonOutline
+                          size={16}
+                          className="opacity-60 shrink-0"
+                        />
                         Profile
                       </Link>
                     </div>
@@ -189,7 +219,10 @@ const Navbar = () => {
                     {/* Sign out */}
                     <div className="border-t border-white/10 py-1.5">
                       <div className="flex items-center gap-3 px-4 py-2.5">
-                        <IoLogOutOutline size={16} className="opacity-60 shrink-0 text-red-400" />
+                        <IoLogOutOutline
+                          size={16}
+                          className="opacity-60 shrink-0 text-red-400"
+                        />
                         <NavbarButton className="text-sm text-red-400 hover:text-red-300 bg-transparent p-0 h-auto border-none" />
                       </div>
                     </div>
@@ -208,7 +241,11 @@ const Navbar = () => {
               onClick={() => setMenu((prev) => !prev)}
               aria-label="Toggle menu"
             >
-              {menu ? <IoCloseOutline size={24} /> : <IoMenuOutline size={24} />}
+              {menu ? (
+                <IoCloseOutline size={24} />
+              ) : (
+                <IoMenuOutline size={24} />
+              )}
             </button>
           </div>
         </div>

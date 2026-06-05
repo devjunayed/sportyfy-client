@@ -1,5 +1,5 @@
 import Footer from "@/components/Shared/Footer/Footer";
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/Shared/Navbar/Navbar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <div className="">
-      <Navbar />
+      <Navbar hideOnScroll={false} />
       <main>{children}</main>
       <Footer />
     </div>

@@ -16,14 +16,14 @@ export default function layout({
   return (
     <div className="min-h-screen bg-slate-50">
       <Suspense fallback={<NavbarSkeleton />}>
-        <Navbar />
+        <Navbar hideOnScroll={false} position="fixed" />
       </Suspense>
-      <div className="pt-16 mx-auto flex w-full max-w-[1700px] flex-col px-4 py-6 lg:px-8">
-        <div className="flex flex-col gap-6 lg:flex-row">
-          <div className="w-full lg:w-72">
+      <div className="pt-16 mt-4 mx-auto flex w-full max-w-425 flex-col px-4 py-6 lg:px-8">
+        <div className="flex flex-col  lg:flex-row gap-4">
+          <div className="w-full  lg:w-72">
             <AdminSidebar />
           </div>
-          <main className="w-full rounded-3xl bg-white p-6 shadow-sm">
+          <main className="w-full rounded-3xl bg-white shadow-sm">
             {children}
           </main>
         </div>

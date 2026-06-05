@@ -30,7 +30,11 @@ const AdminSidebar = () => {
           className="text-white hover:bg-white/10 hover:text-white"
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
-          {collapsed ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}
+          {collapsed ? (
+            <PanelLeftOpen size={18} />
+          ) : (
+            <PanelLeftClose size={18} />
+          )}
         </Button>
       </div>
 
@@ -51,7 +55,9 @@ const AdminSidebar = () => {
               title={collapsed ? item.name : undefined}
             >
               <span className="shrink-0">{item.icon}</span>
-              {!collapsed ? <span className="truncate">{item.name}</span> : null}
+              {!collapsed ? (
+                <span className="truncate">{item.name}</span>
+              ) : null}
             </Link>
           );
         })}
