@@ -1,11 +1,7 @@
-"use client"
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { DeleteOutlined } from "@ant-design/icons";
-import { message, Popconfirm } from "antd";
-
-import { useState } from "react";
-import { FacilitiesDataType } from "@/types/facility.type"; 
+"use client";
 import { useDeleteFacilityMutation } from "@/redux/api/dashboard/facilityApi";
+import { FacilitiesDataType } from "@/types/facility.type";
+import { toast } from "sonner";
 
 interface DeleteFacilitiesProps {
   data: FacilitiesDataType;
@@ -14,67 +10,35 @@ interface DeleteFacilitiesProps {
 
 const DeleteFacilities = ({ data, refetch }: DeleteFacilitiesProps) => {
   const [deleteFacility] = useDeleteFacilityMutation();
-  const [open, setOpen] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
-  const [messageApi, contextHolder] = message.useMessage();
 
-  const showPopconfirm = () => {
-    setOpen(true);
+  const handleDelete = async () => {
+    const confirmed = window.confirm(
+      `Delete ${data.name}? This action cannot be undone.`,
+    );
+    if (!confirmed) {
+      return;
+    }
 
-    setTimeout(() => {
-      setOpen(false);
-      setConfirmLoading(false);
-    }, 2000);
-  };
-
-  const handleOk = async () => {
-    setConfirmLoading(true);
-
-    setTimeout(() => {
-      setOpen(false);
-      setConfirmLoading(false);
-    }, 1000);
-
-    const result = await deleteFacility(data._id);
-
-    if (result.data.success) {
-      messageApi
-        .open({
-          type: "success",
-          content: "Deleted successfully!",
-        })
-        .then(() => {
-          refetch();
-        });
+    try {
+      const result = await deleteFacility(data._id).unwrap();
+      if (result.success) {
+        await refetch();
+        toast.success("Deleted successfully!");
+      } else {
+        toast.error("Delete failed.");
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Delete failed.");
     }
   };
 
-  const handleCancel = () => {
-    console.log("Clicked cancel button");
-    setOpen(false);
-  };
-
   return (
-    <Popconfirm
-      title={`Delete ${data.name}`}
-      description="The action can not be undone"
-      open={open}
-      onConfirm={handleOk}
-      okButtonProps={{
-        loading: confirmLoading, // Button loading state
-        style: {
-          backgroundColor: "black",
-          borderColor: "black",
-          color: "#fff",
-        }, // Custom button styles
-      }}
-      onCancel={handleCancel}
+    <button
+      onClick={handleDelete}
+      className="rounded-full p-2 text-slate-600 transition hover:bg-slate-100"
     >
-      {contextHolder}
-      <a onClick={showPopconfirm}>
-        <DeleteOutlined />
-      </a>
-    </Popconfirm>
+      Delete
+    </button>
   );
 };
 

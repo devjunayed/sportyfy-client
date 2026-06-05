@@ -1,4 +1,6 @@
-import { CloseCircleFilled } from "@ant-design/icons";
+"use client";
+
+import { IoCloseCircleOutline } from "react-icons/io5";
 import { currentUser } from "@/redux/features/authSlice";
 import { useAppSelector } from "@/redux/hooks";
 import { useGetUserQuery } from "@/redux/api/auth/authApi";
@@ -11,7 +13,7 @@ const UserDashboard = () => {
   const greetings = useAppSelector((state) => state.dashboard.greetings);
   const dispatch = useDispatch();
   const { data: userData } = useGetUserQuery(
-    user ? `${(user as TUser).email}` : ""
+    user ? `${(user as TUser).email}` : "",
   );
 
   const handleGreeting = () => {
@@ -25,8 +27,11 @@ const UserDashboard = () => {
         } bg-[#1B1F3B] flex justify-between p-4 text-center text-white mt-4`}
       >
         <div>Welcome {userData?.data?.name}, what you are upto.</div>
-        <button onClick={handleGreeting}>
-          <CloseCircleFilled />
+        <button
+          onClick={handleGreeting}
+          className="rounded-full p-1 text-white transition hover:bg-white/20"
+        >
+          <IoCloseCircleOutline size={22} />
         </button>
       </div>
       <div className="flex gap-4 flex-wrap justify-center text-center mt-4">

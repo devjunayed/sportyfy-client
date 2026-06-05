@@ -1,145 +1,179 @@
 "use client";
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, DatePicker, Select, TimePicker, message } from "antd";
-import { useState } from "react";
-import type { Dayjs } from "dayjs";
+
+import Button from "@/components/UI/Button";
 import { useGetFacilitiesQuery } from "../../../../../redux/api/dashboard/facilityApi";
 import { TFacility } from "../../../../../types/facility.type";
+import { useState } from "react";
 import {
   RiAiGenerate,
-  RiDeleteBin5Line,
   RiCheckboxMultipleLine,
+  RiDeleteBin5Line,
 } from "react-icons/ri";
+import { toast } from "sonner";
+
+const inputClass =
+  "h-10 w-full rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-200";
+
+type FacilityOption = {
+  label: string;
+  value: string;
+};
 
 const BulkGenerate = () => {
-  const { RangePicker } = DatePicker;
   const { data: facilitiesData } = useGetFacilitiesQuery("");
   const [selectedFacilities, setSelectedFacilities] = useState<string[]>([]);
-  const [dateRange, setDateRange] = useState<
-    [string | null, string | null] | null
-  >(null);
-  const [startTime, setStartTime] = useState<Dayjs | null>(null);
-  const [endTime, setEndTime] = useState<Dayjs | null>(null);
+  const [dateRange, setDateRange] = useState<[string, string]>(["", ""]);
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const [slotInterval, setSlotInterval] = useState<number>(60);
 
-  const facilityNames =
+  const facilityNames: FacilityOption[] =
     facilitiesData?.data?.map((facility: TFacility) => ({
       label: facility.name,
-      value: facility._id,
+      value: facility._id || "",
     })) || [];
 
-  const onRangeChange = (
-    dates: null | (Dayjs | null)[],
-    dateStrings: string[]
+  const handleFacilityChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
-    if (dates) setDateRange([dateStrings[0], dateStrings[1]]);
-    else setDateRange(null);
+    setSelectedFacilities(
+      Array.from(event.target.selectedOptions).map((option) => option.value),
+    );
   };
 
   const handleSubmit = () => {
     if (
-      !dateRange ||
+      !dateRange[0] ||
+      !dateRange[1] ||
       selectedFacilities.length === 0 ||
       !startTime ||
       !endTime
     ) {
-      message.error("Please fill out all fields before generating.");
+      toast.error("Please fill out all fields before generating.");
       return;
     }
 
     const payload = {
       dateRange,
       facilities: selectedFacilities,
-      startTime: startTime.format("HH:mm"),
-      endTime: endTime.format("HH:mm"),
+      startTime,
+      endTime,
       slotInterval,
     };
 
     console.log("Generated Bulk Slot Payload:", payload);
+    toast.success("Bulk slot payload generated");
   };
 
   return (
-    <div>
-      {/* Choose Range */}
-      <div>
-        <h1 className="font-semibold py-2 border-b my-2">Choose Range</h1>
-        <RangePicker className="reset" onChange={onRangeChange} />
-      </div>
-
-      {/* Choose Facility */}
-      <div>
-        <h1 className="font-semibold py-2 border-b my-2">Choose Facility</h1>
-        <div className="text-white gap-2 flex justify-between items-center flex-wrap">
-          <div className="flex w-full gap-2 items-center">
-            <Select
-              mode="multiple"
-              allowClear
-              className="w-full"
-              placeholder="Please choose"
-              value={selectedFacilities}
-              onChange={(value) => setSelectedFacilities(value)}
-              options={facilityNames}
+    <div className="space-y-5">
+      <section>
+        <h2 className="mb-3 border-b border-slate-200 pb-2 font-semibold text-slate-900">
+          Choose Range
+        </h2>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <label className="grid gap-2 text-sm text-slate-700">
+            <span>Start Date</span>
+            <input
+              type="date"
+              className={inputClass}
+              value={dateRange[0]}
+              onChange={(event) =>
+                setDateRange([event.target.value, dateRange[1]])
+              }
             />
+          </label>
+          <label className="grid gap-2 text-sm text-slate-700">
+            <span>End Date</span>
+            <input
+              type="date"
+              className={inputClass}
+              value={dateRange[1]}
+              onChange={(event) =>
+                setDateRange([dateRange[0], event.target.value])
+              }
+            />
+          </label>
+        </div>
+      </section>
+
+      <section>
+        <h2 className="mb-3 border-b border-slate-200 pb-2 font-semibold text-slate-900">
+          Choose Facility
+        </h2>
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-start">
+          <select
+            multiple
+            className="min-h-32 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-200"
+            value={selectedFacilities}
+            onChange={handleFacilityChange}
+          >
+            {facilityNames.map((facility) => (
+              <option key={facility.value} value={facility.value}>
+                {facility.label}
+              </option>
+            ))}
+          </select>
+          <div className="flex gap-2">
             <Button
-              icon={<RiDeleteBin5Line />}
+              type="button"
+              variant="outline"
               onClick={() => setSelectedFacilities([])}
             >
-              Clear All
+              <RiDeleteBin5Line /> Clear All
             </Button>
             <Button
-              icon={<RiCheckboxMultipleLine />}
+              type="button"
+              variant="outline"
               onClick={() =>
-                setSelectedFacilities(facilityNames.map((f: any) => f.value))
+                setSelectedFacilities(facilityNames.map((facility) => facility.value))
               }
             >
-              Choose All
+              <RiCheckboxMultipleLine /> Choose All
             </Button>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Choose Start time and end time */}
-      <div className="mb-4 mt-4">
-        <h1 className="font-semibold py-2 border-b my-2">
+      <section>
+        <h2 className="mb-3 border-b border-slate-200 pb-2 font-semibold text-slate-900">
           Enter Start and End Time
-        </h1>
-        <div className="flex gap-8">
-          <TimePicker
-            format="HH:mm"
-            placeholder="Start Time"
-            onChange={(value) => setStartTime(value)}
+        </h2>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <input
+            type="time"
+            className={inputClass}
+            value={startTime}
+            onChange={(event) => setStartTime(event.target.value)}
           />
-          <TimePicker
-            format="HH:mm"
-            placeholder="End Time"
-            onChange={(value) => setEndTime(value)}
+          <input
+            type="time"
+            className={inputClass}
+            value={endTime}
+            onChange={(event) => setEndTime(event.target.value)}
           />
         </div>
-      </div>
+      </section>
 
-      {/* Slot Interval */}
-      <div className="mb-4 mt-4">
-        <h1 className="font-semibold py-2 border-b my-2">Slot Interval</h1>
-        <Select
-          defaultValue={30}
-          className="w-full"
-          onChange={(value) => setSlotInterval(value)}
-          options={[
-            { label: "1 hour", value: 60 },
-            { label: "2 hours", value: 120 },
-            { label: "3 hours", value: 180 },
-            { label: "4 hours", value: 240 },
-          ]}
-        />
-      </div>
-      {/* Generate button */}
-      <div className="flex justify-center pt-4 border-t">
-        <Button
-          className="text-white bg-blue-600 hover:bg-blue-700"
-          icon={<RiAiGenerate />}
-          onClick={handleSubmit}
+      <section>
+        <h2 className="mb-3 border-b border-slate-200 pb-2 font-semibold text-slate-900">
+          Slot Interval
+        </h2>
+        <select
+          className={inputClass}
+          value={slotInterval}
+          onChange={(event) => setSlotInterval(Number(event.target.value))}
         >
-          Generate
+          <option value={60}>1 hour</option>
+          <option value={120}>2 hours</option>
+          <option value={180}>3 hours</option>
+          <option value={240}>4 hours</option>
+        </select>
+      </section>
+
+      <div className="flex justify-center border-t border-slate-200 pt-4">
+        <Button type="button" onClick={handleSubmit}>
+          <RiAiGenerate /> Generate
         </Button>
       </div>
     </div>

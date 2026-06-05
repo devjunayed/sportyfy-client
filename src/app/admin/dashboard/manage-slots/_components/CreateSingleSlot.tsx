@@ -1,112 +1,94 @@
-"use client"
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
-import { useForm, Controller } from "react-hook-form";
-import { Button, DatePicker, TimePicker, Select } from "antd";
+"use client";
+
+import Button from "@/components/UI/Button";
 import { useCreateSlotMutation } from "@/redux/api/dashboard/slotApi";
 import { useGetFacilitiesQuery } from "@/redux/api/dashboard/facilityApi";
 import { TSlot } from "@/types/slot.type";
-import dayjs from "dayjs";
 import { TFacility } from "@/types/facility.type";
+import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-const { Option } = Select;
+const fieldClass =
+  "h-10 w-full rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-200";
 
-const CreateSingleSlot = () => {
+const CreateSingleSlot = ({ onCreated }: { onCreated?: () => void }) => {
   const { handleSubmit, control, reset } = useForm<TSlot>();
   const [createSlot, { isLoading }] = useCreateSlotMutation();
   const { data: facilitiesData, isLoading: facilitiesLoading } =
     useGetFacilitiesQuery("");
 
-  const onSubmit = async (data: any) => {
-    const slotData = {
-      ...data,
-      date: dayjs(data.date).format("YYYY-MM-DD"),
-      startTime: dayjs(data.startTime).format("HH:mm"),
-      endTime: dayjs(data.endTime).format("HH:mm"),
-    };
+  const onSubmit = async (data: TSlot) => {
     try {
-      await createSlot(slotData).unwrap();
+      await createSlot(data).unwrap();
+      toast.success("Slot created successfully");
       reset();
+      onCreated?.();
     } catch (error) {
       console.error("Failed to create slot:", error);
+      toast.error("Failed to create slot");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div style={{ marginBottom: "1rem" }}>
-        <label>Facility</label>
+    <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+      <label className="grid gap-2 text-sm font-medium text-slate-700">
+        <span>Facility</span>
         <Controller
           name="facility"
           control={control}
           render={({ field }) => (
-            <Select
-              {...field}
-              loading={facilitiesLoading}
-              placeholder="Select a facility"
-            >
+            <select {...field} className={fieldClass} disabled={facilitiesLoading}>
+              <option value="">Select a facility</option>
               {facilitiesData?.data?.map((facility: TFacility) => (
-                <Option key={facility._id} value={facility._id}>
+                <option key={facility._id} value={facility._id}>
                   {facility.name}
-                </Option>
+                </option>
               ))}
-            </Select>
+            </select>
           )}
         />
-      </div>
-      <div style={{ marginBottom: "1rem" }}>
-        <label>Date</label>
+      </label>
+
+      <label className="grid gap-2 text-sm font-medium text-slate-700">
+        <span>Date</span>
         <Controller
           name="date"
           control={control}
           render={({ field }) => (
-            <DatePicker {...field} style={{ width: "100%" }} />
+            <input {...field} type="date" className={fieldClass} />
           )}
         />
+      </label>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <label className="grid gap-2 text-sm font-medium text-slate-700">
+          <span>Start Time</span>
+          <Controller
+            name="startTime"
+            control={control}
+            render={({ field }) => (
+              <input {...field} type="time" className={fieldClass} />
+            )}
+          />
+        </label>
+
+        <label className="grid gap-2 text-sm font-medium text-slate-700">
+          <span>End Time</span>
+          <Controller
+            name="endTime"
+            control={control}
+            render={({ field }) => (
+              <input {...field} type="time" className={fieldClass} />
+            )}
+          />
+        </label>
       </div>
-      <div style={{ marginBottom: "1rem" }}>
-        <label>Start Time</label>
-        <Controller
-          name="startTime"
-          control={control}
-          render={({ field }) => (
-            <TimePicker
-              style={{ width: "100%" }}
-              format="HH:mm"
-              value={field.value ? dayjs(field.value, "HH:mm") : null}
-              onChange={(time) => {
-                field.onChange(time ? time.format("HH:mm") : null);
-              }}
-              onBlur={field.onBlur}
-              ref={field.ref}
-              name={field.name}
-            />
-          )}
-        />
+
+      <div className="flex justify-end border-t border-slate-200 pt-4">
+        <Button type="submit" isLoading={isLoading}>
+          Create Slot
+        </Button>
       </div>
-      <div style={{ marginBottom: "1rem" }}>
-        <label>End Time</label>
-        <Controller
-          name="endTime"
-          control={control}
-          render={({ field }) => (
-            <TimePicker
-              style={{ width: "100%" }}
-              format="HH:mm"
-              value={field.value ? dayjs(field.value, "HH:mm") : null}
-              onChange={(time) => {
-                field.onChange(time ? time.format("HH:mm") : null);
-              }}
-              onBlur={field.onBlur}
-              ref={field.ref}
-              name={field.name}
-            />
-          )}
-        />
-      </div>
-      <Button type="primary" htmlType="submit" loading={isLoading}>
-        Create Slot
-      </Button>
     </form>
   );
 };

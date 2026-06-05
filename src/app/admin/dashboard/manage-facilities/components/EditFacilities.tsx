@@ -1,227 +1,222 @@
-"use client"
-/* eslint-disable react-hooks/exhaustive-deps */
+"use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Form, Input, InputNumber, message, Modal } from "antd";
-import { EditOutlined } from "@ant-design/icons";
-import { useEffect, useState } from "react";
-import JoditEditor from "jodit-react";
 
-import { useDispatch } from "react-redux";
-import {
-  setName,
-  setDescription,
-  setShortDescription,
-  setLocation,
-  setPricePerHour,
-  setCategory,
-  setCapacity,
-  setOpenHours,
-  setHighlight,
-} from "@/redux/features/facilitiySlice";
-import { useAppSelector } from "@/redux/hooks";
+import Button from "@/components/UI/Button";
 import FileUpload from "@/components/Shared/FileUpload/FileUpload";
-import { useUpdateFacilityMutation } from "@/redux/api/dashboard/facilityApi";
+import Modal from "@/components/Shared/Modal/Modal";
 import { FacilitiesDataType } from "@/types/facility.type";
+import { Pencil } from "lucide-react";
+import { toast } from "sonner";
+import { useState, type FormEvent } from "react";
+import { useUpdateFacilityMutation } from "@/redux/api/dashboard/facilityApi";
 
 interface EditFacilityProps {
   data: FacilitiesDataType;
   refetch: () => Promise<any>;
 }
 
+const inputClass =
+  "w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-200";
+
 const EditFacility = ({ data, refetch }: EditFacilityProps) => {
-  const [form] = Form.useForm();
-  const dispatch = useDispatch();
-  const [messageApi, contextHolder] = message.useMessage();
-
   const [updateFacility, { isLoading }] = useUpdateFacilityMutation();
-
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [resetKey, setResetKey] = useState(Date.now().toString());
   const [images, setImages] = useState<string[]>(data.images || []);
-  const [resetKey, setResetKey] = useState(`${Date.now().toString()}`);
+  const [formData, setFormData] = useState({
+    name: data.name,
+    description: data.description,
+    shortDescription: data.shortDescription,
+    location: data.location,
+    pricePerHour: data.pricePerHour,
+    category: data.category,
+    capacity: data.capacity,
+    openHours: String(data.openHours),
+    highlight: data.highlight,
+    isDeleted: data.isDeleted,
+  });
 
-  const {
-    name,
-    description,
-    shortDescription,
-    location,
-    pricePerHour,
-    category,
-    capacity,
-    openHours,
-    highlight,
-    isDeleted,
-  } = useAppSelector((state) => state.facility);
-
-  useEffect(() => {
-    if (isModalVisible) {
-      dispatch(setName(data.name));
-      dispatch(setDescription(data.description));
-      dispatch(setShortDescription(data.shortDescription));
-      dispatch(setLocation(data.location));
-      dispatch(setPricePerHour(data.pricePerHour));
-      dispatch(setCategory(data.category));
-      dispatch(setCapacity(data.capacity));
-      dispatch(setOpenHours(data.openHours as unknown as string));
-      dispatch(setHighlight(data.highlight));
-      setImages(data.images || []);
-    }
-  }, [isModalVisible]);
-
-  const showModal = () => {
-    form.setFieldsValue({
-      images: data.images,
-      shortDescription: data.shortDescription,
-      category: data.category,
-      capacity: data.capacity,
-      openHours: data.openHours,
-      highlight: data.highlight,
-      name: data.name,
-      description: data.description,
-      pricePerHour: data.pricePerHour,
-      location: data.location,
-    });
-    setIsModalVisible(true);
+  const setField = (field: keyof typeof formData, value: string | number | boolean) => {
+    setFormData((current) => ({ ...current, [field]: value }));
   };
 
   const handleCancel = () => {
-    setIsModalVisible(false);
-    form.resetFields();
+    setIsOpen(false);
+    setImages(data.images || []);
+    setFormData({
+      name: data.name,
+      description: data.description,
+      shortDescription: data.shortDescription,
+      location: data.location,
+      pricePerHour: data.pricePerHour,
+      category: data.category,
+      capacity: data.capacity,
+      openHours: String(data.openHours),
+      highlight: data.highlight,
+      isDeleted: data.isDeleted,
+    });
   };
 
-  const handleFileUpload = (imageUrls: string[]) => {
-    setImages([...imageUrls]);
-  };
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-  const onFinish = async () => {
     const facilityData = {
-      name,
-      description,
-      shortDescription,
-      location,
-      pricePerHour,
+      ...formData,
       images,
-      category,
-      capacity,
-      openHours,
-      highlight,
-      isDeleted,
     };
 
-    const response = await updateFacility({ id: data._id, facilityData });
-
-    if (response.data?.success) {
-      messageApi.success(response.data.message);
-      refetch();
-      setIsModalVisible(false);
-      setResetKey(`${Date.now().toString()}`);
-    } else {
-      messageApi.error(response.data?.message || "Update failed.");
+    try {
+      const response = await updateFacility({ id: data._id, facilityData }).unwrap();
+      if (response?.success) {
+        toast.success(response.message || "Facility updated successfully");
+        await refetch();
+        setIsOpen(false);
+        setResetKey(Date.now().toString());
+      } else {
+        toast.error(response?.message || "Update failed.");
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Update failed.");
     }
   };
 
   return (
-    <div className="w-full">
-      <a onClick={showModal}>
-        <EditOutlined />
-      </a>
+    <>
+      <button
+        type="button"
+        onClick={() => setIsOpen(true)}
+        className="rounded-full p-2 text-slate-600 transition hover:bg-slate-100"
+        aria-label={`Edit ${data.name}`}
+      >
+        <Pencil size={16} />
+      </button>
 
       <Modal
         width={820}
         title="Edit Facility"
-        open={isModalVisible}
+        open={isOpen}
         onCancel={handleCancel}
-        footer={[
-          <Button key="back" className="text-white" onClick={handleCancel}>
-            Cancel
-          </Button>,
-          <Button
-            key="submit"
-            type="primary"
-            loading={isLoading}
-            onClick={() => form.submit()}
-          >
-            Save
-          </Button>,
-        ]}
+        footer={false}
       >
-        {contextHolder}
-        <Form
-          layout="vertical"
-          form={form}
-          className="w-full"
-          onFinish={onFinish}
-        >
-          <div className="mb-6 mx-auto w-full flex justify-center">
+        <form className="space-y-5" onSubmit={onSubmit}>
+          <div className="mx-auto flex w-full justify-center">
             <FileUpload
               initialFileUrls={images}
               maxUpload={10}
               resetKey={resetKey}
-              imgbbUrl={`https://api.imgbb.com/1/upload?key=${
-                process.env.NEXT_IMGBB_API_KEY
-              }`}
-              handleFileUpload={handleFileUpload}
+              imgbbUrl={`https://api.imgbb.com/1/upload?key=${process.env.NEXT_IMGBB_API_KEY}`}
+              handleFileUpload={(imageUrls) => setImages([...imageUrls])}
             />
           </div>
 
-          <Form.Item
-            label="Name"
-            name="name"
-            rules={[{ required: true, message: "Please enter a name" }]}
-          >
-            <Input
-              defaultValue={name}
-              onChange={(e) => dispatch(setName(e.target.value))}
-            />
-          </Form.Item>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className="grid gap-2 text-sm text-slate-700">
+              <span>Name</span>
+              <input
+                className={inputClass}
+                value={formData.name}
+                onChange={(event) => setField("name", event.target.value)}
+              />
+            </label>
 
-          <Form.Item label="Short Description" name="shortDescription">
-            <Input
-              onChange={(e) => dispatch(setShortDescription(e.target.value))}
-            />
-          </Form.Item>
+            <label className="grid gap-2 text-sm text-slate-700">
+              <span>Category</span>
+              <input
+                className={inputClass}
+                value={formData.category}
+                onChange={(event) => setField("category", event.target.value)}
+              />
+            </label>
+          </div>
 
-          <Form.Item label="Description" name="description">
-            <JoditEditor
-              value={description}
-              onChange={(newContent) => dispatch(setDescription(newContent))}
-            />
-          </Form.Item>
-
-          <Form.Item label="Price Per Hour" name="pricePerHour">
-            <InputNumber
-              className="w-full"
-              onChange={(value) => dispatch(setPricePerHour(Number(value)))}
-            />
-          </Form.Item>
-
-          <Form.Item label="Location" name="location">
-            <Input onChange={(e) => dispatch(setLocation(e.target.value))} />
-          </Form.Item>
-
-          <Form.Item label="Category" name="category">
-            <Input onChange={(e) => dispatch(setCategory(e.target.value))} />
-          </Form.Item>
-
-          <Form.Item label="Capacity" name="capacity" className="w-full">
-            <InputNumber
-              className="w-full"
-              min={1}
-              onChange={(value) =>
-                dispatch(setCapacity(value ?? data.capacity))
+          <label className="grid gap-2 text-sm text-slate-700">
+            <span>Short Description</span>
+            <textarea
+              className={`${inputClass} min-h-24 resize-y`}
+              value={formData.shortDescription}
+              onChange={(event) =>
+                setField("shortDescription", event.target.value)
               }
             />
-          </Form.Item>
+          </label>
 
-          <Form.Item label="Open Hours" name="openHours">
-            <Input onChange={(e) => dispatch(setOpenHours(e.target.value))} />
-          </Form.Item>
+          <label className="grid gap-2 text-sm text-slate-700">
+            <span>Description</span>
+            <textarea
+              className={`${inputClass} min-h-40 resize-y`}
+              value={formData.description}
+              onChange={(event) => setField("description", event.target.value)}
+            />
+          </label>
 
-          <Form.Item label="Highlight" name="highlight">
-            <Input onChange={(e) => dispatch(setHighlight(e.target.value))} />
-          </Form.Item>
-        </Form>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className="grid gap-2 text-sm text-slate-700">
+              <span>Price Per Hour</span>
+              <input
+                type="number"
+                min={0}
+                className={inputClass}
+                value={formData.pricePerHour}
+                onChange={(event) =>
+                  setField("pricePerHour", Number(event.target.value))
+                }
+              />
+            </label>
+
+            <label className="grid gap-2 text-sm text-slate-700">
+              <span>Capacity</span>
+              <input
+                type="number"
+                min={1}
+                className={inputClass}
+                value={formData.capacity}
+                onChange={(event) =>
+                  setField("capacity", Number(event.target.value) || 1)
+                }
+              />
+            </label>
+          </div>
+
+          <label className="grid gap-2 text-sm text-slate-700">
+            <span>Location</span>
+            <input
+              className={inputClass}
+              value={formData.location}
+              onChange={(event) => setField("location", event.target.value)}
+            />
+          </label>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className="grid gap-2 text-sm text-slate-700">
+              <span>Open Hours</span>
+              <input
+                className={inputClass}
+                value={formData.openHours}
+                onChange={(event) => setField("openHours", event.target.value)}
+              />
+            </label>
+
+            <label className="grid gap-2 text-sm text-slate-700">
+              <span>Highlight</span>
+              <input
+                className={inputClass}
+                value={formData.highlight}
+                onChange={(event) => setField("highlight", event.target.value)}
+              />
+            </label>
+          </div>
+
+          <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+            <Button type="button" variant="outline" onClick={handleCancel}>
+              Cancel
+            </Button>
+            <Button type="submit" isLoading={isLoading}>
+              Save
+            </Button>
+          </div>
+        </form>
       </Modal>
-    </div>
+    </>
   );
 };
 

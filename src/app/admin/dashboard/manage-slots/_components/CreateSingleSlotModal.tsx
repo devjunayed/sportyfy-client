@@ -1,8 +1,10 @@
 "use client";
-import { Button, Modal } from "antd";
-import CreateSingleSlot from "./CreateSingleSlot";
+
+import Modal from "@/components/Shared/Modal/Modal";
+import Button from "@/components/UI/Button";
+import { CirclePlus } from "lucide-react";
 import React from "react";
-import { PlusCircleFilled } from "@ant-design/icons";
+import CreateSingleSlot from "./CreateSingleSlot";
 
 interface TCreateSingleSlotModal {
   isOpen: boolean;
@@ -11,25 +13,20 @@ interface TCreateSingleSlotModal {
 
 const CreateSingleSlotModal = ({ isOpen, setIsOpen }: TCreateSingleSlotModal) => {
   return (
-    <div>
-      <Button
-        onClick={() => setIsOpen(true)}
-        size="large"
-        className="text-white justify "
-      >
-        <PlusCircleFilled /> Create Slot
+    <>
+      <Button type="button" size="lg" onClick={() => setIsOpen(true)}>
+        <CirclePlus size={18} /> Create Slot
       </Button>
       <Modal
-        centered
         width={820}
         title="Create Single Slot"
         footer={false}
         open={isOpen}
         onCancel={() => setIsOpen(false)}
       >
-        <CreateSingleSlot />
+        <CreateSingleSlot onCreated={() => setIsOpen(false)} />
       </Modal>
-    </div>
+    </>
   );
 };
 

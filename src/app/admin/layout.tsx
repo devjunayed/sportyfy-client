@@ -1,6 +1,5 @@
 import Navbar from "@/components/Shared/Navbar/Navbar";
 import type { Metadata } from "next";
-import Layout, { Content } from "antd/es/layout/layout";
 import AdminSidebar from "./dashboard/_components/AdminSidebar";
 import NavbarSkeleton from "@/components/Shared/Navbar/NavbarSkeleton";
 import { Suspense } from "react";
@@ -15,24 +14,20 @@ export default function layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <div className="min-h-screen bg-slate-50">
       <Suspense fallback={<NavbarSkeleton />}>
         <Navbar />
       </Suspense>
-      <Layout>
-        <Content>
-          <Layout
-            style={{
-              background: "#fff",
-            }}
-          >
+      <div className="pt-16 mx-auto flex w-full max-w-[1700px] flex-col px-4 py-6 lg:px-8">
+        <div className="flex flex-col gap-6 lg:flex-row">
+          <div className="w-full lg:w-72">
             <AdminSidebar />
-            <Content className="px-6 mx-auto" style={{ minHeight: 280 }}>
-              {children}
-            </Content>
-          </Layout>
-        </Content>
-      </Layout>
+          </div>
+          <main className="w-full rounded-3xl bg-white p-6 shadow-sm">
+            {children}
+          </main>
+        </div>
+      </div>
     </div>
   );
 }

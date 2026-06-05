@@ -1,12 +1,11 @@
 "use client";
-import { Form, Input, Button, InputNumber,  message } from "antd";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { useDispatch } from "react-redux";
-
-import JoditEditor from "jodit-react";
+import { toast } from "sonner";
 import { useCreateFacilityMutation } from "@/redux/api/dashboard/facilityApi";
 import { useAppSelector } from "@/redux/hooks";
-import FileUpload from "@/components/Shared/FileUpload/FileUpload"; 
+import FileUpload from "@/components/Shared/FileUpload/FileUpload";
+import Button from "@/components/UI/Button";
 import {
   setDescription,
   setLocation,
@@ -21,8 +20,8 @@ import {
 
 const CreateFacility = () => {
   const [createFacility] = useCreateFacilityMutation();
-  const [messageApi, contextHolder] = message.useMessage();
   const [images, setImages] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const {
@@ -40,206 +39,157 @@ const CreateFacility = () => {
 
   const [resetKey, setResetKey] = useState(`${Date.now().toString()}`);
 
-  const [form] = Form.useForm();
+  const onFinish = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setLoading(true);
 
-  const onFinish = async () => {
-    const response = await createFacility({
-      name,
-      description,
-      shortDescription,
-      location,
-      pricePerHour,
-      images,
-      category,
-      capacity,
-      openHours,
-      highlight,
-      isDeleted,
-    });
-    if (response.data.success) {
-      messageApi.success(response.data.message);
-      onReset();
-      setImages([]);
-      setResetKey(`${Date.now().toString()}`);
-    } else {
-      messageApi.error(response.data.message);
+    try {
+      const response = await createFacility({
+        name,
+        description,
+        shortDescription,
+        location,
+        pricePerHour,
+        images,
+        category,
+        capacity,
+        openHours,
+        highlight,
+        isDeleted,
+      });
+
+      if (response.data?.success) {
+        toast.success(response.data.message);
+        setImages([]);
+        setResetKey(`${Date.now().toString()}`);
+      } else {
+        toast.error(response.data?.message || "Failed to create facility.");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to create facility.");
+    } finally {
+      setLoading(false);
     }
-  };
-
-  // Reset form function
-  const onReset = () => {
-    form.resetFields();
   };
 
   const handleFileUpload = (imageUrls: string[]) => {
     setImages([...imageUrls]);
   };
 
-  const config = {};
-
   return (
-    <div className="flex justify-center items-center ">
-      {contextHolder}
-      <Form
-        layout="vertical"
-        form={form}
-        className="w-full"
-        onFinish={onFinish}
-        initialValues={{
-          name,
-          shortDescription,
-          description,
-          pricePerHour,
-          location,
-          category,
-          capacity,
-          openHours,
-          highlight,
-          isDeleted,
-        }}
-      >
+    <div className="flex justify-center items-center">
+      <form className="w-full space-y-6" onSubmit={onFinish}>
         <div className="mx-auto w-full mb-6 flex justify-center">
           <FileUpload
             initialFileUrls={images}
             maxUpload={10}
             resetKey={resetKey}
-            imgbbUrl={`https://api.imgbb.com/1/upload?key=${
-              process.env.NEXT_IMGBB_API_KEY
-            }`}
+            imgbbUrl={`https://api.imgbb.com/1/upload?key=${process.env.NEXT_IMGBB_API_KEY}`}
             handleFileUpload={handleFileUpload}
           />
         </div>
 
-        <Form.Item
-          label="Name"
-          name="name"
-          rules={[{ required: true, message: "Please enter a name" }]}
-        >
-          <Input
+        <label className="grid gap-2 text-sm text-slate-700">
+          <span>Name</span>
+          <input
+            className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white"
+            value={name ?? ""}
             onChange={(e) => dispatch(setName(e.target.value))}
-            value={name}
             placeholder="Enter name"
           />
-        </Form.Item>
+        </label>
 
-        <Form.Item
-          label="Short Description"
-          name="shortDescription"
-          rules={[{ required: true, message: "Please enter a short description" }]}
-        >
-          <Input.TextArea
+        <label className="grid gap-2 text-sm text-slate-700">
+          <span>Short Description</span>
+          <textarea
+            className="min-h-30 w-full resize-none rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white"
+            value={shortDescription ?? ""}
             onChange={(e) => dispatch(setShortDescription(e.target.value))}
             placeholder="Enter short description"
-            value={shortDescription}
           />
-        </Form.Item>
+        </label>
 
-        <Form.Item
-          label="Description"
-          name="description"
-          rules={[{ required: true, message: "Please enter a description" }]}
-        >
-          <JoditEditor
-            config={config}
-            value={description}
-            onBlur={(content) => {
-              dispatch(setDescription(content));
-            }}
+        <label className="grid gap-2 text-sm text-slate-700">
+          <span>Description</span>
+          <textarea
+            className="min-h-40 w-full resize-y rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white"
+            value={description ?? ""}
+            onChange={(e) => dispatch(setDescription(e.target.value))}
+            placeholder="Enter full description"
           />
-        </Form.Item>
+        </label>
 
-        <Form.Item
-          label="Price per Hour"
-          name="pricePerHour"
-          rules={[{ required: true, message: "Please enter price per hour" }]}
-        >
-          <Input
-            min={0}
+        <label className="grid gap-2 text-sm text-slate-700">
+          <span>Price per Hour</span>
+          <input
             type="number"
+            min={0}
+            className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white"
+            value={pricePerHour ?? 0}
             onChange={(e) => dispatch(setPricePerHour(Number(e.target.value)))}
             placeholder="Enter price per hour"
-            value={pricePerHour}
-            style={{ width: "100%" }}
           />
-        </Form.Item>
+        </label>
 
-        <Form.Item
-          label="Location"
-          name="location"
-          rules={[{ required: true, message: "Please enter a location" }]}
-        >
-          <Input
+        <label className="grid gap-2 text-sm text-slate-700">
+          <span>Location</span>
+          <input
+            className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white"
+            value={location ?? ""}
             onChange={(e) => dispatch(setLocation(e.target.value))}
             placeholder="Enter location"
-            value={location}
           />
-        </Form.Item>
+        </label>
 
-        {/* New Fields Start */}
-
-        <Form.Item
-          label="Category"
-          name="category"
-          rules={[{ required: true, message: "Please enter category" }]}
-        >
-          <Input
+        <label className="grid gap-2 text-sm text-slate-700">
+          <span>Category</span>
+          <input
+            className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white"
+            value={category ?? ""}
             onChange={(e) => dispatch(setCategory(e.target.value))}
-            value={category}
             placeholder="Enter category"
           />
-        </Form.Item>
+        </label>
 
-     
-
-        <Form.Item
-          label="Capacity"
-          name="capacity"
-          rules={[{ required: true, message: "Please enter capacity" }]}
-        >
-          <InputNumber
+        <label className="grid gap-2 text-sm text-slate-700">
+          <span>Capacity</span>
+          <input
+            type="number"
             min={1}
-            value={capacity}
-            onChange={(value) => dispatch(setCapacity(value ?? 1))}
-            style={{ width: "100%" }}
+            className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white"
+            value={capacity ?? 1}
+            onChange={(e) => dispatch(setCapacity(Number(e.target.value) || 1))}
+            placeholder="Enter capacity"
           />
-        </Form.Item>
+        </label>
 
-        <Form.Item
-          label="Open Hours"
-          name="openHours"
-          rules={[{ required: true, message: "Please enter open hours" }]}
-        >
-           <Input
+        <label className="grid gap-2 text-sm text-slate-700">
+          <span>Open Hours</span>
+          <input
+            className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white"
+            value={openHours ?? ""}
             onChange={(e) => dispatch(setOpenHours(e.target.value))}
-            value={openHours}
             placeholder="Example: 08:00 AM - 10:00 PM"
           />
-        </Form.Item>
+        </label>
 
-        <Form.Item
-          label="Highlight"
-          name="highlight"
-          rules={[{ required: true, message: "Please enter highlight" }]}
-        >
-          <Input
+        <label className="grid gap-2 text-sm text-slate-700">
+          <span>Highlight</span>
+          <input
+            className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white"
+            value={highlight ?? ""}
             onChange={(e) => dispatch(setHighlight(e.target.value))}
-            value={highlight}
             placeholder="Highlight text"
           />
-        </Form.Item>
+        </label>
 
-   
-
-        {/* New Fields End */}
-
-        <div className="mx-auto">
-          <Form.Item>
-            <Button className="bg-black w-full mx-auto text-white" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
+        <div className="flex justify-center">
+          <Button type="submit" isLoading={loading} className="w-full max-w-xs">
+            Submit
+          </Button>
         </div>
-      </Form>
+      </form>
     </div>
   );
 };

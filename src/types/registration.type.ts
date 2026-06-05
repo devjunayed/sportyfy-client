@@ -1,5 +1,3 @@
-import { GetProp, UploadProps } from "antd";
-
 export type RegistrationFieldType = {
   name?: string;
   email?: string;
@@ -8,6 +6,5 @@ export type RegistrationFieldType = {
   address?: string;
   role?: "user" | "admin";
 };
-export type RegistrationFileType = Parameters<
-  GetProp<UploadProps, "beforeUpload">
->[0];
+
+export type RegistrationFileType = File;

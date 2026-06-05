@@ -1,95 +1,109 @@
 "use client";
-import {  Table } from "antd";
+
 import { useGetAllBookingQuery } from "@/redux/api/booking/bookingApi";
-import Column from "antd/es/table/Column";
-import HandleDataLoading from "@/components/Shared/HandleDataLoading/HandleDataLoading"; 
+import HandleDataLoading from "@/components/Shared/HandleDataLoading/HandleDataLoading";
+
+type BookingRecord = {
+  _id?: string;
+  facility?: { name?: string; location?: string };
+  user?: { name?: string; email?: string };
+  date?: string;
+  startTime?: string;
+  endTime?: string;
+  payableAmount?: number;
+  isBooked?: string;
+  paymentStatus?: string;
+};
+
+const statusClass = (status?: string) => {
+  if (status === "confirmed" || status === "Paid") {
+    return "bg-green-50 text-green-700 ring-green-200";
+  }
+  if (status === "canceled" || status === "Canceled") {
+    return "bg-red-50 text-red-700 ring-red-200";
+  }
+  if (status === "Pending") {
+    return "bg-yellow-50 text-yellow-700 ring-yellow-200";
+  }
+  return "bg-slate-100 text-slate-700 ring-slate-200";
+};
 
 const ManageBookings = () => {
-  const { data: ManageBookings, isLoading } = useGetAllBookingQuery("");
+  const { data: manageBookings, isLoading } = useGetAllBookingQuery("");
+  const bookings = manageBookings?.data || [];
+
   return (
     <div className="mt-20">
-      <HandleDataLoading loadingOnly isLoading={isLoading} data={ManageBookings?.data}>
-        <Table dataSource={ManageBookings?.data} className="h-[85vh] overflow-y-scroll  mt-4 overflow-x-auto">
-          <Column
-            title="No."
-            key="serial"
-            render={(_, __, index) => <>{index + 1}</>}
-          />
-          <Column
-            title="Facility Name"
-            render={(_, record) => <>{record.facility.name}</>}
-            key="name"
-          />
-          {/* <Column
-            title="Location"
-            render={(_, record) => <>{record.facility.location}</>}
-            key="name"
-          /> */}
-
-          <Column
-            title="User Name"
-            render={(_, record) => <>{record.user.name}</>}
-            key="facility"
-          />
-          <Column
-            title="User Email"
-            render={(_, record) => <>{record.user.email}</>}
-            key="facility"
-          />
-          <Column
-            title="Date"
-            render={(_, record) => <>{record.date}</>}
-            key="facility"
-          />
-          <Column
-            title="Slot"
-            render={(_, record) => (
-              <>
-                {record.startTime} - {record.endTime}
-              </>
-            )}
-            key="facility"
-          />
-
-          <Column
-            title="Amount"
-            render={(_, record) => <>{record.payableAmount}$</>}
-            key="price perHour"
-          />
-
-          <Column
-            title="Status"
-            render={(_, record) => (
-              <>
-                <span
-                  className={` ${
-                    record.isBooked === "confirmed" && "text-green-600"
-                  } ${
-                    record.isBooked === "canceled" && "text-red-600"
-                  } badge bg-gray-200 p-3`}
-                >
-                  {record.isBooked}
-                </span>
-              </>
-            )}
-          />
-          <Column
-            title="Payment"
-            render={(_, record) => (
-              <>
-                <span
-                  className={`${
-                    record.paymentStatus === "Pending" && "text-yellow-600"
-                  } ${record.paymentStatus === "Paid" && "text-green-600"} ${
-                    record.paymentStatus === "Canceled" && "text-red-600"
-                  } badge bg-gray-200 p-3`}
-                >
-                  {record.paymentStatus}
-                </span>
-              </>
-            )}
-          />
-        </Table>
+      <HandleDataLoading loadingOnly isLoading={isLoading} data={bookings}>
+        <div className="mt-4 max-h-[85vh] overflow-auto rounded-md border border-slate-200 bg-white shadow-sm">
+          <table className="min-w-full divide-y divide-slate-200 text-sm">
+            <thead className="sticky top-0 bg-slate-50">
+              <tr>
+                {[
+                  "No.",
+                  "Facility Name",
+                  "User Name",
+                  "User Email",
+                  "Date",
+                  "Slot",
+                  "Amount",
+                  "Status",
+                  "Payment",
+                ].map((heading) => (
+                  <th
+                    key={heading}
+                    className="px-4 py-3 text-left font-semibold text-slate-700"
+                  >
+                    {heading}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200">
+              {bookings.map((record: BookingRecord, index: number) => (
+                <tr key={record._id || index} className="hover:bg-slate-50">
+                  <td className="px-4 py-4">{index + 1}</td>
+                  <td className="px-4 py-4 font-medium text-slate-900">
+                    {record.facility?.name || "-"}
+                  </td>
+                  <td className="px-4 py-4 text-slate-700">
+                    {record.user?.name || "-"}
+                  </td>
+                  <td className="px-4 py-4 text-slate-700">
+                    {record.user?.email || "-"}
+                  </td>
+                  <td className="px-4 py-4 text-slate-700">
+                    {record.date || "-"}
+                  </td>
+                  <td className="px-4 py-4 text-slate-700">
+                    {record.startTime || "-"} - {record.endTime || "-"}
+                  </td>
+                  <td className="px-4 py-4 text-slate-700">
+                    {record.payableAmount ?? 0}$
+                  </td>
+                  <td className="px-4 py-4">
+                    <span
+                      className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ring-1 ${statusClass(
+                        record.isBooked,
+                      )}`}
+                    >
+                      {record.isBooked || "-"}
+                    </span>
+                  </td>
+                  <td className="px-4 py-4">
+                    <span
+                      className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ring-1 ${statusClass(
+                        record.paymentStatus,
+                      )}`}
+                    >
+                      {record.paymentStatus || "-"}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </HandleDataLoading>
     </div>
   );

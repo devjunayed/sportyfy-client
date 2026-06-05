@@ -1,94 +1,88 @@
 import HandleDataLoading from "@/components/Shared/HandleDataLoading/HandleDataLoading";
 import { useGetAllBookingQuery } from "@/redux/api/booking/bookingApi";
-import {  Table } from "antd";
-import Column from "antd/es/table/Column";
 
 const Bookings = () => {
   const { data: bookings, isLoading } = useGetAllBookingQuery("");
+
   return (
     <div className="mt-20">
-      <HandleDataLoading loadingOnly isLoading={isLoading} data={bookings?.data}>
-        <Table dataSource={bookings?.data} className="h-[85vh] overflow-y-scroll  mt-4 overflow-x-auto">
-          <Column
-            title="No."
-            key="serial"
-            render={(_, __, index) => <>{index + 1}</>}
-          />
-          <Column
-            title="Facility Name"
-            render={(_, record) => <>{record.facility.name}</>}
-            key="name"
-          />
-          {/* <Column
-            title="Location"
-            render={(_, record) => <>{record.facility.location}</>}
-            key="name"
-          /> */}
-
-          <Column
-            title="User Name"
-            render={(_, record) => <>{record.user.name}</>}
-            key="facility"
-          />
-          <Column
-            title="User Email"
-            render={(_, record) => <>{record.user.email}</>}
-            key="facility"
-          />
-          <Column
-            title="Date"
-            render={(_, record) => <>{record.date}</>}
-            key="facility"
-          />
-          <Column
-            title="Slot"
-            render={(_, record) => (
-              <>
-                {record.startTime} - {record.endTime}
-              </>
-            )}
-            key="facility"
-          />
-
-          <Column
-            title="Amount"
-            render={(_, record) => <>{record.payableAmount}$</>}
-            key="price perHour"
-          />
-
-          <Column
-            title="Status"
-            render={(_, record) => (
-              <>
-                <span
-                  className={` ${
-                    record.isBooked === "confirmed" && "text-green-600"
-                  } ${
-                    record.isBooked === "canceled" && "text-red-600"
-                  } badge bg-gray-200 p-3`}
-                >
-                  {record.isBooked}
-                </span>
-              </>
-            )}
-          />
-          <Column
-            title="Payment"
-            render={(_, record) => (
-              <>
-                <span
-                  className={`${
-                    record.paymentStatus === "Pending" && "text-yellow-600"
-                  } ${record.paymentStatus === "Paid" && "text-green-600"} ${
-                    record.paymentStatus === "Canceled" && "text-red-600"
-                  } badge bg-gray-200 p-3`}
-                >
-                  {record.paymentStatus}
-                </span>
-              </>
-            )}
-          />
-        </Table>
+      <HandleDataLoading
+        loadingOnly
+        isLoading={isLoading}
+        data={bookings?.data}
+      >
+        <div className="overflow-x-auto rounded-3xl border border-slate-200 bg-white shadow-sm">
+          <table className="min-w-full divide-y divide-slate-200 text-sm">
+            <thead className="bg-slate-50">
+              <tr>
+                <th className="px-4 py-3 text-left font-semibold text-slate-700">
+                  No.
+                </th>
+                <th className="px-4 py-3 text-left font-semibold text-slate-700">
+                  Facility Name
+                </th>
+                <th className="px-4 py-3 text-left font-semibold text-slate-700">
+                  User Name
+                </th>
+                <th className="px-4 py-3 text-left font-semibold text-slate-700">
+                  User Email
+                </th>
+                <th className="px-4 py-3 text-left font-semibold text-slate-700">
+                  Date
+                </th>
+                <th className="px-4 py-3 text-left font-semibold text-slate-700">
+                  Slot
+                </th>
+                <th className="px-4 py-3 text-left font-semibold text-slate-700">
+                  Amount
+                </th>
+                <th className="px-4 py-3 text-left font-semibold text-slate-700">
+                  Status
+                </th>
+                <th className="px-4 py-3 text-left font-semibold text-slate-700">
+                  Payment
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200">
+              {bookings?.data?.map((record: any, index: number) => (
+                <tr key={record._id || index} className="hover:bg-slate-50">
+                  <td className="px-4 py-4">{index + 1}</td>
+                  <td className="px-4 py-4 text-slate-900">
+                    {record.facility?.name}
+                  </td>
+                  <td className="px-4 py-4 text-slate-700">
+                    {record.user?.name}
+                  </td>
+                  <td className="px-4 py-4 text-slate-700">
+                    {record.user?.email}
+                  </td>
+                  <td className="px-4 py-4 text-slate-700">{record.date}</td>
+                  <td className="px-4 py-4 text-slate-700">
+                    {record.startTime} - {record.endTime}
+                  </td>
+                  <td className="px-4 py-4 text-slate-700">
+                    {record.payableAmount}$
+                  </td>
+                  <td className="px-4 py-4">
+                    <span
+                      className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${record.isBooked === "confirmed" ? "bg-green-100 text-green-700" : record.isBooked === "canceled" ? "bg-red-100 text-red-700" : "bg-slate-100 text-slate-700"}`}
+                    >
+                      {record.isBooked}
+                    </span>
+                  </td>
+                  <td className="px-4 py-4">
+                    <span
+                      className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${record.paymentStatus === "Paid" ? "bg-green-100 text-green-700" : record.paymentStatus === "Canceled" ? "bg-red-100 text-red-700" : "bg-yellow-100 text-yellow-700"}`}
+                    >
+                      {record.paymentStatus}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </HandleDataLoading>
     </div>
   );

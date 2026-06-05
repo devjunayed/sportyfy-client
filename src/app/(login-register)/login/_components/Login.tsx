@@ -13,12 +13,10 @@ import { useDispatch } from "react-redux";
 import { useLoginMutation } from "@/redux/api/auth/authApi";
 import { toast } from "sonner";
 import { setUser } from "@/redux/features/authSlice";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { ErrorResponse } from "@/types/shared.type";
 import { Input } from "@heroui/input";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { signIn } from "../../../../../auth";
+import { signIn } from "next-auth/react";
 
 /*===================================
        Main Login function
@@ -30,50 +28,48 @@ const Login: React.FC = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const searchParams = useSearchParams(); // ✅ for query string like ?redirect=/something
 
-  // const dispatch = useDispatch();
-  // const [login] = useLoginMutation();
+  const dispatch = useDispatch();
+  const [login] = useLoginMutation();
 
   const onFinish = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      // const { data: loginResult } = await login({ email, password });
-      const response = await signIn("credentials", { email, password, redirect: false });
-      console.log(response);
-      // if (loginResult?.success) {
-      //   if (loginResult) {
-      //     toast.success("Logged in successfully", {
-      //       position: "top-center",
-      //     });
-      //     dispatch(
-      //       setUser({
-      //         user: {
-      //           name: loginResult?.data?.name,
-      //           email: loginResult?.data?.email,
-      //           role: loginResult?.data?.role,
-      //           _id: loginResult?.data?._id,
-      //         },
-      //         token: loginResult?.token,
-      //       })
-      //     );
-      //   }
+      const loginResult = await login({ email, password }).unwrap();
 
-      //   const redirectParam = searchParams.get("redirect");
-      //   const role = user?.role;
+      if (loginResult?.success && loginResult?.token) {
+        const user = {
+          name: loginResult?.data?.name,
+          email: loginResult?.data?.email,
+          role: loginResult?.data?.role,
+          _id: loginResult?.data?._id,
+        };
 
-      //   if (redirectParam) {
-      //     router.push(redirectParam);
-      //   } else {
-      //     router.push(`/${role}/dashboard`);
-      //   }
-      // } else {
-      //   const error = loginResult.error as FetchBaseQueryError;
-      //   if ("data" in error) {
-      //     toast.error((error?.data as ErrorResponse).message);
-      //   }
-      // }
+        dispatch(
+          setUser({
+            user,
+            token: loginResult.token,
+          })
+        );
+        document.cookie = `token=${loginResult.token}; path=/; max-age=604800; SameSite=Lax`;
+
+        toast.success("Logged in successfully", {
+          position: "top-center",
+        });
+
+        const redirectParam = searchParams.get("redirect");
+        const redirectPath =
+          redirectParam && redirectParam.startsWith("/")
+            ? redirectParam
+            : `/${user.role}/dashboard`;
+
+        router.replace(redirectPath);
+        router.refresh();
+      } else {
+        toast.error(loginResult?.message || "Login failed");
+      }
     } catch (error) {
       console.log({ LoginError: error });
-      toast.success("Something went wrong!");
+      toast.error("Invalid email or password");
     }
   };
 
@@ -168,7 +164,10 @@ const Login: React.FC = () => {
             </p>
 
             <p className="text-center text-default-700">OR</p>
-            <SButton className="bg-orange-600 text-white w-full flex justify-center items-center gap-2">
+            <SButton
+              onClick={() => signIn("google")}
+              className="bg-orange-600 text-white w-full flex justify-center items-center gap-2"
+            >
               Sign in with Google <FaGoogle size={18} />
             </SButton>
           </div>

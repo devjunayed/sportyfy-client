@@ -1,10 +1,10 @@
-"use client"
-import { CloseCircleFilled } from "@ant-design/icons";
+"use client";
 import { currentUser } from "@/redux/features/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useGetUserQuery } from "@/redux/api/auth/authApi";
 import { TUser } from "@/types/shared.type";
 import { closeGreetings } from "@/redux/features/dashboardSlice";
+import { IoClose } from "react-icons/io5";
 
 const AdminDashboard = () => {
   const user = useAppSelector(currentUser);
@@ -26,7 +26,7 @@ const AdminDashboard = () => {
       >
         <div>Welcome {userData?.data?.name}, what you are upto.</div>
         <button onClick={handleGreeting}>
-          <CloseCircleFilled />
+          <IoClose />
         </button>
       </div>
       <div className="flex gap-4 flex-wrap justify-center text-center mt-4">

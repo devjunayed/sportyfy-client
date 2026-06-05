@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { DeleteOutlined } from "@ant-design/icons";
-import { message, Popconfirm } from "antd";
-import { useState } from "react";
 import { useDeleteCategoryMutation } from "@/redux/api/dashboard/categoryApi";
 import { CategoryDataType } from "@/types/category.type";
+import { toast } from "sonner";
 
 interface DeleteCategoryProps {
   data: CategoryDataType;
@@ -12,67 +9,37 @@ interface DeleteCategoryProps {
 
 const DeleteCategory = ({ data, refetch }: DeleteCategoryProps) => {
   const [deleteCategory] = useDeleteCategoryMutation();
-  const [open, setOpen] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
-  const [messageApi, contextHolder] = message.useMessage();
 
-  const showPopconfirm = () => {
-    setOpen(true); // only opens the confirm box, no need to close it with a timer
-  };
+  const handleDelete = async () => {
+    const confirmed = window.confirm(
+      `Delete ${data.title}? This action cannot be undone.`,
+    );
 
-  const handleOk = async () => {
-    setConfirmLoading(true);
+    if (!confirmed) {
+      return;
+    }
+
     try {
       const result = await deleteCategory(data._id).unwrap();
-
       if (result?.success) {
-        await refetch(); // ensure it's awaited
-        messageApi.success("Deleted successfully!");
+        await refetch();
+        toast.success("Deleted successfully!");
       } else {
-        messageApi.error("Failed to delete category.");
+        toast.error("Failed to delete category.");
       }
     } catch (error: any) {
-      messageApi.error(error?.data?.message || "Delete failed");
-    } finally {
-      setConfirmLoading(false);
-      setOpen(false); // close only after mutation
+      toast.error(error?.data?.message || "Delete failed");
     }
   };
 
-  const handleCancel = () => {
-    setOpen(false);
-  };
-
   return (
-    <Popconfirm
-      title={`Delete ${data.title}`}
-      description="This action cannot be undone"
-      open={open}
-      onConfirm={handleOk}
-      onCancel={handleCancel}
-      okButtonProps={{
-        loading: confirmLoading,
-        style: {
-          backgroundColor: "black",
-          borderColor: "black",
-          color: "#fff",
-        },
-      }}
-      cancelButtonProps={{
-        style: {
-          backgroundColor: "black",
-          borderColor: "black",
-          color: "#fff",
-        },
-      }}
+    <button
+      onClick={handleDelete}
+      className="rounded-full p-2 text-slate-600 transition hover:bg-slate-100"
     >
-      {contextHolder}
-      <a onClick={showPopconfirm}>
-        <DeleteOutlined />
-      </a>
-    </Popconfirm>
+      Delete
+    </button>
   );
 };
-
 
 export default DeleteCategory;

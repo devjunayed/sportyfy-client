@@ -1,240 +1,128 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import {
-  Button,
-  Form,
-  GetProp,
-  Image,
-  Input,
-  message,
-  Modal,
-  Upload,
-  UploadFile,
-  UploadProps,
-} from "antd";
+"use client";
 import { useState } from "react";
-import { getBase } from "@/utils/getBase";
-
-import { CategoryDataType } from "@/types/category.type";
+import { toast } from "sonner";
 import { useUpdateCategoryMutation } from "@/redux/api/dashboard/categoryApi";
+import { CategoryDataType } from "@/types/category.type";
+import Modal from "@/components/Shared/Modal/Modal";
+import Button from "@/components/UI/Button";
+import FileUpload from "@/components/Shared/FileUpload/FileUpload";
 
 interface EditCategoryProps {
   data: CategoryDataType;
   refetch: () => Promise<any>;
 }
 
-type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
-
 const EditCategory = ({ data, refetch }: EditCategoryProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [form] = Form.useForm();
   const [updateCategory, { isLoading }] = useUpdateCategoryMutation();
+  const [title, setTitle] = useState(data.title);
+  const [subtitle, setSubtitle] = useState(data.subtitle);
+  const [imageUrls, setImageUrls] = useState<string[]>([data.image]);
 
-  const [messageApi, contextHolder] = message.useMessage();
-
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-
-  const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase(file.originFileObj as FileType);
-    }
-
-    setPreviewImage(file.url || (file.preview as string));
-    setPreviewOpen(true);
-  };
-
-  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
-    const updatedFileList = newFileList.map((file) => {
-      if (file.status === "uploading" || file.status === "error") {
-        return { ...file, status: "done" };
-      }
-      return file;
-    });
-
-    setFileList(updatedFileList as UploadFile[]);
-  };
-
-  const onReset = () => {
-    form.resetFields();
-    setFileList([]);
-  };
-
-  // Open modal
   const showModal = () => {
-    // setting old value to the form
-    form.setFieldsValue({
-      title: data.title,
-      subtitle: data.subtitle,
-    });
-
-    // setting old image to the upload
-    setFileList([
-      {
-        uid: "-1",
-        name: "category_image",
-        status: "done",
-        url: data.image,
-      },
-    ]);
-    // opening modal
+    setTitle(data.title);
+    setSubtitle(data.subtitle);
+    setImageUrls([data.image]);
     setIsModalVisible(true);
   };
 
-  // Close modal
   const handleCancel = () => {
     setIsModalVisible(false);
   };
 
-  // Handle form submission
-  const handleOk = async (values: any) => {
+  const handleOk = async () => {
+    if (!data._id) {
+      toast.error("Category id is missing.");
+      return;
+    }
+
+    if (!title || !subtitle) {
+      toast.error("Please add title and subtitle.");
+      return;
+    }
+
     try {
       const categoryData = {
-        title: values.title,
-        subtitle: values.subtitle,
-        image: data.image,
+        title,
+        subtitle,
+        image: imageUrls.length > 0 ? imageUrls[0] : data.image,
       };
 
-      const imgbbKey = process.env.NEXT_IMGBB_API_KEY;
-
-      // Checking if a new image is uploaded
-      if (fileList.length > 0 && fileList[0].originFileObj) {
-        const formData = new FormData();
-        formData.append("image", fileList[0].originFileObj as Blob);
-        const response = await fetch(
-          `https://api.imgbb.com/1/upload?key=${imgbbKey}`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        const uploadedImageData = await response.json();
-
-        if (uploadedImageData.success) {
-          categoryData.image = uploadedImageData.data.url;
-        } else {
-          messageApi.open({
-            type: "error",
-            content: "Error uploading image!",
-          });
-          return;
-        }
-      }
-
-
-      // Sending updated data to the server
-      const id = data._id;
-      const response = await updateCategory({ id, categoryData });
+      const response = await updateCategory({ id: data._id, categoryData });
 
       if (response?.data?.success) {
-        messageApi.open({
-          type: "success",
-          content: "Category successfully updated",
-        });
-        refetch();
+        toast.success("Category successfully updated");
+        await refetch();
         setIsModalVisible(false);
       } else {
-        messageApi.open({
-          type: "error",
-          content: response?.data?.message || "Error updating category",
-        });
-        console.log(response)
+        toast.error(response?.data?.message || "Error updating category");
       }
     } catch (error) {
       console.error("Error updating category:", error);
-      messageApi.open({
-        type: "error",
-        content: "Error updating category!",
-      });
+      toast.error("Error updating category!");
     }
   };
 
   return (
     <>
-      <a onClick={showModal}>
-        <EditOutlined size={24} />
-      </a>
-      <div className="w-full mx-auto">
-        {contextHolder}
-        <Form
-          form={form}
-          onFinish={handleOk}
-          name="control-hooks"
-          style={{ maxWidth: 600 }}
-        >
-          <Modal
-            title="Edit Category"
-            open={isModalVisible}
-            onOk={() => form.submit()}
-            confirmLoading={isLoading}
-            onCancel={handleCancel}
-            okText="Save"
-            cancelText="Cancel"
-            footer={[
-              <Button key="reset" className="text-white" onClick={onReset}>
-                Reset
-              </Button>,
-              <Button key="back" className="text-white" onClick={handleCancel}>
-                Cancel
-              </Button>,
-              <Button
-                key="submit"
-                className="bg-black text-white hover:bg-gray-900"
-                loading={isLoading}
-                onClick={() => form.submit()}
-              >
-                Save
-              </Button>,
-            ]}
-          >
-            <div className="mx-auto w-full mb-6 flex justify-center">
-              <Upload
-                action={""}
-                listType="picture-circle"
-                fileList={fileList}
-                onPreview={handlePreview}
-                onChange={handleChange}
-              >
-                {fileList.length >= 1 ? null : (
-                  <button
-                    style={{ border: 0, background: "none" }}
-                    type="button"
-                  >
-                    <PlusOutlined className="text-black" />
-                    <div className="text-black" style={{ marginTop: 8 }}>
-                      Upload
-                    </div>
-                  </button>
-                )}
-              </Upload>
-              {previewImage && (
-                <Image
-                alt=""
-                  wrapperStyle={{ display: "none" }}
-                  preview={{
-                    visible: previewOpen,
-                    onVisibleChange: (visible) => setPreviewOpen(visible),
-                  }}
-                  src={previewImage}
-                />
-              )}
-            </div>
-            <Form.Item name="title" label="Title" rules={[{ required: true }]}>
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name="subtitle"
-              label="Subtitle"
-              rules={[{ required: true }]}
+      <button
+        onClick={showModal}
+        className="rounded-full p-2 text-slate-600 transition hover:bg-slate-100"
+      >
+        Edit
+      </button>
+      <Modal
+        title="Edit Category"
+        open={isModalVisible}
+        onCancel={handleCancel}
+        width={820}
+        footer={
+          <div className="flex flex-wrap justify-end gap-3">
+            <Button
+              variant="secondary"
+              onClick={handleCancel}
+              className="text-slate-900"
             >
-              <Input />
-            </Form.Item>
-           
-          </Modal>
-        </Form>
-      </div>
+              Cancel
+            </Button>
+            <Button
+              isLoading={isLoading}
+              onClick={handleOk}
+              className="bg-slate-950 text-white"
+            >
+              Save
+            </Button>
+          </div>
+        }
+      >
+        <div className="space-y-6">
+          <FileUpload
+            initialFileUrls={imageUrls}
+            maxUpload={1}
+            resetKey={data._id || data.title}
+            imgbbUrl={`https://api.imgbb.com/1/upload?key=${process.env.NEXT_IMGBB_API_KEY}`}
+            handleFileUpload={(files) => setImageUrls(files)}
+          />
+
+          <label className="grid gap-2 text-sm text-slate-700">
+            <span>Title</span>
+            <input
+              className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white"
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+            />
+          </label>
+
+          <label className="grid gap-2 text-sm text-slate-700">
+            <span>Subtitle</span>
+            <textarea
+              className="min-h-[140px] w-full resize-none rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white"
+              value={subtitle}
+              onChange={(event) => setSubtitle(event.target.value)}
+            />
+          </label>
+        </div>
+      </Modal>
     </>
   );
 };

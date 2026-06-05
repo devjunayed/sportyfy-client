@@ -1,8 +1,10 @@
 "use client";
-import { Button, Modal } from "antd";
-import BulkGenerate from "./BulkGenerate";
+
+import Modal from "@/components/Shared/Modal/Modal";
+import Button from "@/components/UI/Button";
 import React from "react";
 import { RiAiGenerate } from "react-icons/ri";
+import BulkGenerate from "./BulkGenerate";
 
 interface TBulkGenerateModal {
   isOpen: boolean;
@@ -11,16 +13,11 @@ interface TBulkGenerateModal {
 
 const BulkGenerateModal = ({ isOpen, setIsOpen }: TBulkGenerateModal) => {
   return (
-    <div>
-      <Button
-        onClick={() => setIsOpen(true)}
-        size="large"
-        className="text-white justify "
-      >
+    <>
+      <Button type="button" size="lg" onClick={() => setIsOpen(true)}>
         <RiAiGenerate /> Bulk Generate
       </Button>
       <Modal
-        centered
         width={820}
         title="Bulk Generate"
         footer={false}
@@ -29,7 +26,7 @@ const BulkGenerateModal = ({ isOpen, setIsOpen }: TBulkGenerateModal) => {
       >
         <BulkGenerate />
       </Modal>
-    </div>
+    </>
   );
 };
 
