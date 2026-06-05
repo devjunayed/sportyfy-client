@@ -77,7 +77,7 @@ const Login: React.FC = () => {
     <div className="min-h-screen flex justify-center items-center">
       <Card
         isFooterBlurred
-        className="max-w-full p-10 min-w-[600px] gap-7  min-h-[300px] flex sm:col-span-7"
+        className="max-w-full p-10 min-w-150 gap-7  min-h-75 flex sm:col-span-7"
       >
         <div className="flex justify-center flex-col gap-4 items-center">
           <Logo />
